@@ -152,7 +152,7 @@ memChart.append("text")
     .attr("x", memSystemLabel.node().getBBox().width + 40)
     .attr("y", graphHeight + margin.bottom - 5)
     .attr("class", "lineLabel2")
-    .text("Java Process");
+    .text("Application Process");
 
 function resizeMemChart() {
     var chart = d3.select(".memChart")
@@ -183,14 +183,10 @@ function updateMemData(memRequest) {
 
         var d = data;
         d.date = new Date(+d.time);
-        d.system  = +d.physical  / (1024 * 1024);
-        d.process  = +d.physical_used  / (1024 * 1024);
+        d.system  = +d.physical_used  / (1024 * 1024);
+        d.process  = +d.physical  / (1024 * 1024);
 
         var _memProcessLatest = Math.round(d.process);
-        // Update gauge if loaded
-        if (typeof(updateMemProcessGauge) === 'function' && _memProcessLatest != memProcessLatest) {
-        	updateMemProcessGauge(d.process);
-        }
         memProcessLatest = _memProcessLatest;
         memSystemLatest = Math.round(d.system);
         memData.push(d)

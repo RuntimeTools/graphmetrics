@@ -20,7 +20,7 @@
 var envDivCanvasWidth = $("#envDiv").width() - 8;
 
 var tableRowHeight = 30;
-var tableRowWidth = 150;
+var tableRowWidth = 170;
 
 // Define the environment chart space
 var envSVG = d3.select("#envDiv")
@@ -45,16 +45,6 @@ var paragraph = envSVG.append("g")
     .attr("class", "envGroup")
     .attr("transform",
         "translate(" + 20 + "," + (margin.top + 10) + ")");
-
-function resizeValue(value) {
-	var stringToDisplay = value;
-	var valueLength = value.length;
-	var charSpaceAvailable = Math.floor((envDivCanvasWidth - tableRowWidth) / 8); //allow 8 pixels per character
-	if (valueLength > charSpaceAvailable) {
-		stringToDisplay = "..." + stringToDisplay.substring(valueLength - charSpaceAvailable - 3);
-	}
-	return stringToDisplay;
-}
 
 function populateEnvTable(envRequestData) {
         envData = JSON.parse(envRequestData);
@@ -84,9 +74,7 @@ function populateEnvTable(envRequestData) {
                 .attr("x", function(d, i) {
                     return i * tableRowWidth; // indent second element for each row
                 })
-                .text(function (d) { return resizeValue(d.value); });
-            // Tooltip
-            cells.append("svg:title").text(function(d) {return d.value;});
+                .text(function (d) { return d.value; });
         }
 
         // render the table(s)
