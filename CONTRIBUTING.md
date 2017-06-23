@@ -17,7 +17,7 @@ A good bug report is one that make it easy for us to understand what you were tr
 
 ## Pull requests
 
-In order for us to accept pull requests from a new contributor, the contributor must indicate that they accept and agree to be bound by the terms of the IBM Contributor License Agreement below. Please do this by adding your name to the [AUTHORS file](https://github.com/runtimetools/javametrics/blob/master/AUTHORS.md)
+In order for us to accept pull requests from a new contributor, the contributor must indicate that they accept and agree to be bound by the terms of the IBM Contributor License Agreement below. Please do this by adding your name to the [AUTHORS file](https://github.com/runtimetools/graphmetrics/blob/master/AUTHORS.md)
 in your first pull request.
 
 If you want to raise a pull-request for a bug fix or a new feature, we recommend that you raise a [GitHub issue](https://github.com/runtimetools/graphmetrics/issues) to discuss it first.
