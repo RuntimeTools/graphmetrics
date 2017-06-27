@@ -25,7 +25,7 @@ var http_xAxis = d3.svg.axis()
     .scale(http_xScale)
     .orient("bottom")
     .ticks(3)
-    .tickFormat(d3.time.format("%H:%M:%S"));
+    .tickFormat(getTimeFormat());
 
 var http_yAxis = d3.svg.axis()
     .scale(http_yScale)
