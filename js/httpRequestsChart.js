@@ -106,33 +106,42 @@ function updateHttpData(httpRequest) {
 
         // Send data to throughput chart so as not to duplicate requests
         updateThroughPutData(httpRequestData)
-   
-        if (httpLength === 0) {
-            // first data - remove "No Data Available" label
-            httpChartPlaceholder.attr("visibility", "hidden");
-        }
 
         httpRequestData.longest = parseFloat(httpRequestData.longest)
         httpRequestData.average = parseFloat(httpRequestData.average)
         httpRequestData.time = parseInt(httpRequestData.time)
         httpRequestData.total = parseInt(httpRequestData.total)
 
-        // Check to see if the request started before previous request(s)
-        if (httpLength > 0 && (httpRequestData.time < httpData[httpLength-1].time)) {
-            var i = httpLength - 1;
-            while (httpRequestData.time < httpData[i].time) {
-                i--;
-            }
-            // Insert the data into the right place            
-            httpData.splice(i+1, 0, httpRequestData);
-        } else {
-            httpData.push(httpRequestData);
-        }
+        if(httpRequestData.total > 0) {
 
-        // Only keep 30 minutes or 2000 items of data
-        var currentTime = Date.now()
+            if (httpLength === 0) {
+                // first data - remove "No Data Available" label
+                httpChartPlaceholder.attr("visibility", "hidden");
+            }
+
+            // Check to see if the request started before previous request(s)
+            if (httpLength > 0 && (httpRequestData.time < httpData[httpLength-1].time)) {
+                var i = httpLength - 1;
+                while (httpRequestData.time < httpData[i].time) {
+                    i--;
+                }
+                // Insert the data into the right place            
+                httpData.splice(i+1, 0, httpRequestData);
+            } else {
+                httpData.push(httpRequestData);
+            }
+        }
+        
+        if(httpData.length === 0) return;
+
+        // Only keep 'maxTimeWindow' amount of data
+        let currentTime = Date.now()
+        var startTime = monitoringStartTime
+        if (monitoringStartTime + maxTimeWindow < currentTime) {
+            startTime = currentTime - maxTimeWindow
+        }
         var d = httpData[0]
-        while (httpData.length > 2000 || (d.hasOwnProperty('time') && d.time + 1800000 < currentTime)) {
+        while (d.hasOwnProperty('time') && d.time < startTime) {
             httpData.shift()
             d = httpData[0]
         }
@@ -140,9 +149,7 @@ function updateHttpData(httpRequest) {
         // Don't redraw graph if mouse is over it (keeps it still for tooltips)
         if(!mouseOverHttpGraph) {
             // Set the input domain for x and y axes
-            http_xScale.domain(d3.extent(httpData, function(d) {
-                return d.time;
-            }));
+            http_xScale.domain([startTime, currentTime]);
             http_yScale.domain([0, d3.max(httpData, function(d) {
                 return d.longest;
             })]);
@@ -195,9 +202,13 @@ function resizeHttpChart() {
 
     httpTitleBox.attr("width", httpCanvasWidth)
 
-    http_xScale.domain(d3.extent(httpData, function(d) {
-        return d.time;
-    }));
+    let currentTime = Date.now()
+    var startTime = monitoringStartTime
+    if (monitoringStartTime + maxTimeWindow < currentTime) {
+        startTime = currentTime - maxTimeWindow
+    }
+
+    http_xScale.domain([startTime, currentTime]);
 
     chart.selectAll("circle").remove();
 
