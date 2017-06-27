@@ -136,10 +136,14 @@ function updateHttpData(httpRequest) {
 
         // Only keep 'maxTimeWindow' amount of data
         let currentTime = Date.now()
-        var startTime = monitoringStartTime
-        if (monitoringStartTime + maxTimeWindow < currentTime) {
+        var startTime = monitoringStartTime.getTime()
+        if (startTime + maxTimeWindow < currentTime) {
             startTime = currentTime - maxTimeWindow
         }
+        console.log("startTime = " + startTime);
+        console.log("maxTimeWindow = " + maxTimeWindow)
+        console.log("currentTime = " + currentTime);
+        
         var d = httpData[0]
         while (d.hasOwnProperty('time') && d.time < startTime) {
             httpData.shift()
@@ -203,8 +207,8 @@ function resizeHttpChart() {
     httpTitleBox.attr("width", httpCanvasWidth)
 
     let currentTime = Date.now()
-    var startTime = monitoringStartTime
-    if (monitoringStartTime + maxTimeWindow < currentTime) {
+    var startTime = monitoringStartTime.getTime()
+    if (startTime + maxTimeWindow < currentTime) {
         startTime = currentTime - maxTimeWindow
     }
 
