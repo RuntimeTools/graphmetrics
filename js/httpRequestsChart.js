@@ -140,9 +140,6 @@ function updateHttpData(httpRequest) {
         if (startTime + maxTimeWindow < currentTime) {
             startTime = currentTime - maxTimeWindow
         }
-        console.log("startTime = " + startTime);
-        console.log("maxTimeWindow = " + maxTimeWindow)
-        console.log("currentTime = " + currentTime);
         
         var d = httpData[0]
         while (d.hasOwnProperty('time') && d.time < startTime) {
