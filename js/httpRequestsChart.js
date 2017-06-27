@@ -132,7 +132,7 @@ function updateHttpData(httpRequest) {
         // Only keep 30 minutes or 2000 items of data
         var currentTime = Date.now()
         var d = httpData[0]
-        while (httpData.length > 2000 || (d.hasOwnProperty('time') && d.time + 1800000 < currentTime)) {
+        while (httpData.length > 2000 || (d.hasOwnProperty('time') && d.time + maxTimeWindow < currentTime)) {
             httpData.shift()
             d = httpData[0]
         }
