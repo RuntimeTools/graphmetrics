@@ -25,7 +25,7 @@ var http_xAxis = d3.svg.axis()
     .scale(http_xScale)
     .orient("bottom")
     .ticks(3)
-    .tickFormat(d3.time.format("%H:%M:%S"));
+    .tickFormat(getTimeFormat());
 
 var http_yAxis = d3.svg.axis()
     .scale(http_yScale)
@@ -154,6 +154,9 @@ function updateHttpData(httpRequest) {
             http_yScale.domain([0, d3.max(httpData, function(d) {
                 return d.longest;
             })]);
+            
+            http_xAxis.tickFormat(getTimeFormat());
+            
             var selection = d3.select(".httpChart");
             selection.select(".httpline")
                 .attr("d", httpline(httpData));
@@ -199,9 +202,10 @@ function resizeHttpChart() {
     http_xAxis = d3.svg.axis()
         .scale(http_xScale)
         .orient("bottom")
-        .ticks(3);
+        .ticks(3)
+        .tickFormat(getTimeFormat());
 
-    httpTitleBox.attr("width", httpCanvasWidth)
+    httpTitleBox.attr("width", httpCanvasWidth);
 
     let currentTime = Date.now()
     var startTime = monitoringStartTime.getTime()
