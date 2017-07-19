@@ -51,8 +51,11 @@ function UserEventsChart(topic, userDiv) {
   });
 
   // set up X axis for time in HH:MM:SS
-  let xAxis = d3.svg.axis().scale(xScale)
-  .orient("bottom").ticks(3).tickFormat(d3.time.format("%H:%M:%S"));
+  let xAxis = d3.svg.axis()
+    .scale(xScale)
+    .orient("bottom")
+    .ticks(3)
+    .tickFormat(getTimeFormat());
 
   // set up Y axis for time in ms
   let yAxis = d3.svg.axis().scale(yScale)
@@ -138,8 +141,6 @@ function UserEventsChart(topic, userDiv) {
       .attr("r", 4)
       .style("fill", colourPalette[i])
       .style("stroke", "white")
-      .attr("transform",
-      "translate(" + margin.left + "," + margin.top + ")")
       .attr("cx", function(d) { return xScale(d.time); })
       .attr("cy", function(d) { return yScale(d.duration); });
       // .append("svg:title").text(function(d) { return d.url; }); // tooltip
@@ -293,9 +294,7 @@ function UserEventsChart(topic, userDiv) {
         .attr("r", 4)
         .style("fill", colourPalette[i])
         .style("stroke", "white")
-        .attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")")
-        .attr("cx", function(d) { console.log("d.time is: "); console.dir(d.time); let ret =  xScale(d.time); console.log("ret is: " + ret); return ret;})
+        .attr("cx", function(d) { return xScale(d.time); })
         .attr("cy", function(d) { return yScale(d.duration); })
         .append("svg:title").text(function(d) { return d.total + " events"; }); // tooltip
 
