@@ -22,8 +22,6 @@
 
 function UserEventsChart(topic, userDiv) {
 
-  console.log("Graph width: " + httpGraphWidth + " height " + graphHeight);
-
   // set up the scales for x and y using the graph's dimensions
   let xScale = d3.time.scale().range([0, httpGraphWidth]);
   let yScale = d3.scale.linear().range([graphHeight, 0]);
@@ -42,8 +40,6 @@ function UserEventsChart(topic, userDiv) {
   // Single line function
   let lineFunction = d3.svg.line()
   .x(function(d) {
-    console.log("d is: ");
-    console.dir(d);
     return xScale(d.time);
   })
   .y(function(d) {
@@ -161,11 +157,6 @@ function UserEventsChart(topic, userDiv) {
       let data = JSON.parse(payload);  // parses the data into a JSON array
       if (!data || data.length === 0) return;
 
-      console.log("Parsing: " + payload);
-      console.log("userDataSeparated is:");
-      console.dir(userDataSeparated);
-
-
       // Block bad data, until we have more generic graphs.
       if( !( data.hasOwnProperty("time") && data.hasOwnProperty("duration")) ) {
         return;
@@ -173,12 +164,6 @@ function UserEventsChart(topic, userDiv) {
       // Convert data from strings to numbers
       data.time = +data.time;
       data.duration = +data.duration;
-
-      // TODO Turn this into a proper d3 graph, I have no idea WTF the
-      // stuff below is really trying to do.
-
-      console.log("Data from message is:");
-      console.dir(data);
 
       if (userData.length === 0) {
         // first data - remove "No Data Available" label
@@ -205,8 +190,6 @@ function UserEventsChart(topic, userDiv) {
           userDataSeparated[topic].push(data);
 
           let topicCount = Object.keys(userDataSeparated).length;
-
-          console.log(`topicCount ${topicCount}`);
 
           // add a new line
           chart.append("path")
@@ -238,8 +221,6 @@ function UserEventsChart(topic, userDiv) {
       let currentTime = Date.now();
       let cutoffTime = currentTime - maxTimeWindow;
       let d = userData[0];
-      console.log("d is: ");
-      console.dir(d);
       while (d.hasOwnProperty("time") && d.time < cutoffTime) {
         userData.shift();
         d = userData[0];
@@ -264,8 +245,6 @@ function UserEventsChart(topic, userDiv) {
       // }
 
       // Set the input domain for both axes
-      console.log("Scaling off:");
-      console.dir(userData);
       xScale.domain(d3.extent(userData, function(d) {
         return d.time;
       }));
@@ -279,10 +258,7 @@ function UserEventsChart(topic, userDiv) {
       // update the data lines
       let i = 0;
       for (let eventName in userDataSeparated ) {
-        console.log("Plotting line for: " + eventName);
         let lineName = ".line" + (i + 1);
-        console.log("userDataSeparated[eventName]:");
-        console.dir(userDataSeparated[eventName]);
 
         chart.select(lineName)
           .attr("d", lineFunction(userDataSeparated[eventName]));
@@ -296,7 +272,7 @@ function UserEventsChart(topic, userDiv) {
         .style("stroke", "white")
         .attr("cx", function(d) { return xScale(d.time); })
         .attr("cy", function(d) { return yScale(d.duration); })
-        .append("svg:title").text(function(d) { return d.total + " events"; }); // tooltip
+        .append("svg:title").text(function(d) { return d.duration + " ms"; }); // tooltip
 
         i++;
       }
