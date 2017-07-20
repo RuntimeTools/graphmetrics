@@ -172,7 +172,7 @@ mempoolsChart.append("rect")
     .attr("width", 10)
     .attr("height", 10)
     .attr("class", "colourbox2")
-    
+
 // Add the native label
 var memPoolsNativeLabel = mempoolsChart.append("text")
     .attr("x", mempoolsUsedLabel.node().getBBox().width + 40)
@@ -230,8 +230,6 @@ var mempoolsResize = mempoolsSVG.append("image")
             // Redraw this chart only
             resizeMemPoolsChart();
         } else {
-            memPoolsCanvasWidth = $("#memPoolsDiv").width() - 8; // -8 for margins and borders
-            memPoolsGraphWidth = memPoolsCanvasWidth - margin.left - margin.right;
             d3.select(".mempoolsChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
             canvasHeight = 250;
             graphHeight = canvasHeight - margin.top - margin.bottom;
@@ -255,21 +253,21 @@ var mempoolsResize = mempoolsSVG.append("image")
     });
 
 function resizeMemPoolsChart() {
+    memPoolsCanvasWidth = $("#memPoolsDiv").width() - 8; // -8 for margins and borders
+    memPoolsGraphWidth = memPoolsCanvasWidth - margin.left - margin.right;
     if(mempoolsChartIsFullScreen) {
-        memPoolsCanvasWidth = $("#memPoolsDiv").width() - 30; // -30 for margins and borders
-        memPoolsGraphWidth = memPoolsCanvasWidth - margin.left - margin.right;
         canvasHeight = $("#memPoolsDiv").height() - 100;
         graphHeight = canvasHeight - margin.top - margin.bottom;
     }
-    
+
     // Redraw placeholder
     mempoolsChartPlaceholder
         .attr("x", memPoolsGraphWidth / 2)
         .attr("y", memPoolsGraphWidth / 2);
-    
+
     mempoolsResize.attr("x", memPoolsCanvasWidth - 30)
         .attr("y", 4);
-    
+
     var chart = d3.select(".mempoolsChart")
     chart.attr("width", memPoolsCanvasWidth).attr("height", canvasHeight);
     mempools_xScale = d3.time.scale().range([0, memPoolsGraphWidth]);
@@ -297,7 +295,7 @@ function resizeMemPoolsChart() {
     chart.select(".usedHeapLine")
         .attr("d", mempools_usedHeapLine(mempoolsData));
     chart.select(".usedNonHeapLine")
-        .attr("d", mempools_usedNonHeapLine(mempoolsData));    
+        .attr("d", mempools_usedNonHeapLine(mempoolsData));
     chart.select(".totalUsedLine")
         .attr("d", mempools_totalUsedLine(mempoolsData));
     chart.select(".usedHeapAfterGCLine")
@@ -305,7 +303,7 @@ function resizeMemPoolsChart() {
     chart.select(".xAxis").call(mempools_xAxis)
         .attr("transform", "translate(0," + graphHeight + ")");
     chart.select(".yAxis").call(mempools_yAxis);
-    
+
         // Move labels
     chart.select(".colourbox1")
         .attr("y", graphHeight + margin.bottom - 15);
@@ -367,7 +365,7 @@ function updateMemPoolsData(mempoolsRequest) {
     selection.select(".usedHeapLine")
         .attr("d", mempools_usedHeapLine(mempoolsData));
     selection.select(".usedNonHeapLine")
-        .attr("d", mempools_usedNonHeapLine(mempoolsData));    
+        .attr("d", mempools_usedNonHeapLine(mempoolsData));
     selection.select(".totalUsedLine")
         .attr("d", mempools_totalUsedLine(mempoolsData));
     selection.select(".usedHeapAfterGCLine")

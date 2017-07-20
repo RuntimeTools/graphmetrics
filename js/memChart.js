@@ -200,7 +200,7 @@ var memResize = memSVG.append("image")
 
 function resizeMemChart() {
     if(memChartIsFullScreen) {
-        canvasWidth = $("#memDiv1").width() - 30; // -30 for margins and borders
+        canvasWidth = $("#memDiv1").width() - 8; // -8 for margins and borders
         graphWidth = canvasWidth - margin.left - margin.right;
         canvasHeight = $("#memDiv1").height() - 100;
         graphHeight = canvasHeight - margin.top - margin.bottom;
@@ -225,7 +225,7 @@ function resizeMemChart() {
     mem_xScale.domain(d3.extent(memData, function(d) {
         return d.date;
     }));
-    
+
     mem_yScale = d3.scale.linear().range([graphHeight, 0]);
     mem_yAxis = d3.svg.axis()
         .scale(mem_yScale)
