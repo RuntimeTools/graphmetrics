@@ -96,36 +96,102 @@ var probesChartPlaceholder = probesChart.append("text")
     .style("font-size", "18px")
     .text("No Data Available");
 
+var probesChartIsFullScreen = false;
+
+// Add the maximise/minimise button
+var probesResize = probesSVG.append("image")
+    .attr("x", httpCanvasWidth - 30)
+    .attr("y", 4)
+    .attr("width", 24)
+    .attr("height", 24)
+    .attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+    .attr("class", "maximize")
+    .on("click", function(){
+        probesChartIsFullScreen = !probesChartIsFullScreen
+        d3.selectAll(".hideable").classed("invisible", probesChartIsFullScreen);
+        d3.select("#probeEventsDiv").classed("fullscreen", probesChartIsFullScreen)
+            .classed("invisible", false); // remove invisible from this chart
+        if(probesChartIsFullScreen) {
+            d3.select(".probesChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+            // Redraw this chart only
+            resizeProbesChart();
+        } else {
+            httpCanvasWidth = $("#probeEventsDiv").width() - 8; // -8 for margins and borders
+            httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
+            d3.select(".probesChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+            canvasHeight = 250;
+            graphHeight = canvasHeight - margin.top - margin.bottom;
+            // Redraw all
+            resize();
+        }
+    })
+    .on("mouseover", function() {
+        if(probesChartIsFullScreen) {
+            d3.select(".probesChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24.png")
+        } else {
+            d3.select(".probesChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24.png")
+        }
+    })
+    .on("mouseout", function() {
+        if(probesChartIsFullScreen) {
+            d3.select(".probesChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+        } else {
+            d3.select(".probesChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+        }
+    });
+
 function resizeProbesChart() {
-    // just doing horizontal resizes for now
+    if(probesChartIsFullScreen) {
+        httpCanvasWidth = $("#probeEventsDiv").width() - 8;
+        httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
+        canvasHeight = $("#probeEventsDiv").height() - 100;
+        graphHeight = canvasHeight - margin.top - margin.bottom;
+    }
+    // Redraw placeholder
+    probesChartPlaceholder
+        .attr("x", httpGraphWidth / 2)
+        .attr("y", tallerGraphHeight / 2)
+
+    probesResize.attr("x", httpCanvasWidth - 30).attr("y", 4)
+
     // resize the canvas
-  var chart = d3.select(".probesChart");
-  chart.attr("width", httpCanvasWidth);
+    var chart = d3.select(".probesChart");
+    chart.attr("width", httpCanvasWidth)
+        .attr("height", canvasHeight);
     // resize the scale and axes
-  probes_xScale = d3.time.scale().range([0, httpGraphWidth]);
-  probes_xAxis = d3.svg.axis()
+    probes_xScale = d3.time.scale().range([0, httpGraphWidth]);
+    probes_xAxis = d3.svg.axis()
         .scale(probes_xScale)
         .orient("bottom")
         .ticks(3);
+    probes_yScale = d3.scale.linear().range([graphHeight, 0]);
+    probes_yAxis = d3.svg.axis().scale(probes_yScale)
+        .orient("left")
+        .ticks(8)
+        .tickFormat(function(d) {
+            return d + "ms";
+        });
 
-  probesTitleBox.attr("width", httpCanvasWidth);
+    probesTitleBox.attr("width", httpCanvasWidth);
 
     // Update the input domain
-  probes_xScale.domain(d3.extent(probesData, function(d) {
-    return d.time;
-  }));
-
-  var selection = d3.select(".probesChart");
-  selection.selectAll("circle").remove();
+    probes_xScale.domain(d3.extent(probesData, function(d) {
+        return d.time;
+    }));
+    probes_yScale.domain([0, d3.max(probesData, function(d) {
+        return d.duration;
+    })]);
+    var selection = d3.select(".probesChart");
+    selection.selectAll("circle").remove();
 
     // update the data lines
-  for (var i = 0; i < probeNames.length; i++) {
-    var lineName = ".line" + (i + 1);
-    selection.select(lineName)
+    for (var i = 0; i < probeNames.length; i++) {
+        var lineName = ".line" + (i + 1);
+        selection.select(lineName)
             .attr("d", lineFunction(probeDataSeparated[i]));
 
         // Add the points
-    selection.selectAll("point" + (i + 1))
+        selection.selectAll("point" + (i + 1))
             .data(probeDataSeparated[i])
             .enter().append("circle")
             .attr("r", 4)
@@ -136,13 +202,20 @@ function resizeProbesChart() {
                 .attr("cx", function(d) { return probes_xScale(d.time); })
                 .attr("cy", function(d) { return probes_yScale(d.duration); });
                 // .append("svg:title").text(function(d) { return d.url; }); // tooltip
-  }
+    }
 
     // update the axes
-  chart.select(".xAxis")
+    chart.select(".xAxis")
+        .attr("transform", "translate(0," + graphHeight + ")")
         .call(probes_xAxis);
-  chart.select(".yAxis")
+    chart.select(".yAxis")
         .call(probes_yAxis);
+
+    // move the labels
+    chart.selectAll(".colourbox1")
+        .attr("y", graphHeight + margin.bottom - 15);
+    chart.selectAll(".lineLabel1")
+        .attr("y", graphHeight + margin.bottom - 5);
 }
 
 function updateProbesData(probeEvents) {
@@ -239,22 +312,22 @@ function updateProbesData(probeEvents) {
 
         // update the data lines
     for (i = 0; i < probeNames.length; i++) {
-      var lineName = ".line" + (i + 1);
-      selection.select(lineName)
-                .attr("d", lineFunction(probeDataSeparated[i]));
+        var lineName = ".line" + (i + 1);
+        selection.select(lineName)
+            .attr("d", lineFunction(probeDataSeparated[i]));
 
             // Add the points
-      selection.selectAll("point" + (i + 1))
-                .data(probeDataSeparated[i])
-                .enter().append("circle")
-                .attr("r", 4)
-                .style("fill", colourPalette[i])
-                .style("stroke", "white")
-                .attr("transform",
-                    "translate(" + margin.left + "," + margin.top + ")")
-                    .attr("cx", function(d) { return probes_xScale(d.time); })
-                    .attr("cy", function(d) { return probes_yScale(d.duration); })
-                    .append("svg:title").text(function(d) { return d.total + " events"; }); // tooltip
+        selection.selectAll("point" + (i + 1))
+            .data(probeDataSeparated[i])
+            .enter().append("circle")
+            .attr("r", 4)
+            .style("fill", colourPalette[i])
+            .style("stroke", "white")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")")
+                .attr("cx", function(d) { return probes_xScale(d.time); })
+                .attr("cy", function(d) { return probes_yScale(d.duration); })
+                .append("svg:title").text(function(d) { return d.total + " events"; }); // tooltip
 
 
     }
