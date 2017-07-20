@@ -202,40 +202,115 @@ elChart.append("text")
     .attr("y", 0 - (margin.top * 3 / 8))
     .attr("class", "avglatest")
     .style("font-size", "32px");
+    var elChartIsFullScreen = false;
+
+// Add the maximise button
+var elResize = elSVG.append("image")
+    .attr("x", eventLoopCanvasWidth - 30)
+    .attr("y", 4)
+    .attr("width", 24)
+    .attr("height", 24)
+    .attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+    .attr("class", "maximize")
+    .on("click", function(){
+        elChartIsFullScreen = !elChartIsFullScreen
+        d3.selectAll(".hideable").classed("invisible", elChartIsFullScreen);
+        d3.select("#eventLoopDiv").classed("fullscreen", elChartIsFullScreen)
+            .classed("invisible", false); // remove invisible from this chart
+        if(elChartIsFullScreen) {
+            d3.select(".elChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+            // Redraw this chart only
+            resizeEventLoopChart();
+        } else {
+            d3.select(".elChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+            canvasHeight = 250;
+            graphHeight = canvasHeight - margin.top - margin.bottom;
+            // Redraw all
+            resize();
+        }
+    })
+    .on("mouseover", function() {
+        if(elChartIsFullScreen) {
+            d3.select(".elChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24.png")
+        } else {
+            d3.select(".elChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24.png")
+        }
+    })
+    .on("mouseout", function() {
+        if(elChartIsFullScreen) {
+            d3.select(".elChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+        } else {
+            d3.select(".elChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+        }
+    });
 
 function resizeEventLoopChart() {
-  eventLoopCanvasWidth = $("#eventLoopDiv").width() - 8;
-  eventLoopGraphWidth = eventLoopCanvasWidth - margin.left - margin.right;
+    if(elChartIsFullScreen) {
+        canvasHeight = $("#eventLoopDiv").height() - 100;
+        graphHeight = canvasHeight - margin.top - margin.bottom;
+    }
+    eventLoopCanvasWidth = $("#eventLoopDiv").width() - 8;
+    eventLoopGraphWidth = eventLoopCanvasWidth - margin.left - margin.right;
 
-    // just doing horizontal resizes for now
+    // Redraw placeholder
+    elChartPlaceholder
+        .attr("x", eventLoopGraphWidth / 2)
+        .attr("y", graphHeight / 2)
+
+    // Move maximise/minimise button
+    elResize.attr("x", eventLoopCanvasWidth - 30).attr("y", 4)
+
     // resize the canvas
-  var chart = d3.select(".elChart");
-  chart.attr("width", eventLoopCanvasWidth);
+    var chart = d3.select(".elChart");
+    chart.attr("width", eventLoopCanvasWidth)
+        .attr("height", canvasHeight);
     // resize the scale and axes
-  el_xScale = d3.time.scale().range([0, eventLoopGraphWidth]);
-  el_xAxis = d3.svg.axis()
+    el_xScale = d3.time.scale().range([0, eventLoopGraphWidth]);
+    el_xAxis = d3.svg.axis()
         .scale(el_xScale)
         .orient("bottom")
         .ticks(3)
         .tickFormat(getTimeFormat());
+    el_yScale = d3.scale.linear().range([graphHeight, 0]);
+    el_yAxis = d3.svg.axis().scale(el_yScale)
+        .orient("left")
+        .ticks(8)
+        .tickFormat(function(d) {
+            return d + "ms";
+        });
 
-  elTitleBox.attr("width", eventLoopCanvasWidth);
+    elTitleBox.attr("width", eventLoopCanvasWidth);
 
-  el_xScale.domain(d3.extent(elData, function(d) {
-    return d.time;
-  }));
+    el_xScale.domain(d3.extent(elData, function(d) {
+        return d.time;
+    }));
+    el_yScale.domain([0, Math.ceil(d3.extent(elData, function(d) {
+        return d.latency.max;
+    })[1] * 1000) / 1000]);
+
     // update the data lines
-  chart.select(".line1")
+    chart.select(".line1")
         .attr("d", el_max_line(elData));
-  chart.select(".line2")
-        .attr("d", el_min_line(elData));
-  chart.select(".line3")
-        .attr("d", el_avg_line(elData));
+    chart.select(".line2")
+            .attr("d", el_min_line(elData));
+    chart.select(".line3")
+            .attr("d", el_avg_line(elData));
     // update the axes
-  chart.select(".xAxis")
+    chart.select(".xAxis")
+        .attr("transform", "translate(0," + graphHeight + ")")
         .call(el_xAxis);
-  chart.select(".yAxis")
+    chart.select(".yAxis")
         .call(el_yAxis);
+
+    // Move labels
+    chart.selectAll(".lineLabel")
+        .attr("y", graphHeight + margin.bottom - 5);
+    chart.select(".colourbox1")
+        .attr("y", graphHeight + margin.bottom - 15);
+    chart.select(".colourbox2")
+        .attr("y", graphHeight + margin.bottom - 15);
+    chart.select(".colourbox3")
+        .attr("y", graphHeight + margin.bottom - 15);
 }
 
 function updateEventLoopData(elRequest) {
@@ -248,7 +323,7 @@ function updateEventLoopData(elRequest) {
     d.latency.min = +d.latency.min;
     d.latency.max = +d.latency.max;
     d.latency.avg = +d.latency.avg;
-        // round the latest data to the nearest thousandth
+    // round the latest data to the nearest thousandth
     elData.push(d);
 
     if (elData.length === 2) {

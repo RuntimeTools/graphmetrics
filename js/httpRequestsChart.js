@@ -141,10 +141,12 @@ function updateHttpData(httpRequest) {
             startTime = currentTime - maxTimeWindow
         }
 
-        var d = httpData[0]
-        while (d.hasOwnProperty('time') && d.time < startTime) {
-            httpData.shift()
-            d = httpData[0]
+        if(httpData.length > 1) {
+            var d = httpData[0]
+            while (d.hasOwnProperty('time') && d.time < startTime) {
+                httpData.shift()
+                d = httpData[0]
+            }
         }
 
         // Don't redraw graph if mouse is over it (keeps it still for tooltips)
@@ -214,8 +216,6 @@ var httpResize = httpSVG.append("image")
             // Redraw this chart only
             resizeHttpChart();
         } else {
-            httpCanvasWidth = $("#httpDiv1").width() - 8; // -8 for margins and borders
-            httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
             d3.select(".httpChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
             canvasHeight = 250;
             tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
@@ -239,9 +239,9 @@ var httpResize = httpSVG.append("image")
     });
 
 function resizeHttpChart() {
+    httpCanvasWidth = $("#httpDiv1").width() - 8; // -8 for margins and borders
+    httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
     if(httpChartIsFullScreen) {
-        httpCanvasWidth = $("#httpDiv1").width() - 30; // -30 for margins and borders
-        httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
         canvasHeight = $("#httpDiv1").height() - 100;
         tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
     }

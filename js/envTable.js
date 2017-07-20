@@ -125,11 +125,9 @@ function populateEnvTable(envRequestData) {
 }
 
 function resizeEnvTable() {
+    envDivCanvasWidth = $("#envDiv").width() - 8; // -8 for margins and borders
 	if(envTableIsFullScreen) {
-        envDivCanvasWidth = $("#envDiv").width() - 30; // -30 for margins and borders
         canvasHeight = $("#envDiv").height() - 100;
-    } else {
-        envDivCanvasWidth = $("#envDiv").width() - 8;
     }
     envResize.attr("x", envDivCanvasWidth - 30).attr("y", 4);
     envSVG.attr("width", envDivCanvasWidth)

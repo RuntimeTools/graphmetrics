@@ -197,7 +197,7 @@ var cpuResize = cpuSVG.append("image")
 
 function resizeCPUChart() {
     if(cpuChartIsFullScreen) {
-        canvasWidth = $("#cpuDiv1").width() - 30; // -30 for margins and borders
+        canvasWidth = $("#cpuDiv1").width() - 8; // -8 for margins and borders
         graphWidth = canvasWidth - margin.left - margin.right;
         canvasHeight = $("#cpuDiv1").height() - 100;
         graphHeight = canvasHeight - margin.top - margin.bottom;

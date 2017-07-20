@@ -158,23 +158,84 @@ gcChart.append("text")
 .attr("class", "usedlatest")
 .style("font-size", "32px");
 
-// latest data storage
-// var sizeLatest = 0;
-// var usedLatest = 0;
+var gcChartIsFullScreen = false;
+
+// Add the maximise button
+var gcResize = gcSVG.append("image")
+    .attr("x", canvasWidth - 30)
+    .attr("y", 4)
+    .attr("width", 24)
+    .attr("height", 24)
+    .attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+    .attr("class", "maximize")
+    .on("click", function(){
+        gcChartIsFullScreen = !gcChartIsFullScreen
+        d3.selectAll(".hideable").classed("invisible", gcChartIsFullScreen);
+        d3.select("#gcDiv").classed("fullscreen", gcChartIsFullScreen)
+            .classed("invisible", false); // remove invisible from this chart
+        if(gcChartIsFullScreen) {
+            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+            // Redraw this chart only
+            resizeGCChart();
+        } else {
+            canvasWidth = $("#gcDiv").width() - 8; // -8 for margins and borders
+            graphWidth = canvasWidth - margin.left - margin.right;
+            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+            canvasHeight = 250;
+            graphHeight = canvasHeight - margin.top - margin.bottom;
+            // Redraw all
+            resize();
+        }
+    })
+    .on("mouseover", function() {
+        if(gcChartIsFullScreen) {
+            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24.png")
+        } else {
+            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24.png")
+        }
+    })
+    .on("mouseout", function() {
+        if(gcChartIsFullScreen) {
+            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+        } else {
+            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+        }
+    });
 
 function resizeGCChart() {
-    // only doing horizontal resize at the moment
-    // resize the canvas
+  if(gcChartIsFullScreen) {
+    canvasWidth = $("#gcDiv").width() - 8; // -8 for margins and borders
+    graphWidth = canvasWidth - margin.left - margin.right;
+    canvasHeight = $("#gcDiv").height() - 100;
+    graphHeight = canvasHeight - margin.top - margin.bottom;
+  }
+    // Redraw placeholder
+  gcChartPlaceholder
+    .attr("x", graphWidth / 2)
+    .attr("y", graphHeight / 2)
+
+  // Move maximise/minimise button
+  gcResize.attr("x", canvasWidth - 30).attr("y", 4)
+
+  // Resize the canvas
   var chart = d3.select(".gcChart");
-  chart.attr("width", canvasWidth);
+  chart.attr("width", canvasWidth).attr("height", canvasHeight);
     // resize the scale's drawing range
   gc_xScale = d3.time.scale().range([0, graphWidth]);
-    // resize the X axis
+  gc_yScale = d3.scale.linear().range([graphHeight, 0]);
+    // resize the axes
   gc_xAxis = d3.svg.axis()
     .scale(gc_xScale)
     .orient("bottom")
     .ticks(3)
     .tickFormat(getTimeFormat());
+  gc_yAxis = d3.svg.axis()
+    .scale(gc_yScale)
+    .orient("left")
+    .ticks(8)
+    .tickFormat(function(d) {
+      return d3.format(".2s")(d * 1024 * 1024);
+    });
 
   gcTitleBox.attr("width", canvasWidth);
 
@@ -182,14 +243,28 @@ function resizeGCChart() {
   gc_xScale.domain(d3.extent(gcData, function(d) {
     return d.time;
   }));
+  gc_yScale.domain([0, Math.ceil(d3.extent(gcData, function(d) {
+    return d.size;
+  })[1])]);
   chart.select(".line1")
     .attr("d", gc_size_line(gcData));
   chart.select(".line2")
     .attr("d", gc_used_line(gcData));
   chart.select(".xAxis")
+    .attr("transform", "translate(0," + graphHeight + ")")
     .call(gc_xAxis);
   chart.select(".yAxis")
     .call(gc_yAxis);
+
+  // Move labels
+  chart.select(".colourbox1")
+    .attr("y", graphHeight + margin.bottom - 15);
+  chart.select(".lineLabel")
+    .attr("y", graphHeight + margin.bottom - 5);
+  chart.select(".colourbox2")
+    .attr("y", graphHeight + margin.bottom - 15);
+  chart.select(".lineLabel2")
+    .attr("y", graphHeight + margin.bottom - 5);
 }
 
 function updateGCData(gcRequest) {

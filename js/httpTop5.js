@@ -201,11 +201,9 @@ function updateURLData(data) {
 
 function resizeHttpTop5Chart() {
     if(httpTop5ChartIsFullScreen) {
-        httpDiv3CanvasWidth = $("#httpDiv3").width() - 30;
         canvasHeight= $("#httpDiv3").height() - 100;
-    } else {
-        httpDiv3CanvasWidth = $("#httpDiv3").width() - 8;
     }
+    httpDiv3CanvasWidth = $("#httpDiv3").width() - 8;
     httpTop5Resize.attr("x", httpDiv3CanvasWidth - 30).attr("y", 4);
     httpDiv3GraphWidth = httpDiv3CanvasWidth - margin.left - margin.right;
     httpTop5_xScale = d3.scale.linear().range([0, httpDiv3GraphWidth]);

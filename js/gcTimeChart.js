@@ -149,7 +149,7 @@ var gcResize = gcSVG.append("image")
 
 function resizeGCChart() {
 	if(gcChartIsFullScreen) {
-        canvasWidth = $("#gcDiv1").width() - 30; // -30 for margins and borders
+        canvasWidth = $("#gcDiv1").width() - 8; // -8 for margins and borders
         graphWidth = canvasWidth - margin.left - margin.right;
         canvasHeight = $("#gcDiv1").height() - 100;
         graphHeight = canvasHeight - margin.top - margin.bottom;
@@ -179,7 +179,7 @@ function resizeGCChart() {
         });
 
     gcTitleBox.attr("width", canvasWidth);
-    
+
     gcResize.attr("x", canvasWidth - 30)
       .attr("y", 4);
 

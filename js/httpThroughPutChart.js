@@ -195,14 +195,12 @@ var httpTPResize = httpThroughPutSVG.append("image")
 
 function resizeHttpThroughputChart() {
     if(httpTPChartIsFullScreen) {
-        httpDiv2CanvasWidth = $("#httpDiv2").width() - 30; // -30 for margins and borders
-        httpDiv2GraphWidth = httpDiv2CanvasWidth - margin.left - margin.right;
         canvasHeight = $("#httpDiv2").height() - 100;
         tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
-    } else {
-        httpDiv2CanvasWidth = $("#httpDiv2").width() - 8;
-        httpDiv2GraphWidth = httpDiv2CanvasWidth - margin.left - margin.right;
     }
+    httpDiv2CanvasWidth = $("#httpDiv2").width() - 8;
+    httpDiv2GraphWidth = httpDiv2CanvasWidth - margin.left - margin.right;
+
     // Redraw placeholder
     httpTPChartPlaceholder
         .attr("x", httpGraphWidth / 2)
@@ -216,7 +214,7 @@ function resizeHttpThroughputChart() {
     httpTP_xScale = d3.time.scale().range([0, httpDiv2GraphWidth]);
     httpTP_xAxis = d3.svg.axis().scale(httpTP_xScale)
         .orient("bottom").ticks(3).tickFormat(getTimeFormat());
-        
+
     httpTP_yScale = d3.scale.linear().range([tallerGraphHeight, 0]);
     httpTP_yAxis = d3.svg.axis().scale(httpTP_yScale)
     .orient("left").ticks(5).tickFormat(function(d) {
