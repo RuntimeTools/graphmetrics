@@ -101,7 +101,7 @@ var httpChartPlaceholder = httpChart.append("text")
 function updateHttpData(httpRequest) {
         httpRequestData = JSON.parse(httpRequest);
         if (!httpRequestData) return;
-       
+
         var httpLength = httpData.length;
 
         // Send data to throughput chart so as not to duplicate requests
@@ -122,16 +122,16 @@ function updateHttpData(httpRequest) {
             // Check to see if the request started before previous request(s)
             if (httpLength > 0 && (httpRequestData.time < httpData[httpLength-1].time)) {
                 var i = httpLength - 1;
-                while (httpRequestData.time < httpData[i].time) {
+                while (i >= 0 && httpRequestData.time < httpData[i].time) {
                     i--;
                 }
-                // Insert the data into the right place            
+                // Insert the data into the right place
                 httpData.splice(i+1, 0, httpRequestData);
             } else {
                 httpData.push(httpRequestData);
             }
         }
-        
+
         if(httpData.length === 0) return;
 
         // Only keep 'maxTimeWindow' amount of data
@@ -140,7 +140,7 @@ function updateHttpData(httpRequest) {
         if (startTime + maxTimeWindow < currentTime) {
             startTime = currentTime - maxTimeWindow
         }
-        
+
         var d = httpData[0]
         while (d.hasOwnProperty('time') && d.time < startTime) {
             httpData.shift()
@@ -154,9 +154,9 @@ function updateHttpData(httpRequest) {
             http_yScale.domain([0, d3.max(httpData, function(d) {
                 return d.longest;
             })]);
-            
+
             http_xAxis.tickFormat(getTimeFormat());
-            
+
             var selection = d3.select(".httpChart");
             selection.select(".httpline")
                 .attr("d", httpline(httpData));

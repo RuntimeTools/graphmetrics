@@ -55,7 +55,7 @@ var httpThroughPutSVG = d3.select("#httpDiv2")
     .attr("class", "httpThroughPutChart")
 
 var httpThroughPutTitleBox = httpThroughPutSVG.append("rect")
-    .attr("width", canvasWidth)
+    .attr("width", httpDiv2CanvasWidth)
     .attr("height", 30)
     .attr("class", "titlebox")
 
