@@ -14,28 +14,6 @@
  * the License.
  ******************************************************************************/
 
-d3.select("#nodeReportButtonDiv")
-    .append("input")
-    .attr("name", "nodeReportButton")
-    .attr("class", "btn btn-secondary btn-lg")
-    .attr("type", "button")
-    .attr("value", "Generate Node Report")
-    .style("background-color", "#eff3f5")
-    .style("border", "2px solid #dbe6e9")
-    .style("color", "#3b4b54")
-    .attr("onClick", "socket.emit('nodereport')");
-
-d3.select("#nodeReportButtonDiv")
-    .append("input")
-    .attr("name", "heapdumpButton")
-    .attr("class", "btn btn-secondary btn-lg")
-    .attr("type", "button")
-    .attr("value", "Generate Heap Snapshot")
-    .style("background-color", "#eff3f5")
-    .style("border", "2px solid #dbe6e9")
-    .style("color", "#3b4b54")
-    .attr("onClick", "socket.emit('heapdump')");
-
 socket.on("nodereport", function(nodereport){
   var newWindow = window.open();
   newWindow.document.open();
