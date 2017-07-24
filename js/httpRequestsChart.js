@@ -104,8 +104,8 @@ function updateHttpData(httpRequest) {
   updateThroughPutData(httpRequestData);
   httpRequestData.longest = parseFloat(httpRequestData.longest);
   httpRequestData.average = parseFloat(httpRequestData.average);
-  httpRequestData.time = parseInt(httpRequestData.time);
-  httpRequestData.total = parseInt(httpRequestData.total);
+  httpRequestData.time = parseInt(httpRequestData.time, 10);
+  httpRequestData.total = parseInt(httpRequestData.total, 10);
   if (httpRequestData.total > 0) {
     if (httpLength === 0) {
       // first data - remove "No Data Available" label

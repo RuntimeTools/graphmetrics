@@ -221,7 +221,7 @@ var httpOBResize = httpOBSVG.append('image')
 function resizeHttpOBChart() {
   httpCanvasWidth = $('#httpOBDiv').width() - 8; // -8 for margins and borders
   httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
-  if(httpOBChartIsFullScreen) {
+  if (httpOBChartIsFullScreen) {
     canvasHeight = $('#httpOBDiv').height() - 100;
     tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
   }

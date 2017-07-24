@@ -267,15 +267,12 @@ function resizeMemChart() {
 
 function updateMemData(memRequest) {
 	// Get the data again
-	data = JSON.parse(memRequest);  // parses the data into a JSON array
+  var data = JSON.parse(memRequest);  // parses the data into a JSON array
   if (!data) return;
   var d = data;
   d.date = new Date(+d.time);
   d.system = +d.physical_used / (1024 * 1024);
   d.process = +d.physical / (1024 * 1024);
-  var _memProcessLatest = Math.round(d.process);
-  memProcessLatest = _memProcessLatest;
-  memSystemLatest = Math.round(d.system);
   memData.push(d);
   if (memData.length === 2) {
     // second data point - remove "No Data Available" label

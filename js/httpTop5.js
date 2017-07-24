@@ -15,7 +15,6 @@
  ******************************************************************************/
 
 // Bar chart for top 5 URLs by average request time
-var httpAverages = {};
 var httpTop5Data = [];
 
 var httpTop5_barHeight = tallerGraphHeight / 5;
@@ -195,7 +194,7 @@ function updateURLData(data) {
 
 function resizeHttpTop5Chart() {
   if (httpTop5ChartIsFullScreen) {
-    canvasHeight= $('#httpDiv3').height() - 100;
+    canvasHeight = $('#httpDiv3').height() - 100;
   }
   httpDiv3CanvasWidth = $('#httpDiv3').width() - 8;
   httpTop5Resize

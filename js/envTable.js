@@ -109,7 +109,7 @@ function populateEnvTable(envRequestData) {
       });
 
     // create a cell in each row for each column
-    var cells = rows.selectAll('tspan')
+    rows.selectAll('tspan')
       .data(function(row) {
         return ['Parameter', 'Value'].map(function(column) {
           return {column: column, value: row[column]};
