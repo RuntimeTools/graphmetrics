@@ -101,6 +101,7 @@ function updateHttpData(httpRequest) {
   if (!httpRequestData) return;
   var httpLength = httpData.length;
   // Send data to throughput chart so as not to duplicate requests
+  /*global updateThroughPutData:false*/
   updateThroughPutData(httpRequestData);
   httpRequestData.longest = parseFloat(httpRequestData.longest);
   httpRequestData.average = parseFloat(httpRequestData.average);
