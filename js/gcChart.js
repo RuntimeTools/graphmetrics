@@ -28,300 +28,305 @@ var gcData = [];
 // set up X axis for time as HH:MM:SS or HH:MM depending on time elapsed
 var gc_xAxis = d3.svg.axis()
     .scale(gc_xScale)
-    .orient("bottom")
+    .orient('bottom')
     .ticks(3)
     .tickFormat(getTimeFormat());
 
 // set up Y axis for memory
 var gc_yAxis = d3.svg.axis()
     .scale(gc_yScale)
-    .orient("left")
+    .orient('left')
     .ticks(8)
     .tickFormat(function(d) {
-      return d3.format(".2s")(d * 1024 * 1024);
+      return d3.format('.2s')(d * 1024 * 1024);
     });
 
 // line function for heap size
 var gc_size_line = d3.svg.line()
-.x(function(d) {
-  return gc_xScale(d.time);
-})
-.y(function(d) {
-  return gc_yScale(d.size);
-});
+    .x(function(d) {
+      return gc_xScale(d.time);
+    })
+    .y(function(d) {
+      return gc_yScale(d.size);
+    });
 
 // line function for used heap size
 var gc_used_line = d3.svg.line()
-.x(function(d) {
-  return gc_xScale(d.time);
-})
-.y(function(d) {
-  return gc_yScale(d.used);
-});
+    .x(function(d) {
+      return gc_xScale(d.time);
+    })
+    .y(function(d) {
+      return gc_yScale(d.used);
+    });
 
-var gcSVG = d3.select("#gcDiv")
-.append("svg")
-.attr("width", canvasWidth)
-.attr("height", canvasHeight)
-.attr("class", "gcChart");
+var gcSVG = d3.select('#gcDiv')
+    .append('svg')
+    .attr('width', canvasWidth)
+    .attr('height', canvasHeight)
+    .attr('class', 'gcChart');
 
-var gcTitleBox = gcSVG.append("rect")
-.attr("width", canvasWidth)
-.attr("height", 30)
-.attr("class", "titlebox");
+var gcTitleBox = gcSVG.append('rect')
+    .attr('width', canvasWidth)
+    .attr('height', 30)
+    .attr('class', 'titlebox');
 
 // create the chart canvas
 var gcChart = gcSVG
-.append("g")
-.attr("transform",
-        "translate(" + margin.left + "," + margin.top + ")");
+    .append('g')
+    .attr('transform',
+      'translate(' + margin.left + ',' + margin.top + ')');
 
 // Draw the heap size path.
-gcChart.append("path")
-.attr("class", "line1")
-.attr("d", gc_size_line(gcData));
+gcChart.append('path')
+    .attr('class', 'line1')
+    .attr('d', gc_size_line(gcData));
 
 // Draw the used heap path.
-gcChart.append("path")
-.attr("class", "line2")
-.attr("d", gc_used_line(gcData));
+gcChart.append('path')
+    .attr('class', 'line2')
+    .attr('d', gc_used_line(gcData));
 
 // Draw the X Axis
-gcChart.append("g")
-.attr("class", "xAxis")
-.attr("transform", "translate(0," + graphHeight + ")")
-.call(gc_xAxis);
+gcChart.append('g')
+    .attr('class', 'xAxis')
+    .attr('transform', 'translate(0,' + graphHeight + ')')
+    .call(gc_xAxis);
 
 // Draw the Y Axis
-gcChart.append("g")
-.attr("class", "yAxis")
-.call(gc_yAxis);
+gcChart.append('g')
+    .attr('class', 'yAxis')
+    .call(gc_yAxis);
 
 // Draw the title
-gcChart.append("text")
-.attr("x", 7 - margin.left)
-.attr("y", 15 - margin.top)
-.attr("dominant-baseline", "central")
-.style("font-size", "18px")
-.text(object.gcTitle);
+gcChart.append('text')
+    .attr('x', 7 - margin.left)
+    .attr('y', 15 - margin.top)
+    .attr('dominant-baseline', 'central')
+    .style('font-size', '18px')
+    .text(object.gcTitle);
 
 // Add the placeholder text
-var gcChartPlaceholder = gcChart.append("text")
-    .attr("x", graphWidth / 2)
-    .attr("y", graphHeight / 2)
-    .attr("text-anchor", "middle")
-    .style("font-size", "18px")
+var gcChartPlaceholder = gcChart.append('text')
+    .attr('x', graphWidth / 2)
+    .attr('y', graphHeight / 2)
+    .attr('text-anchor', 'middle')
+    .style('font-size', '18px')
     .text(object.NoDataMsg);
 
 // Add the heap size colour box
-gcChart.append("rect")
-.attr("x", 0)
-.attr("y", graphHeight + margin.bottom - 15)
-.attr("class", "colourbox1")
-.attr("width", 10)
-.attr("height", 10);
+gcChart.append('rect')
+    .attr('x', 0)
+    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('class', 'colourbox1')
+    .attr('width', 10)
+    .attr('height', 10);
 
 // Add the heap size label
-var gcHeapSizeLabel = gcChart.append("text")
-.attr("x", 15)
-.attr("y", graphHeight + margin.bottom - 5)
-.attr("text-anchor", "start")
-.attr("class", "lineLabel")
-.text(object.gcHeapSizeMsg);
+var gcHeapSizeLabel = gcChart.append('text')
+    .attr('x', 15)
+    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('text-anchor', 'start')
+    .attr('class', 'lineLabel')
+    .text(object.gcHeapSizeMsg);
 
 // Add the used heap colour box
-gcChart.append("rect")
-.attr("x", gcHeapSizeLabel.node().getBBox().width + 25)
-.attr("y", graphHeight + margin.bottom - 15)
-.attr("width", 10)
-.attr("height", 10)
-.attr("class", "colourbox2");
+gcChart.append('rect')
+    .attr('x', gcHeapSizeLabel.node().getBBox().width + 25)
+    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('width', 10)
+    .attr('height', 10)
+    .attr('class', 'colourbox2');
 
 // Add the used heap label
-gcChart.append("text")
-.attr("x", gcHeapSizeLabel.node().getBBox().width + 40)
-.attr("y", graphHeight + margin.bottom - 5)
-.attr("class", "lineLabel2")
-.text(object.gcUsedHeapMsg);
+gcChart.append('text')
+    .attr('x', gcHeapSizeLabel.node().getBBox().width + 40)
+    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('class', 'lineLabel2')
+    .text(object.gcUsedHeapMsg);
 
 // Draw the Latest HEAP SIZE Data
-gcChart.append("text")
-.attr("x", 0)
-.attr("y", 0 - (margin.top * 3 / 8))
-.attr("class", "sizelatest")
-.style("font-size", "32px");
+gcChart.append('text')
+    .attr('x', 0)
+    .attr('y', 0 - (margin.top * 3 / 8))
+    .attr('class', 'sizelatest')
+    .style('font-size', '32px');
 
 // Draw the Latest USED HEAP Data
-gcChart.append("text")
-.attr("x", graphWidth / 2) // 1/2 along
-.attr("y", 0 - (margin.top * 3 / 8))
-.attr("class", "usedlatest")
-.style("font-size", "32px");
+gcChart.append('text')
+    .attr('x', graphWidth / 2) // 1/2 along
+    .attr('y', 0 - (margin.top * 3 / 8))
+    .attr('class', 'usedlatest')
+    .style('font-size', '32px');
 
 var gcChartIsFullScreen = false;
 
 // Add the maximise button
-var gcResize = gcSVG.append("image")
-    .attr("x", canvasWidth - 30)
-    .attr("y", 4)
-    .attr("width", 24)
-    .attr("height", 24)
-    .attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
-    .attr("class", "maximize")
-    .on("click", function(){
-        gcChartIsFullScreen = !gcChartIsFullScreen
-        d3.selectAll(".hideable").classed("invisible", gcChartIsFullScreen);
-        d3.select("#gcDiv").classed("fullscreen", gcChartIsFullScreen)
-            .classed("invisible", false); // remove invisible from this chart
-        if(gcChartIsFullScreen) {
-            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
-            // Redraw this chart only
-            resizeGCChart();
-        } else {
-            canvasWidth = $("#gcDiv").width() - 8; // -8 for margins and borders
-            graphWidth = canvasWidth - margin.left - margin.right;
-            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
-            canvasHeight = 250;
-            graphHeight = canvasHeight - margin.top - margin.bottom;
-            // Redraw all
-            resize();
-        }
+var gcResize = gcSVG.append('image')
+    .attr('x', canvasWidth - 30)
+    .attr('y', 4)
+    .attr('width', 24)
+    .attr('height', 24)
+    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+    .attr('class', 'maximize')
+    .on('click', function(){
+      gcChartIsFullScreen = !gcChartIsFullScreen
+      d3.selectAll('.hideable')
+        .classed('invisible', gcChartIsFullScreen);
+      d3.select('#gcDiv')
+        .classed('fullscreen', gcChartIsFullScreen)
+        .classed('invisible', false); // remove invisible from this chart
+      if (gcChartIsFullScreen) {
+        d3.select('.gcChart .maximize')
+          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+        // Redraw this chart only
+        resizeGCChart();
+      } else {
+        canvasWidth = $('#gcDiv').width() - 8; // -8 for margins and borders
+        graphWidth = canvasWidth - margin.left - margin.right;
+        d3.select('.gcChart .maximize')
+          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+        canvasHeight = 250;
+        graphHeight = canvasHeight - margin.top - margin.bottom;
+        // Redraw all
+        resize();
+      }
     })
-    .on("mouseover", function() {
-        if(gcChartIsFullScreen) {
-            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24.png")
-        } else {
-            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24.png")
-        }
+    .on('mouseover', function() {
+      if (gcChartIsFullScreen) {
+        d3.select('.gcChart .maximize')
+          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+      } else {
+        d3.select('.gcChart .maximize')
+          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+      }
     })
-    .on("mouseout", function() {
-        if(gcChartIsFullScreen) {
-            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
-        } else {
-            d3.select(".gcChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
-        }
+    .on('mouseout', function() {
+      if (gcChartIsFullScreen) {
+        d3.select('.gcChart .maximize')
+          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      } else {
+        d3.select('.gcChart .maximize')
+          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      }
     });
 
 function resizeGCChart() {
-  if(gcChartIsFullScreen) {
-    canvasWidth = $("#gcDiv").width() - 8; // -8 for margins and borders
+  if (gcChartIsFullScreen) {
+    canvasWidth = $('#gcDiv').width() - 8; // -8 for margins and borders
     graphWidth = canvasWidth - margin.left - margin.right;
-    canvasHeight = $("#gcDiv").height() - 100;
+    canvasHeight = $('#gcDiv').height() - 100;
     graphHeight = canvasHeight - margin.top - margin.bottom;
   }
-    // Redraw placeholder
+  // Redraw placeholder
   gcChartPlaceholder
-    .attr("x", graphWidth / 2)
-    .attr("y", graphHeight / 2)
-
+    .attr('x', graphWidth / 2)
+    .attr('y', graphHeight / 2)
   // Move maximise/minimise button
-  gcResize.attr("x", canvasWidth - 30).attr("y", 4)
-
+  gcResize
+    .attr('x', canvasWidth - 30)
+    .attr('y', 4);
   // Resize the canvas
-  var chart = d3.select(".gcChart");
-  chart.attr("width", canvasWidth).attr("height", canvasHeight);
-    // resize the scale's drawing range
+  var chart = d3.select('.gcChart');
+  chart
+    .attr('width', canvasWidth)
+    .attr('height', canvasHeight);
+  // resize the scale's drawing range
   gc_xScale = d3.time.scale().range([0, graphWidth]);
   gc_yScale = d3.scale.linear().range([graphHeight, 0]);
-    // resize the axes
+  // resize the axes
   gc_xAxis = d3.svg.axis()
     .scale(gc_xScale)
-    .orient("bottom")
+    .orient('bottom')
     .ticks(3)
     .tickFormat(getTimeFormat());
   gc_yAxis = d3.svg.axis()
     .scale(gc_yScale)
-    .orient("left")
+    .orient('left')
     .ticks(8)
     .tickFormat(function(d) {
-      return d3.format(".2s")(d * 1024 * 1024);
-    });
-
-  gcTitleBox.attr("width", canvasWidth);
-
-    // Redraw lines and axes
+      return d3.format('.2s')(d * 1024 * 1024);
+  });
+  gcTitleBox.attr('width', canvasWidth);
+  // Redraw lines and axes
   gc_xScale.domain(d3.extent(gcData, function(d) {
     return d.time;
   }));
   gc_yScale.domain([0, Math.ceil(d3.extent(gcData, function(d) {
     return d.size;
   })[1])]);
-  chart.select(".line1")
-    .attr("d", gc_size_line(gcData));
-  chart.select(".line2")
-    .attr("d", gc_used_line(gcData));
-  chart.select(".xAxis")
-    .attr("transform", "translate(0," + graphHeight + ")")
+  chart.select('.line1')
+    .attr('d', gc_size_line(gcData));
+  chart.select('.line2')
+    .attr('d', gc_used_line(gcData));
+  chart.select('.xAxis')
+    .attr('transform', 'translate(0,' + graphHeight + ')')
     .call(gc_xAxis);
-  chart.select(".yAxis")
+  chart.select('.yAxis')
     .call(gc_yAxis);
-
   // Move labels
-  chart.select(".colourbox1")
-    .attr("y", graphHeight + margin.bottom - 15);
-  chart.select(".lineLabel")
-    .attr("y", graphHeight + margin.bottom - 5);
-  chart.select(".colourbox2")
-    .attr("y", graphHeight + margin.bottom - 15);
-  chart.select(".lineLabel2")
-    .attr("y", graphHeight + margin.bottom - 5);
+  chart.select('.colourbox1')
+    .attr('y', graphHeight + margin.bottom - 15);
+  chart.select('.lineLabel')
+    .attr('y', graphHeight + margin.bottom - 5);
+  chart.select('.colourbox2')
+    .attr('y', graphHeight + margin.bottom - 15);
+  chart.select('.lineLabel2')
+    .attr('y', graphHeight + margin.bottom - 5);
 }
 
 function updateGCData(gcRequest) {
-    gcRequestData = JSON.parse(gcRequest);  // parses the data into a JSON array
-    if (!gcRequestData) return;
+  gcRequestData = JSON.parse(gcRequest);  // parses the data into a JSON array
+  if (!gcRequestData) return;
+  if (gcData.length === 1) {
+    // second data point - remove "No Data Available" label
+    gcChartPlaceholder.attr('visibility', 'hidden');
+  }
 
-    if (gcData.length === 1) {
-            // second data point - remove "No Data Available" label
-      gcChartPlaceholder.attr("visibility", "hidden");
-    }
+  // for (var i = 0, len = gcRequestData.length; i < len; i++) {
+  var d = gcRequestData;// [i];
+  // d.time = new Date(+d.time);
+  // store data in MB from B
+  d.used = +d.used / (1024 * 1024);
+  d.size = +d.size / (1024 * 1024);
+  // round latest data to nearest whole MB
+  // sizeLatest = Math.round(d.size);
+  // usedLatest = Math.round(d.used);
+  gcData.push(d);
+  // }
 
-        // for (var i = 0, len = gcRequestData.length; i < len; i++) {
-    var d = gcRequestData;// [i];
+  // Only keep 'maxTimeWindow' milliseconds (defined in index.html) of data
+  var currentTime = Date.now();
+  var d0 = gcData[0];
+  while (d0.hasOwnProperty('time') && d0.time + maxTimeWindow < currentTime) {
+    gcData.shift();
+    d0 = gcData[0];
+  }
 
-            // d.time = new Date(+d.time);
-            // store data in MB from B
-    d.used = +d.used / (1024 * 1024);
-    d.size = +d.size / (1024 * 1024);
-            // round latest data to nearest whole MB
-    // sizeLatest = Math.round(d.size);
-    // usedLatest = Math.round(d.used);
-    gcData.push(d);
-        // }
+  // Scale the X range to the new data time interval
+  gc_xScale.domain(d3.extent(gcData, function(d) {
+    return d.time;
+  }));
+  // Scale the Y range to the new maximum heap size
+  gc_yScale.domain([0, Math.ceil(d3.extent(gcData, function(d) {
+    return d.size;
+  })[1])]);
 
-        // Only keep 'maxTimeWindow' milliseconds (defined in index.html) of data
-    var currentTime = Date.now();
-    var d0 = gcData[0];
-    while (d0.hasOwnProperty("time") && d0.time + maxTimeWindow < currentTime) {
-      gcData.shift();
-      d0 = gcData[0];
-    }
+  gc_xAxis.tickFormat(getTimeFormat());
 
-        // Scale the X range to the new data time interval
-    gc_xScale.domain(d3.extent(gcData, function(d) {
-      return d.time;
-    }));
-        // Scale the Y range to the new maximum heap size
-    gc_yScale.domain([0, Math.ceil(d3.extent(gcData, function(d) {
-      return d.size;
-    })[1])]);
-
-    gc_xAxis.tickFormat(getTimeFormat());
-
-    var selection = d3.select(".gcChart");
-        // Update the data lines
-    selection.select(".line1")
-        .attr("d", gc_size_line(gcData));
-    selection.select(".line2")
-        .attr("d", gc_used_line(gcData));
-        // Update the axes
-    selection.select(".xAxis")
-        .call(gc_xAxis);
-    selection.select(".yAxis")
-        .call(gc_yAxis);
-        // Update the latest texts
-        // selection.select(".sizelatest")
-        // .text(sizeLatest + "MB");
-        // selection.select(".usedlatest")
-        // .text(usedLatest + "MB");
+  var selection = d3.select('.gcChart');
+  // Update the data lines
+  selection.select('.line1')
+    .attr('d', gc_size_line(gcData));
+  selection.select('.line2')
+    .attr('d', gc_used_line(gcData));
+  // Update the axes
+  selection.select('.xAxis')
+    .call(gc_xAxis);
+  selection.select('.yAxis')
+    .call(gc_yAxis);
+  // Update the latest texts
+  // selection.select(".sizelatest")
+  // .text(sizeLatest + "MB");
+  // selection.select(".usedlatest")
+  // .text(usedLatest + "MB");
 }

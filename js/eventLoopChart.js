@@ -76,7 +76,7 @@ var elSVG = d3.select('#eventLoopDiv')
 var elTitleBox = elSVG.append('rect')
     .attr('width', eventLoopCanvasWidth)
     .attr('height', 30)
-    .attr('class', "titlebox");
+    .attr('class', 'titlebox');
 
 // define the chart canvas
 var elChart = elSVG
@@ -86,12 +86,12 @@ var elChart = elSVG
 
 // Scale the X range to the data's time interval
 el_xScale.domain(d3.extent(elData, function(d) {
-    return d.time;
+  return d.time;
 }));
 
 // Scale the Y range from 0 to the largest maximum latency
 el_yScale.domain([0, Math.ceil(d3.extent(elData, function(d) {
-    return d.latency.max;
+  return d.latency.max;
 })[1] * 1000) / 1000]);
 
 // Draw the max line path.
@@ -211,7 +211,7 @@ var elResize = elSVG.append('image')
     .attr('y', 4)
     .attr('width', 24)
     .attr('height', 24)
-    .attr('xlink:href','graphmetrics/images/maximize_24_grey.png')
+    .attr('xlink:href',' graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
       elChartIsFullScreen = !elChartIsFullScreen;
@@ -222,12 +222,12 @@ var elResize = elSVG.append('image')
         .classed('invisible', false); // remove invisible from this chart
       if (elChartIsFullScreen) {
         d3.select('.elChart .maximize')
-          .attr('xlink:href','graphmetrics/images/minimize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
         // Redraw this chart only
         resizeEventLoopChart();
       } else {
         d3.select('.elChart .maximize')
-          .attr('xlink:href','graphmetrics/images/maximize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
         canvasHeight = 250;
         graphHeight = canvasHeight - margin.top - margin.bottom;
         // Redraw all
@@ -237,87 +237,87 @@ var elResize = elSVG.append('image')
     .on('mouseover', function() {
       if (elChartIsFullScreen) {
         d3.select('.elChart .maximize')
-          .attr('xlink:href','graphmetrics/images/minimize_24.png');
+          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
       } else {
         d3.select('.elChart .maximize')
-          .attr('xlink:href','graphmetrics/images/maximize_24.png');
+          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
       }
     })
     .on('mouseout', function() {
       if (elChartIsFullScreen) {
         d3.select('.elChart .maximize')
-          .attr('xlink:href','graphmetrics/images/minimize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
       } else {
         d3.select('.elChart .maximize')
-          .attr('xlink:href','graphmetrics/images/maximize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
       }
     });
 
 function resizeEventLoopChart() {
-    if (elChartIsFullScreen) {
-      canvasHeight = $('#eventLoopDiv').height() - 100;
-      graphHeight = canvasHeight - margin.top - margin.bottom;
-    }
-    eventLoopCanvasWidth = $('#eventLoopDiv').width() - 8;
-    eventLoopGraphWidth = eventLoopCanvasWidth - margin.left - margin.right;
-    // Redraw placeholder
-    elChartPlaceholder
-      .attr('x', eventLoopGraphWidth / 2)
-      .attr('y', graphHeight / 2);
-    // Move maximise/minimise button
-    elResize
-      .attr('x', eventLoopCanvasWidth - 30)
-      .attr('y', 4);
-    // resize the canvas
-    var chart = d3.select('.elChart');
-    chart
-      .attr('width', eventLoopCanvasWidth)
-      .attr('height', canvasHeight);
-    // resize the scale and axes
-    el_xScale = d3.time.scale().range([0, eventLoopGraphWidth]);
-    el_xAxis = d3.svg.axis()
-      .scale(el_xScale)
-      .orient('bottom')
-      .ticks(3)
-      .tickFormat(getTimeFormat());
-    el_yScale = d3.scale.linear().range([graphHeight, 0]);
-    el_yAxis = d3.svg.axis().scale(el_yScale)
-      .orient('left')
-      .ticks(8)
-      .tickFormat(function(d) {
-        return d + 'ms';
-      });
-    elTitleBox
-      .attr('width', eventLoopCanvasWidth);
-    el_xScale.domain(d3.extent(elData, function(d) {
-        return d.time;
-    }));
-    el_yScale.domain([0, Math.ceil(d3.extent(elData, function(d) {
-        return d.latency.max;
-    })[1] * 1000) / 1000]);
-    // update the data lines
-    chart.select('.line1')
-      .attr('d', el_max_line(elData));
-    chart.select('.line2')
-      .attr('d', el_min_line(elData));
-    chart.select('.line3')
-      .attr('d', el_avg_line(elData));
-    // update the axes
-    chart.select('.xAxis')
-      .attr('transform', 'translate(0,' + graphHeight + ')')
-      .call(el_xAxis);
-    chart.select('.yAxis')
-      .call(el_yAxis);
+  if (elChartIsFullScreen) {
+    canvasHeight = $('#eventLoopDiv').height() - 100;
+    graphHeight = canvasHeight - margin.top - margin.bottom;
+  }
+  eventLoopCanvasWidth = $('#eventLoopDiv').width() - 8;
+  eventLoopGraphWidth = eventLoopCanvasWidth - margin.left - margin.right;
+  // Redraw placeholder
+  elChartPlaceholder
+    .attr('x', eventLoopGraphWidth / 2)
+    .attr('y', graphHeight / 2);
+  // Move maximise/minimise button
+  elResize
+    .attr('x', eventLoopCanvasWidth - 30)
+    .attr('y', 4);
+  // resize the canvas
+  var chart = d3.select('.elChart');
+  chart
+    .attr('width', eventLoopCanvasWidth)
+    .attr('height', canvasHeight);
+  // resize the scale and axes
+  el_xScale = d3.time.scale().range([0, eventLoopGraphWidth]);
+  el_xAxis = d3.svg.axis()
+    .scale(el_xScale)
+    .orient('bottom')
+    .ticks(3)
+    .tickFormat(getTimeFormat());
+  el_yScale = d3.scale.linear().range([graphHeight, 0]);
+  el_yAxis = d3.svg.axis().scale(el_yScale)
+    .orient('left')
+    .ticks(8)
+    .tickFormat(function(d) {
+      return d + 'ms';
+    });
+  elTitleBox
+    .attr('width', eventLoopCanvasWidth);
+  el_xScale.domain(d3.extent(elData, function(d) {
+    return d.time;
+  }));
+  el_yScale.domain([0, Math.ceil(d3.extent(elData, function(d) {
+    return d.latency.max;
+  })[1] * 1000) / 1000]);
+  // update the data lines
+  chart.select('.line1')
+    .attr('d', el_max_line(elData));
+  chart.select('.line2')
+    .attr('d', el_min_line(elData));
+  chart.select('.line3')
+    .attr('d', el_avg_line(elData));
+  // update the axes
+  chart.select('.xAxis')
+    .attr('transform', 'translate(0,' + graphHeight + ')')
+    .call(el_xAxis);
+  chart.select('.yAxis')
+    .call(el_yAxis);
 
-    // Move labels
-    chart.selectAll('lineLabel')
-      .attr('y', graphHeight + margin.bottom - 5);
-    chart.select('.colourbox1')
-      .attr('y', graphHeight + margin.bottom - 15);
-    chart.select('.colourbox2')
-      .attr('y', graphHeight + margin.bottom - 15);
-    chart.select('.colourbox3')
-      .attr('y', graphHeight + margin.bottom - 15);
+  // Move labels
+  chart.selectAll('lineLabel')
+    .attr('y', graphHeight + margin.bottom - 5);
+  chart.select('.colourbox1')
+    .attr('y', graphHeight + margin.bottom - 15);
+  chart.select('.colourbox2')
+    .attr('y', graphHeight + margin.bottom - 15);
+  chart.select('.colourbox3')
+    .attr('y', graphHeight + margin.bottom - 15);
 }
 
 function updateEventLoopData(elRequest) {

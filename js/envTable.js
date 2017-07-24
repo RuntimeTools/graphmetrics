@@ -54,7 +54,7 @@ var envResize = envSVG.append('image')
     .attr('y', 4)
     .attr('width', 24)
     .attr('height', 24)
-    .attr('xlink:href','graphmetrics/images/maximize_24_grey.png')
+    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
       envTableIsFullScreen = !envTableIsFullScreen;
@@ -64,12 +64,12 @@ var envResize = envSVG.append('image')
         .classed('invisible', false); // remove invisible from this chart
       if (envTableIsFullScreen) {
         d3.select('.envData .maximize')
-          .attr('xlink:href','graphmetrics/images/minimize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
         // Redraw this chart only
         resizeEnvTable();
       } else {
         d3.select('.envData .maximize')
-          .attr('xlink:href','graphmetrics/images/maximize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
         canvasHeight = 250;
         // Redraw all
         resize();
@@ -78,66 +78,65 @@ var envResize = envSVG.append('image')
     .on('mouseover', function() {
       if (envTableIsFullScreen) {
         d3.select('.envData .maximize')
-          .attr('xlink:href','graphmetrics/images/minimize_24.png');
+          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
       } else {
         d3.select('.envData .maximize')
-          .attr('xlink:href','graphmetrics/images/maximize_24.png');
+          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
       }
     })
     .on('mouseout', function() {
       if (envTableIsFullScreen) {
         d3.select('.envData .maximize')
-          .attr('xlink:href','graphmetrics/images/minimize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
       } else {
         d3.select('.envData .maximize')
-          .attr('xlink:href','graphmetrics/images/maximize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
       }
     });
 
 function populateEnvTable(envRequestData) {
-    envData = JSON.parse(envRequestData);
-    if (envData == null) return;
+  envData = JSON.parse(envRequestData);
+  if (envData == null) return;
+  function tabulate(data) {
+  // create a row for each object in the data
+    var rows = paragraph.selectAll('text')
+      .data(data)
+      .enter()
+      .append('text')
+      .style('font-size', '14px')
+      .attr('transform', function(d, i) {
+        return 'translate(0,' + (i * tableRowHeight) + ')';
+      });
 
-    function tabulate(data) {
-      // create a row for each object in the data
-      var rows = paragraph.selectAll('text')
-        .data(data)
-        .enter()
-        .append('text')
-        .style('font-size', '14px')
-        .attr('transform', function(d, i) {
-          return 'translate(0,' + (i * tableRowHeight) + ')';
+    // create a cell in each row for each column
+    var cells = rows.selectAll('tspan')
+      .data(function (row) {
+        return ['Parameter', 'Value'].map(function (column) {
+          return {column: column, value: row[column]};
         });
-
-      // create a cell in each row for each column
-      var cells = rows.selectAll('tspan')
-        .data(function (row) {
-          return ['Parameter', 'Value'].map(function (column) {
-            return {column: column, value: row[column]};
-          });
-        })
-        .enter()
-        .append('tspan')
-        .attr('x', function(d, i) {
-          return i * tableRowWidth; // indent second element for each row
-        })
-        .text(function (d) { return d.value; });
-    }
-    // render the table(s)
-    tabulate(envData); // 2 column table
+      })
+      .enter()
+      .append('tspan')
+      .attr('x', function(d, i) {
+        return i * tableRowWidth; // indent second element for each row
+      })
+      .text(function (d) { return d.value; });
+  }
+  // render the table(s)
+  tabulate(envData); // 2 column table
 }
 
 function resizeEnvTable() {
-    envDivCanvasWidth = $('#envDiv').width() - 8; // -8 for margins and borders
+  envDivCanvasWidth = $('#envDiv').width() - 8; // -8 for margins and borders
 	if (envTableIsFullScreen) {
-      canvasHeight = $('#envDiv').height() - 100;
-    }
-    envResize
-      .attr('x', envDivCanvasWidth - 30)
-      .attr('y', 4);
-    envSVG
-      .attr('width', envDivCanvasWidth)
-      .attr('height', canvasHeight);
-    envTitleBox
-      .attr('width', envDivCanvasWidth);
+    canvasHeight = $('#envDiv').height() - 100;
+  }
+  envResize
+    .attr('x', envDivCanvasWidth - 30)
+    .attr('y', 4);
+  envSVG
+    .attr('width', envDivCanvasWidth)
+    .attr('height', canvasHeight);
+  envTitleBox
+    .attr('width', envDivCanvasWidth);
 }
