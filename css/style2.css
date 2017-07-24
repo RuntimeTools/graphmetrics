@@ -231,6 +231,17 @@
         stroke-width: 1px;
     }
 
+    .invisible {
+        display: none;
+    }
+
+    .fullscreen {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+    }
+
     .heapDumppopup {
         display: none; /* Hidden by default */
         position: fixed; /* Stay in place */

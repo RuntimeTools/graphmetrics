@@ -173,39 +173,121 @@ function updateHttpOBData(httpOutboundRequest) {
     }
 }
 
+var httpOBChartIsFullScreen = false;
+
+// Add the maximise/minimise button
+var httpOBResize = httpOBSVG.append("image")
+    .attr("x", httpCanvasWidth - 30)
+    .attr("y", 4)
+    .attr("width", 24)
+    .attr("height", 24)
+    .attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+    .attr("class", "maximize")
+    .on("click", function(){
+        httpOBChartIsFullScreen = !httpOBChartIsFullScreen
+        d3.selectAll(".hideable").classed("invisible", httpOBChartIsFullScreen);
+        d3.select("#httpOBDiv").classed("fullscreen", httpOBChartIsFullScreen)
+            .classed("invisible", false); // remove invisible from this chart
+        if(httpOBChartIsFullScreen) {
+            d3.select(".httpOBChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+            // Redraw this chart only
+            resizeHttpOBChart();
+        } else {
+            d3.select(".httpOBChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+            canvasHeight = 250;
+            tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
+            // Redraw all
+            resize();
+        }
+    })
+    .on("mouseover", function() {
+        if(httpOBChartIsFullScreen) {
+            d3.select(".httpOBChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24.png")
+        } else {
+            d3.select(".httpOBChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24.png")
+        }
+    })
+    .on("mouseout", function() {
+        if(httpOBChartIsFullScreen) {
+            d3.select(".httpOBChart .maximize").attr("xlink:href","graphmetrics/images/minimize_24_grey.png")
+        } else {
+            d3.select(".httpOBChart .maximize").attr("xlink:href","graphmetrics/images/maximize_24_grey.png")
+        }
+    });
+
+
 function resizeHttpOBChart() {
-  var chart = d3.select(".httpOBChart");
-  chart.attr("width", httpCanvasWidth);
-  httpOB_xScale = d3.time.scale()
-    .range([0, httpGraphWidth]);
-  httpOB_xAxis = d3.svg.axis()
-    .scale(httpOB_xScale)
-    .orient("bottom")
-    .ticks(3);
 
-  httpOB_xScale.domain(d3.extent(httpOBData, function(d) {
-    return d.time;
-  }));
+    httpCanvasWidth = $("#httpOBDiv").width() - 8; // -8 for margins and borders
+    httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
+    if(httpOBChartIsFullScreen) {
+        canvasHeight = $("#httpOBDiv").height() - 100;
+        tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
+    }
+    // Redraw placeholder
+    httpOBChartPlaceholder
+        .attr("x", httpGraphWidth / 2)
+        .attr("y", tallerGraphHeight / 2)
 
-  httpOBTitleBox.attr("width", httpCanvasWidth);
+    httpOBResize.attr("x", httpCanvasWidth - 30).attr("y", 4);
 
-  chart.selectAll("circle").remove();
+    var chart = d3.select(".httpOBChart");
+    chart.attr("width", httpCanvasWidth)
+        .attr("height", canvasHeight);
+    httpOB_xScale = d3.time.scale()
+        .range([0, httpGraphWidth]);
+    httpOB_xAxis = d3.svg.axis()
+        .scale(httpOB_xScale)
+        .orient("bottom")
+        .ticks(3);
+    httpOB_yScale = d3.scale.linear().range([tallerGraphHeight, 0]);
+    httpOB_yAxis = d3.svg.axis()
+        .scale(httpOB_yScale)
+        .orient("left")
+        .ticks(5)
+        .tickFormat(function(d) {
+          return d + "ms";
+        });
 
-  chart.select(".httpline")
-    .attr("d", httpOBline(httpOBData));
-  chart.select(".xAxis")
-    .call(httpOB_xAxis);
-  chart.select(".yAxis")
-    .call(httpOB_yAxis);
-  chart.selectAll("point")
-    .data(httpOBData)
-    .enter().append("circle")
-    .attr("r", 4)
-    .style("fill", "#5aaafa")
-    .style("stroke", "white")
-    .attr("transform",
+    httpOB_xScale.domain(d3.extent(httpOBData, function(d) {
+        return d.time;
+    }));
+
+    httpOB_yScale.domain([0, d3.max(httpOBData, function(d) {
+        return d.longest;
+    })]);
+
+    httpOBTitleBox.attr("width", httpCanvasWidth);
+
+    chart.selectAll("circle").remove();
+
+    chart.select(".httpline")
+        .attr("d", httpOBline(httpOBData));
+    chart.select(".xAxis")
+        .attr("transform", "translate(0," + tallerGraphHeight + ")")
+        .call(httpOB_xAxis);
+    chart.select(".yAxis")
+        .call(httpOB_yAxis);
+    chart.selectAll("point")
+        .data(httpOBData)
+        .enter().append("circle")
+        .attr("r", 4)
+        .style("fill", "#5aaafa")
+        .style("stroke", "white")
+        .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")")
             .attr("cx", function(d) { return httpOB_xScale(d.time); })
             .attr("cy", function(d) { return httpOB_yScale(d.longest); })
-            .append("svg:title").text(function(d) { return d.url; });
+            .append("svg:title").text(function(d) { // tooltip
+                if(d.total === 1) {
+                    return d.url
+                } else {
+                    return d.total
+                     + " requests\n average duration = "
+                     + d3.format(".2s")(d.average/1000)
+                     + "s\n longest duration = "
+                     +  d3.format(".2s")(d.longest/1000)
+                     + "s for URL: " + d.url;
+                }
+            });
 }
