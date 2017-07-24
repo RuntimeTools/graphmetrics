@@ -5,12 +5,14 @@
     "node": ">=4"
   },
   "description": "Graphing package used in runtime dashboards",
+  "dependencies": {
+  }
   "devDependencies": {
     "appmetrics": "^3.0.1",
     "debug": "^2.6.0",
     "express": "^4.14.1",
     "express-basic-auth": "^1.0.1",
-    "socket.io": "^1.7.2"
+    "socket.io": "^1.7.2",
     "codecov": "^2.1.0",
     "compression": "^1.6.2",
     "cors": "^2.8.1",
