@@ -279,8 +279,8 @@ function updateMemData(memRequest) {
     memChartPlaceholder.attr('visibility', 'hidden');
   }
   // Only keep 30 minutes of data
-	var currentTime = Date.now();
-	var d0 = memData[0];
+  var currentTime = Date.now();
+  var d0 = memData[0];
   if (d0 === null) return;
   while (d0.hasOwnProperty('date') && d0.date.valueOf() + maxTimeWindow < currentTime) {
     memData.shift();

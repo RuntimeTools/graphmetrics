@@ -1,7 +1,7 @@
 {
   "extends": "strongloop",
   "env": {
-    "node": true
+    "browser": true
   },
   "parserOptions": { "ecmaVersion": 6 },
   "rules": {
@@ -9,5 +9,21 @@
     "max-len": ["error", 120, 8, {"ignoreComments": true}],
     "comma-dangle": "off",
     "spaced-comment": ["error", "always", { "exceptions": ["*"] }]
+  }
+  "globals": {
+    "d3": false,
+    "getTimeFormat": false,
+    "canvasWidth": true,
+    "canvasHeight": true,
+    "margin": true,
+    "graphWidth": true,
+    "graphHeight": true,
+    "monitoringStartTime": false,
+    "maxTimeWindow": false,
+    "httpCanvasWidth": true,
+    "httpGraphWidth": true,
+    "tallerGraphHeight": true,
+    "myurl": false,
+    "socket": false
   }
 }
