@@ -169,7 +169,7 @@ var gcResize = gcSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      gcChartIsFullScreen = !gcChartIsFullScreen
+      gcChartIsFullScreen = !gcChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', gcChartIsFullScreen);
       d3.select('#gcDiv')
@@ -220,7 +220,7 @@ function resizeGCChart() {
   // Redraw placeholder
   gcChartPlaceholder
     .attr('x', graphWidth / 2)
-    .attr('y', graphHeight / 2)
+    .attr('y', graphHeight / 2);
   // Move maximise/minimise button
   gcResize
     .attr('x', canvasWidth - 30)
@@ -245,7 +245,7 @@ function resizeGCChart() {
     .ticks(8)
     .tickFormat(function(d) {
       return d3.format('.2s')(d * 1024 * 1024);
-  });
+    });
   gcTitleBox.attr('width', canvasWidth);
   // Redraw lines and axes
   gc_xScale.domain(d3.extent(gcData, function(d) {

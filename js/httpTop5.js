@@ -15,7 +15,7 @@
  ******************************************************************************/
 
 // Bar chart for top 5 URLs by average request time
-var httpAverages = new Object;
+var httpAverages = {};
 var httpTop5Data = [];
 
 var httpTop5_barHeight = tallerGraphHeight / 5;
@@ -55,14 +55,14 @@ var httpTop5ChartPlaceholder = httpTop5Chart.append('text')
     .text(object.NoDataMsg);
 
 function convertURL(url, httpDiv3GraphWidth) {
-  var stringToDisplay = url.toString()
+  var stringToDisplay = url.toString();
   if (stringToDisplay.startsWith('http://' + myurl)) {
-    stringToDisplay = stringToDisplay.substring(myurl.length + 7)
+    stringToDisplay = stringToDisplay.substring(myurl.length + 7);
   }
   // Do a rough calculation to find out whether the URL will need more space than is available and truncate if it does
-  var stringLength = stringToDisplay.length
-  var charSpaceAvailable = Math.floor(httpDiv3GraphWidth/8) // allow 8 pixels per character (higher than needed but allows space for the time at the end)
-  if(stringLength > charSpaceAvailable) {
+  var stringLength = stringToDisplay.length;
+  var charSpaceAvailable = Math.floor(httpDiv3GraphWidth / 8); // allow 8 pixels per character (higher than needed but allows space for the time at the end)
+  if (stringLength > charSpaceAvailable) {
     stringToDisplay = '...' + stringToDisplay.substring(stringLength - charSpaceAvailable - 3);
   }
   return stringToDisplay;
@@ -79,7 +79,7 @@ var httpTop5Resize = httpTop5SVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      httpTop5ChartIsFullScreen = !httpTop5ChartIsFullScreen
+      httpTop5ChartIsFullScreen = !httpTop5ChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', httpTop5ChartIsFullScreen);
       d3.select('#httpDiv3')
@@ -102,7 +102,7 @@ var httpTop5Resize = httpTop5SVG.append('image')
       }
     })
     .on('mouseover', function() {
-      if(httpTop5ChartIsFullScreen) {
+      if (httpTop5ChartIsFullScreen) {
         d3.select('.httpTop5Chart .maximize')
           .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
       } else {
@@ -111,7 +111,7 @@ var httpTop5Resize = httpTop5SVG.append('image')
       }
     })
     .on('mouseout', function() {
-      if(httpTop5ChartIsFullScreen) {
+      if (httpTop5ChartIsFullScreen) {
         d3.select('.httpTop5Chart .maximize')
           .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
       } else {
@@ -123,8 +123,8 @@ var httpTop5Resize = httpTop5SVG.append('image')
 function updateChart() {
   httpTop5_xScale.domain([0, d3.max(httpTop5Data, function(d) {
     return d.averageResponseTime;
-  })])
-  var bars = d3.select('.httpTop5Chart').selectAll('.bar')
+  })]);
+  d3.select('.httpTop5Chart').selectAll('.bar')
     .remove();
   var bar = d3.select('.httpTop5Chart').selectAll('.bar')
     .data(httpTop5Data)
@@ -149,7 +149,7 @@ function updateChart() {
     .attr('dy', '.35em')
     .attr('fill', 'white')
     .text(function(d) {
-      return convertURL(d.url, httpDiv3GraphWidth)
+      return convertURL(d.url, httpDiv3GraphWidth);
     });
   bar.append('text')
     .attr('x', httpDiv3GraphWidth - 2)
@@ -161,7 +161,8 @@ function updateChart() {
       return d3.format(',.2f')(d.averageResponseTime) + 'ms';
     });
   // Tooltip
-  bar.append('svg:title').text(function(d) {return d.url;});
+  bar.append('svg:title')
+    .text(function(d) { return d.url; });
 }
 
 updateChart();
@@ -184,7 +185,7 @@ function updateHttpAverages(workingData) {
 }
 
 function updateURLData(data) {
-  if(httpTop5Data.length == 0) {
+  if (httpTop5Data.length == 0) {
     // first data - remove "No Data Available" label
     httpTop5ChartPlaceholder.attr('visibility', 'hidden');
   }
@@ -193,7 +194,7 @@ function updateURLData(data) {
 }
 
 function resizeHttpTop5Chart() {
-  if(httpTop5ChartIsFullScreen) {
+  if (httpTop5ChartIsFullScreen) {
     canvasHeight= $('#httpDiv3').height() - 100;
   }
   httpDiv3CanvasWidth = $('#httpDiv3').width() - 8;

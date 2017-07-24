@@ -110,8 +110,8 @@ function populateEnvTable(envRequestData) {
 
     // create a cell in each row for each column
     var cells = rows.selectAll('tspan')
-      .data(function (row) {
-        return ['Parameter', 'Value'].map(function (column) {
+      .data(function(row) {
+        return ['Parameter', 'Value'].map(function(column) {
           return {column: column, value: row[column]};
         });
       })
@@ -120,7 +120,7 @@ function populateEnvTable(envRequestData) {
       .attr('x', function(d, i) {
         return i * tableRowWidth; // indent second element for each row
       })
-      .text(function (d) { return d.value; });
+      .text(function(d) { return d.value; });
   }
   // render the table(s)
   tabulate(envData); // 2 column table
@@ -128,7 +128,7 @@ function populateEnvTable(envRequestData) {
 
 function resizeEnvTable() {
   envDivCanvasWidth = $('#envDiv').width() - 8; // -8 for margins and borders
-	if (envTableIsFullScreen) {
+  if (envTableIsFullScreen) {
     canvasHeight = $('#envDiv').height() - 100;
   }
   envResize

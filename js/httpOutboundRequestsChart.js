@@ -179,7 +179,7 @@ var httpOBResize = httpOBSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      httpOBChartIsFullScreen = !httpOBChartIsFullScreen
+      httpOBChartIsFullScreen = !httpOBChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', httpOBChartIsFullScreen);
       d3.select('#httpOBDiv')
@@ -209,7 +209,7 @@ var httpOBResize = httpOBSVG.append('image')
       }
     })
     .on('mouseout', function() {
-      if(httpOBChartIsFullScreen) {
+      if (httpOBChartIsFullScreen) {
         d3.select('.httpOBChart .maximize')
           .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
       } else {
@@ -235,7 +235,7 @@ function resizeHttpOBChart() {
   var chart = d3.select('.httpOBChart');
   chart
     .attr('width', httpCanvasWidth)
-    .attr("height", canvasHeight);
+    .attr('height', canvasHeight);
   httpOB_xScale = d3.time.scale()
     .range([0, httpGraphWidth]);
   httpOB_xAxis = d3.svg.axis()
@@ -279,14 +279,14 @@ function resizeHttpOBChart() {
     .attr('cx', function(d) { return httpOB_xScale(d.time); })
     .attr('cy', function(d) { return httpOB_yScale(d.longest); })
     .append('svg:title').text(function(d) { // tooltip
-      if(d.total === 1) {
+      if (d.total === 1) {
         return d.url;
       } else {
         return d.total
         + ' requests\n average duration = '
-        + d3.format('.2s')(d.average/1000)
+        + d3.format('.2s')(d.average / 1000)
         + 's\n longest duration = '
-        +  d3.format('.2s')(d.longest/1000)
+        + d3.format('.2s')(d.longest / 1000)
         + 's for URL: ' + d.url;
       }
     });

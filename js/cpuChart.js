@@ -197,7 +197,7 @@ var cpuResize = cpuSVG.append('image')
           .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
       } else {
         d3.select('.cpuChart .maximize')
-          .attr('xlink:href','graphmetrics/images/maximize_24_grey.png');
+          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
       }
     });
 

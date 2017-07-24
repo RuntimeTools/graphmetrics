@@ -32,13 +32,11 @@ var mem_yAxis = d3.svg.axis()
     .orient('left')
     .ticks(8)
     .tickFormat(function(d) {
-      return d3.format('.2s')(d * 1024 *1024);
+      return d3.format('.2s')(d * 1024 * 1024);
     });
 
 // Memory data storage
 var memData = [];
-var memProcessLatest = 0;
-var memSystemLatest = 0;
 
 // Set input domain for both x and y scales
 mem_xScale.domain(d3.extent(memData, function(d) {
@@ -53,7 +51,7 @@ mem_yScale.domain([0, Math.ceil(d3.extent(memData, function(d) {
 // Define the process memory line
 var mem_processLine = d3.svg.line()
     .x(function(d) {
-      return  mem_xScale(d.date);
+      return mem_xScale(d.date);
     })
     .y(function(d) {
       return mem_yScale(d.process);
@@ -165,7 +163,7 @@ var memResize = memSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      memChartIsFullScreen = !memChartIsFullScreen
+      memChartIsFullScreen = !memChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', memChartIsFullScreen);
       d3.select('#memDiv1')
@@ -273,23 +271,23 @@ function updateMemData(memRequest) {
   if (!data) return;
   var d = data;
   d.date = new Date(+d.time);
-  d.system  = +d.physical_used  / (1024 * 1024);
-  d.process  = +d.physical  / (1024 * 1024);
+  d.system = +d.physical_used / (1024 * 1024);
+  d.process = +d.physical / (1024 * 1024);
   var _memProcessLatest = Math.round(d.process);
   memProcessLatest = _memProcessLatest;
   memSystemLatest = Math.round(d.system);
-  memData.push(d)
-  if(memData.length === 2) {
+  memData.push(d);
+  if (memData.length === 2) {
     // second data point - remove "No Data Available" label
     memChartPlaceholder.attr('visibility', 'hidden');
   }
   // Only keep 30 minutes of data
-	var currentTime = Date.now()
-	var d0 = memData[0]
-	if (d0 === null) return;
+	var currentTime = Date.now();
+	var d0 = memData[0];
+  if (d0 === null) return;
   while (d0.hasOwnProperty('date') && d0.date.valueOf() + maxTimeWindow < currentTime) {
-    memData.shift()
-    d0 = memData[0]
+    memData.shift();
+    d0 = memData[0];
   }
   // Set the input domain for the axes
   mem_xScale.domain(d3.extent(memData, function(d) {

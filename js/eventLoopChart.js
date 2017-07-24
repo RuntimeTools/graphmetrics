@@ -211,7 +211,7 @@ var elResize = elSVG.append('image')
     .attr('y', 4)
     .attr('width', 24)
     .attr('height', 24)
-    .attr('xlink:href',' graphmetrics/images/maximize_24_grey.png')
+    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
       elChartIsFullScreen = !elChartIsFullScreen;
@@ -321,47 +321,47 @@ function resizeEventLoopChart() {
 }
 
 function updateEventLoopData(elRequest) {
-    elRequestData = JSON.parse(elRequest);  // parses the data into a JSON array
-    if (!elRequestData) return;
-    var d = elRequestData;
-    d.time = new Date(+d.time);
-    d.latency.min = +d.latency.min;
-    d.latency.max = +d.latency.max;
-    d.latency.avg = +d.latency.avg;
-    // round the latest data to the nearest thousandth
-    elData.push(d);
+  elRequestData = JSON.parse(elRequest);  // parses the data into a JSON array
+  if (!elRequestData) return;
+  var d = elRequestData;
+  d.time = new Date(+d.time);
+  d.latency.min = +d.latency.min;
+  d.latency.max = +d.latency.max;
+  d.latency.avg = +d.latency.avg;
+  // round the latest data to the nearest thousandth
+  elData.push(d);
 
-    if (elData.length === 2) {
-      // second data point - remove "No Data Available" label
-      elChartPlaceholder.attr('visibility', 'hidden');
-    }
-    // Only keep 'maxTimeWindow' (defined in index.html) milliseconds of data
-    var currentTime = Date.now();
-    var first = elData[0];
-    while (first.hasOwnProperty('time') && first.time + maxTimeWindow < currentTime) {
-      elData.shift();
-      first = elData[0];
-    }
-    // Re-scale the X range to the new data time interval
-    el_xScale.domain(d3.extent(elData, function(d) {
-      return d.time;
-    }));
-    // Re-scale the Y range to the new largest max latency
-    el_yScale.domain([0, Math.ceil(d3.extent(elData, function(d) {
-      return d.latency.max;
-    })[1] * 1000) / 1000]);
-    el_xAxis.tickFormat(getTimeFormat());
-    var selection = d3.select('.elChart');
-    // update the data lines
-    selection.select('.line1')
-      .attr('d', el_max_line(elData));
-    selection.select('.line2')
-      .attr('d', el_min_line(elData));
-    selection.select('.line3')
-      .attr('d', el_avg_line(elData));
-    // update the axes
-    selection.select('.xAxis')
-      .call(el_xAxis);
-    selection.select('.yAxis')
-      .call(el_yAxis);
+  if (elData.length === 2) {
+    // second data point - remove "No Data Available" label
+    elChartPlaceholder.attr('visibility', 'hidden');
+  }
+  // Only keep 'maxTimeWindow' (defined in index.html) milliseconds of data
+  var currentTime = Date.now();
+  var first = elData[0];
+  while (first.hasOwnProperty('time') && first.time + maxTimeWindow < currentTime) {
+    elData.shift();
+    first = elData[0];
+  }
+  // Re-scale the X range to the new data time interval
+  el_xScale.domain(d3.extent(elData, function(d) {
+    return d.time;
+  }));
+  // Re-scale the Y range to the new largest max latency
+  el_yScale.domain([0, Math.ceil(d3.extent(elData, function(d) {
+    return d.latency.max;
+  })[1] * 1000) / 1000]);
+  el_xAxis.tickFormat(getTimeFormat());
+  var selection = d3.select('.elChart');
+  // update the data lines
+  selection.select('.line1')
+    .attr('d', el_max_line(elData));
+  selection.select('.line2')
+    .attr('d', el_min_line(elData));
+  selection.select('.line3')
+    .attr('d', el_avg_line(elData));
+  // update the axes
+  selection.select('.xAxis')
+    .call(el_xAxis);
+  selection.select('.yAxis')
+    .call(el_yAxis);
 }

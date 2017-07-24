@@ -30,7 +30,7 @@ var http_yAxis = d3.svg.axis()
     .orient('left')
     .ticks(5)
     .tickFormat(function(d) {
-        return d + "ms";
+      return d + 'ms';
     });
 
 var mouseOverHttpGraph = false;
@@ -102,39 +102,39 @@ function updateHttpData(httpRequest) {
   var httpLength = httpData.length;
   // Send data to throughput chart so as not to duplicate requests
   updateThroughPutData(httpRequestData);
-  httpRequestData.longest = parseFloat(httpRequestData.longest)
-  httpRequestData.average = parseFloat(httpRequestData.average)
-  httpRequestData.time = parseInt(httpRequestData.time)
-  httpRequestData.total = parseInt(httpRequestData.total)
-  if(httpRequestData.total > 0) {
+  httpRequestData.longest = parseFloat(httpRequestData.longest);
+  httpRequestData.average = parseFloat(httpRequestData.average);
+  httpRequestData.time = parseInt(httpRequestData.time);
+  httpRequestData.total = parseInt(httpRequestData.total);
+  if (httpRequestData.total > 0) {
     if (httpLength === 0) {
       // first data - remove "No Data Available" label
       httpChartPlaceholder.attr('visibility', 'hidden');
     }
     // Check to see if the request started before previous request(s)
-    if (httpLength > 0 && (httpRequestData.time < httpData[httpLength-1].time)) {
+    if (httpLength > 0 && (httpRequestData.time < httpData[httpLength - 1].time)) {
       var i = httpLength - 1;
       while (i >= 0 && httpRequestData.time < httpData[i].time) {
         i--;
       }
       // Insert the data into the right place
-      httpData.splice(i+1, 0, httpRequestData);
+      httpData.splice(i + 1, 0, httpRequestData);
     } else {
       httpData.push(httpRequestData);
     }
   }
-  if(httpData.length === 0) return;
+  if (httpData.length === 0) return;
   // Only keep 'maxTimeWindow' amount of data
-  let currentTime = Date.now()
-  var startTime = monitoringStartTime.getTime()
+  let currentTime = Date.now();
+  var startTime = monitoringStartTime.getTime();
   if (startTime + maxTimeWindow < currentTime) {
-    startTime = currentTime - maxTimeWindow
+    startTime = currentTime - maxTimeWindow;
   }
-  if(httpData.length > 1) {
-    var d0 = httpData[0]
+  if (httpData.length > 1) {
+    var d0 = httpData[0];
     while (d0.hasOwnProperty('time') && d0.time < startTime) {
-      httpData.shift()
-      d0 = httpData[0]
+      httpData.shift();
+      d0 = httpData[0];
     }
   }
   // Don't redraw graph if mouse is over it (keeps it still for tooltips)
@@ -169,14 +169,14 @@ function updateHttpData(httpRequest) {
       .attr('cx', function(d) { return http_xScale(d.time); })
       .attr('cy', function(d) { return http_yScale(d.longest); })
       .append('svg:title').text(function(d) { // tooltip
-        if(d.total === 1) {
+        if (d.total === 1) {
           return d.url;
         } else {
           return d.total
           + ' requests\n average duration = '
-          + d3.format('.2s')(d.average/1000)
+          + d3.format('.2s')(d.average / 1000)
           + 's\n longest duration = '
-          +  d3.format('.2s')(d.longest/1000)
+          + d3.format('.2s')(d.longest / 1000)
           + 's for URL: ' + d.url;
         }
       });
@@ -194,7 +194,7 @@ var httpResize = httpSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      httpChartIsFullScreen = !httpChartIsFullScreen
+      httpChartIsFullScreen = !httpChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', httpChartIsFullScreen);
       d3.select('#httpDiv1')
@@ -236,7 +236,7 @@ var httpResize = httpSVG.append('image')
 function resizeHttpChart() {
   httpCanvasWidth = $('#httpDiv1').width() - 8; // -8 for margins and borders
   httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
-  if(httpChartIsFullScreen) {
+  if (httpChartIsFullScreen) {
     canvasHeight = $('#httpDiv1').height() - 100;
     tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
   }
@@ -267,10 +267,10 @@ function resizeHttpChart() {
       return d + 'ms';
     });
   httpTitleBox.attr('width', httpCanvasWidth);
-  let currentTime = Date.now()
-  var startTime = monitoringStartTime.getTime()
+  let currentTime = Date.now();
+  var startTime = monitoringStartTime.getTime();
   if (startTime + maxTimeWindow < currentTime) {
-    startTime = currentTime - maxTimeWindow
+    startTime = currentTime - maxTimeWindow;
   }
   http_xScale.domain([startTime, currentTime]);
   http_yScale.domain([0, d3.max(httpData, function(d) {
@@ -296,14 +296,14 @@ function resizeHttpChart() {
     .attr('cx', function(d) { return http_xScale(d.time); })
     .attr('cy', function(d) { return http_yScale(d.longest); })
     .append('svg:title').text(function(d) { // tooltip
-      if(d.total === 1) {
-        return d.url
+      if (d.total === 1) {
+        return d.url;
       } else {
         return d.total
         + ' requests\n average duration = '
-        + d3.format('.2s')(d.average/1000)
+        + d3.format('.2s')(d.average / 1000)
         + 's\n longest duration = '
-        +  d3.format('.2s')(d.longest/1000)
+        + d3.format('.2s')(d.longest / 1000)
         + 's for URL: ' + d.url;
       }
     });

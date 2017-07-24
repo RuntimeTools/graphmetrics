@@ -32,7 +32,7 @@ var mempools_yAxis = d3.svg.axis()
     .orient('left')
     .ticks(8)
     .tickFormat(function(d) {
-      return d3.format('.2s')(d * 1024 *1024);
+      return d3.format('.2s')(d * 1024 * 1024);
     });
 
 // mempoolsory data storage
@@ -51,7 +51,7 @@ mempools_yScale.domain([0, Math.ceil(d3.extent(mempoolsData, function(d) {
 // Define the used heap  line
 var mempools_usedHeapLine = d3.svg.line()
     .x(function(d) {
-      return  mempools_xScale(d.date);
+      return mempools_xScale(d.date);
     })
     .y(function(d) {
       return mempools_yScale(d.used);
@@ -66,7 +66,7 @@ var mempools_usedNonHeapLine = d3.svg.line()
       return mempools_yScale(d.native);
     });
 
-//Define the total used memory line
+// Define the total used memory line
 var mempools_totalUsedLine = d3.svg.line()
     .x(function(d) {
       return mempools_xScale(d.date);
@@ -75,7 +75,7 @@ var mempools_totalUsedLine = d3.svg.line()
       return mempools_yScale(d.total);
     });
 
-//Define the used heap after gc line
+// Define the used heap after gc line
 var mempools_usedHeapAfterGCLine = d3.svg.line()
     .x(function(d) {
       return mempools_xScale(d.date);
@@ -112,12 +112,12 @@ mempoolsChart.append('path')
     .attr('class', 'usedNonHeapLine')
     .attr('d', mempools_usedNonHeapLine(mempoolsData));
 
-//Add the process line path.
+// Add the process line path.
 mempoolsChart.append('path')
     .attr('class', 'totalUsedLine')
     .attr('d', mempools_totalUsedLine(mempoolsData));
 
-//Add the used after gc path.
+// Add the used after gc path.
 mempoolsChart.append('path')
     .attr('class', 'usedHeapAfterGCLine')
     .attr('d', mempools_usedHeapAfterGCLine(mempoolsData));
@@ -174,13 +174,13 @@ mempoolsChart.append('rect')
     .attr('class', 'colourbox2');
 
 // Add the native label
-var memPoolsNativeLabel = mempoolsChart.append('text')
+mempoolsChart.append('text')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 40)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('class', 'lineLabel')
     .text('Used Native Memory');
 
-//Add the native used colour box
+// Add the native used colour box
 mempoolsChart.append('rect')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 175)
     .attr('y', graphHeight + margin.bottom - 15)
@@ -189,13 +189,13 @@ mempoolsChart.append('rect')
     .attr('class', 'colourbox3');
 
 // Add the total label
-var memPoolsTotalLabel = mempoolsChart.append('text')
+mempoolsChart.append('text')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 190)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('class', 'lineLabel')
     .text('Total Used Memory');
 
-//Add the used after gc colour box
+// Add the used after gc colour box
 mempoolsChart.append('rect')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 325)
     .attr('y', graphHeight + margin.bottom - 15)
@@ -221,7 +221,7 @@ var mempoolsResize = mempoolsSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      mempoolsChartIsFullScreen = !mempoolsChartIsFullScreen
+      mempoolsChartIsFullScreen = !mempoolsChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', mempoolsChartIsFullScreen);
       d3.select('#memPoolsDiv')
@@ -290,7 +290,7 @@ function resizeMemPoolsChart() {
     .orient('left')
     .ticks(8)
     .tickFormat(function(d) {
-      return d3.format('.2s')(d * 1024 *1024);
+      return d3.format('.2s')(d * 1024 * 1024);
     });
   mempoolsTitleBox
     .attr('width', memPoolsCanvasWidth);
@@ -333,18 +333,18 @@ function updateMemPoolsData(mempoolsRequest) {
   if (!data) return;
   var d = data;
   d.date = new Date(+d.time);
-  d.used  = +d.usedHeap  / (1024 * 1024);
-  d.native  = +d.usedNative  / (1024 * 1024);
-  d.aftergc = +d.usedHeapAfterGC  / (1024 * 1024);
+  d.used = +d.usedHeap / (1024 * 1024);
+  d.native = +d.usedNative / (1024 * 1024);
+  d.aftergc = +d.usedHeapAfterGC / (1024 * 1024);
   d.total = d.used + d.native;
   mempoolsData.push(d);
-  if(mempoolsData.length === 2) {
+  if (mempoolsData.length === 2) {
     // second data point - remove "No Data Available" label
     mempoolsChartPlaceholder.attr('visibility', 'hidden');
   }
   // Only keep 30 minutes of data
-  var currentTime = Date.now()
-  var d0 = mempoolsData[0]
+  var currentTime = Date.now();
+  var d0 = mempoolsData[0];
   if (d0 === null) return;
   while (d0.hasOwnProperty('date') && d0.date.valueOf() + maxTimeWindow < currentTime) {
     mempoolsData.shift();

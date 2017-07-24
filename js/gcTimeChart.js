@@ -35,7 +35,7 @@ var gc_yAxis = d3.svg.axis()
     .tickValues(gc_yTicks)
     .tickSize(-graphWidth, 0, 0)
     .tickFormat(function(d) {
-        return d + '%';
+      return d + '%';
     });
 
 // gc Data storage
@@ -113,7 +113,7 @@ var gcResize = gcSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      gcChartIsFullScreen = !gcChartIsFullScreen
+      gcChartIsFullScreen = !gcChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', gcChartIsFullScreen);
       d3.select('#gcDiv1')
@@ -155,7 +155,7 @@ var gcResize = gcSVG.append('image')
     });
 
 function resizeGCChart() {
-	if (gcChartIsFullScreen) {
+  if (gcChartIsFullScreen) {
     canvasWidth = $('#gcDiv1').width() - 8; // -8 for margins and borders
     graphWidth = canvasWidth - margin.left - margin.right;
     canvasHeight = $('#gcDiv1').height() - 100;
@@ -169,7 +169,7 @@ function resizeGCChart() {
   chart
     .attr('width', canvasWidth)
     .attr('height', canvasHeight);
-  gc_xScale= d3.time.scale().range([0, graphWidth]);
+  gc_xScale = d3.time.scale().range([0, graphWidth]);
   gc_yScale = d3.scale.linear().range([graphHeight, 0]);
   gc_xAxis = d3.svg.axis()
     .scale(gc_xScale)
@@ -215,7 +215,7 @@ function updateGCData(gcRequest) {
   }
   gcData.push(d);
 
-  if(gcData.length === 2) {
+  if (gcData.length === 2) {
     // second data point - remove "No Data Available" label
     gcChartPlaceholder.attr('visibility', 'hidden');
   }

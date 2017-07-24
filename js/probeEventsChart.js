@@ -108,7 +108,7 @@ var probesResize = probesSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      probesChartIsFullScreen = !probesChartIsFullScreen
+      probesChartIsFullScreen = !probesChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', probesChartIsFullScreen);
       d3.select('#probeEventsDiv')

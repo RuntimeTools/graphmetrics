@@ -38,7 +38,7 @@ var httpTP_yAxis = d3.svg.axis()
     .orient('left')
     .ticks(5)
     .tickFormat(function(d) {
-        return d + ' rps';
+      return d + ' rps';
     });
 
 // line plot function
@@ -109,29 +109,29 @@ var httpTPChartPlaceholder = httpThroughPutChart.append('text')
     .text(object.NoDataMsg);
 
 function updateThroughPutData(httpThroughPutRequestData) {
-  if(httpRate.length === 1) {
+  if (httpRate.length === 1) {
     // second data point - remove "No Data Available" label
     httpTPChartPlaceholder.attr('visibility', 'hidden');
   }
-  var d = httpThroughPutRequestData//[i];
+  var d = httpThroughPutRequestData; // [i];
   if (d != null && d.hasOwnProperty('time')) {
     if (httpRate.length == 0) {
-      httpRate.push({httpRate:0, time:d.time})
+      httpRate.push({httpRate: 0, time: d.time});
     } else {
       // calculate the new http rate
       var timeDifference = d.time / 1000 - httpRate[httpRate.length - 1].time / 1000;
       if (timeDifference > 0) {
-        var averageRate = d.total / timeDifference
-        httpRate.push({httpRate:averageRate, time:d.time})
+        var averageRate = d.total / timeDifference;
+        httpRate.push({httpRate: averageRate, time: d.time});
       }
     }
   }
   // Only keep 30 minutes of data
-  var currentTime = Date.now()
-  var d0 = httpRate[0]
+  var currentTime = Date.now();
+  var d0 = httpRate[0];
   while (d0.time + maxTimeWindow < currentTime) {
-    httpRate.shift()
-    d0 = httpRate[0]
+    httpRate.shift();
+    d0 = httpRate[0];
   }
   // Re-scale the x range to the new time interval
   httpTP_xScale.domain(d3.extent(httpRate, function(d) {
@@ -162,7 +162,7 @@ var httpTPResize = httpThroughPutSVG.append('image')
     .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
     .attr('class', 'maximize')
     .on('click', function(){
-      httpTPChartIsFullScreen = !httpTPChartIsFullScreen
+      httpTPChartIsFullScreen = !httpTPChartIsFullScreen;
       d3.selectAll('.hideable')
         .classed('invisible', httpTPChartIsFullScreen);
       d3.select('#httpDiv2')
@@ -181,7 +181,7 @@ var httpTPResize = httpThroughPutSVG.append('image')
       }
     })
     .on('mouseover', function() {
-      if(httpTPChartIsFullScreen) {
+      if (httpTPChartIsFullScreen) {
         d3.select('.httpThroughPutChart .maximize')
           .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
       } else {
@@ -231,7 +231,7 @@ function resizeHttpThroughputChart() {
     .tickFormat(function(d) {
       return d + ' rps';
     });
-  httpThroughPutTitleBox.attr('width', httpDiv2CanvasWidth)
+  httpThroughPutTitleBox.attr('width', httpDiv2CanvasWidth);
   // Re-scale the x range to the new time interval
   httpTP_xScale.domain(d3.extent(httpRate, function(d) {
     return d.time;
