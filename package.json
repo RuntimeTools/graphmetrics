@@ -6,7 +6,7 @@
   },
   "description": "Graphing package used in runtime dashboards",
   "dependencies": {
-  }
+  },
   "devDependencies": {
     "appmetrics": "^3.0.1",
     "debug": "^2.6.0",
