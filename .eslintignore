@@ -1,2 +1,5 @@
 node_modules
 test/apps/lb-3
+bootstrap-*-dist
+d3
+jquery
