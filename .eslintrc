@@ -10,7 +10,7 @@
     "comma-dangle": "off",
     "spaced-comment": ["error", "always", { "exceptions": ["*"] }],
     "strict": "off",
-    "no_unused_vars": ["error", { "varsIgnorePattern": "update[A-Za-z0-9_]*Data|updateHeader|populateEnvTable" }]
+    "no_unused_vars": ["error", { "varsIgnorePattern": "update[A-Za-z0-9_]*Data" }]
   },
   "globals": {
     "d3": false,
