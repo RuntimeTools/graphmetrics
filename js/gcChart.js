@@ -275,7 +275,7 @@ function resizeGCChart() {
 }
 
 function updateGCData(gcRequest) {
-  gcRequestData = JSON.parse(gcRequest);  // parses the data into a JSON array
+  var gcRequestData = JSON.parse(gcRequest);  // parses the data into a JSON array
   if (!gcRequestData) return;
   if (gcData.length === 1) {
     // second data point - remove "No Data Available" label
