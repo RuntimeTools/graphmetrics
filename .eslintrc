@@ -10,7 +10,7 @@
     "comma-dangle": "off",
     "spaced-comment": ["error", "always", { "exceptions": ["*"] }],
     "strict": "off",
-    "no_unused_vars": ["error", { "varsIgnorePattern": "updateHeader" }]
+    "no_unused_vars": [2, { "varsIgnorePattern": "update" }],
   },
   "globals": {
     "d3": false,
