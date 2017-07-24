@@ -8,7 +8,8 @@
     "eqeqeq": "off",
     "max-len": ["error", 120, 8, {"ignoreComments": true}],
     "comma-dangle": "off",
-    "spaced-comment": ["error", "always", { "exceptions": ["*"] }]
+    "spaced-comment": ["error", "always", { "exceptions": ["*"] }],
+    "strict": ["error", "never"]
   },
   "globals": {
     "d3": false,
@@ -24,6 +25,10 @@
     "httpGraphWidth": true,
     "tallerGraphHeight": true,
     "myurl": false,
-    "socket": false
+    "socket": false,
+    "$": false,
+    "resize": false,
+    "memPoolsCanvasWidth": true,
+    "memPoolsGraphWidth": true
   }
 }

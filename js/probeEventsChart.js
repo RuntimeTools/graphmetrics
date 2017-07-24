@@ -224,8 +224,8 @@ function resizeProbesChart() {
 }
 
 function updateProbesData(probeEvents) {
-  data = JSON.parse(probeEvents);  // parses the data into a JSON array
-  if (!data || data.length === 0) return;
+  var pData = JSON.parse(probeEvents);  // parses the data into a JSON array
+  if (!pData || pData.length === 0) return;
   if (probesData.length === 0) {
     // first data - remove "No Data Available" label
     probesChartPlaceholder.attr('visibility', 'hidden');
@@ -237,8 +237,8 @@ function updateProbesData(probeEvents) {
   //        probeDataSeparated[i] = [];
   //    }
   // }
-  for (var i = 0; i < data.length; i++) {
-    var d = data[i];
+  for (var i = 0; i < pData.length; i++) {
+    var d = pData[i];
     probesData.push(d);
     var found = false;
     for (var j = 0; j < probeNames.length; j++) {

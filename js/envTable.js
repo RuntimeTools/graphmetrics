@@ -95,7 +95,7 @@ var envResize = envSVG.append('image')
     });
 
 function populateEnvTable(envRequestData) {
-  envData = JSON.parse(envRequestData);
+  var envData = JSON.parse(envRequestData);
   if (envData == null) return;
   function tabulate(data) {
   // create a row for each object in the data

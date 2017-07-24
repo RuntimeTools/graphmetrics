@@ -188,7 +188,7 @@ function updateURLData(data) {
     // first data - remove "No Data Available" label
     httpTop5ChartPlaceholder.attr('visibility', 'hidden');
   }
-  httpTop5RequestData = JSON.parse(data);  // parses the data into a JSON array
+  var httpTop5RequestData = JSON.parse(data);  // parses the data into a JSON array
   updateHttpAverages(httpTop5RequestData);
 }
 

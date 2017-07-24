@@ -206,7 +206,7 @@ function resizeGCChart() {
 
 
 function updateGCData(gcRequest) {
-  gcRequestData = JSON.parse(gcRequest);  // parses the data into a JSON array
+  var gcRequestData = JSON.parse(gcRequest);  // parses the data into a JSON array
   if (!gcRequestData) return;
   var d = gcRequestData;
   if (d != null && d.hasOwnProperty('time')) {

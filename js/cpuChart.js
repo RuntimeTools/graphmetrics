@@ -41,7 +41,6 @@ var cpu_yAxis = d3.svg.axis()
 
 // CPU Data storage
 var cpuData = [];
-var cpuProcessLatest = 0;
 
 // Define the system CPU usage line
 var systemline = d3.svg.line().interpolate('basis')
@@ -262,20 +261,15 @@ function resizeCPUChart() {
 }
 
 function updateCPUData(cpuRequest) {
-  cpuRequestData = JSON.parse(cpuRequest);  // parses the data into a JSON array
+  var cpuRequestData = JSON.parse(cpuRequest);  // parses the data into a JSON array
   if (!cpuRequestData) return;
   var d = cpuRequestData;
   if (d != null && d.hasOwnProperty('time')) {
     d.date = new Date(+d.time);
     d.system = +d.system * 100;
     d.process = +d.process * 100;
-    var _processLatest = Math.round(d.process);
-    if (typeof updateCpuProcessGauge === 'function' && _processLatest != cpuProcessLatest) {
-      updateCpuProcessGauge(cpuProcessLatest);
-    }
-    cpuProcessLatest = _processLatest;
+    cpuData.push(d);
   }
-  cpuData.push(d);
   if (cpuData.length === 2) {
     // second data point - remove "No Data Available" label
     cpuChartPlaceholder.attr('visibility', 'hidden');

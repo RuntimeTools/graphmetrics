@@ -97,7 +97,7 @@ var httpChartPlaceholder = httpChart.append('text')
     .text(object.NoDataMsg);
 
 function updateHttpData(httpRequest) {
-  httpRequestData = JSON.parse(httpRequest);
+  var httpRequestData = JSON.parse(httpRequest);
   if (!httpRequestData) return;
   var httpLength = httpData.length;
   // Send data to throughput chart so as not to duplicate requests

@@ -321,7 +321,7 @@ function resizeEventLoopChart() {
 }
 
 function updateEventLoopData(elRequest) {
-  elRequestData = JSON.parse(elRequest);  // parses the data into a JSON array
+  var elRequestData = JSON.parse(elRequest);  // parses the data into a JSON array
   if (!elRequestData) return;
   var d = elRequestData;
   d.time = new Date(+d.time);

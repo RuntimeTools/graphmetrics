@@ -329,9 +329,9 @@ function resizeMemPoolsChart() {
 
 function updateMemPoolsData(mempoolsRequest) {
   // Get the data again
-  data = JSON.parse(mempoolsRequest);  // parses the data into a JSON array
-  if (!data) return;
-  var d = data;
+  var mpData = JSON.parse(mempoolsRequest);  // parses the data into a JSON array
+  if (!mpData) return;
+  var d = mpData;
   d.date = new Date(+d.time);
   d.used = +d.usedHeap / (1024 * 1024);
   d.native = +d.usedNative / (1024 * 1024);

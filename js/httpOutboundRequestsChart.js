@@ -101,7 +101,7 @@ var httpOBChartPlaceholder = httpOBChart.append('text')
     .text(object.NoDataMsg);
 
 function updateHttpOBData(httpOutboundRequest) {
-  httpOutboundRequestData = JSON.parse(httpOutboundRequest);  // parses the data into a JSON array
+  var httpOutboundRequestData = JSON.parse(httpOutboundRequest);  // parses the data into a JSON array
   if (!httpOutboundRequestData || httpOutboundRequestData.length == 0) return;
   if (httpOBData.length === 0) {
     // first data - remove "No Data Available" label
