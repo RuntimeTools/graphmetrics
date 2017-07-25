@@ -14,4 +14,4 @@
  * limitations under the License.
  ******************************************************************************/
 'use strict';
-module.exports = require('./test/lib/appmetrics-dash.js');
+module.exports = require('./test/lib/graphmetrics.js');
