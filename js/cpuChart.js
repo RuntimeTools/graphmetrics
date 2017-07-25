@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-
+/* exported updateCPUData */
 // Line chart for displaying cpu data
 // System and process data displayed
 
@@ -259,7 +259,7 @@ function resizeCPUChart() {
   chart.select('.lineLabel2')
     .attr('y', graphHeight + margin.bottom - 5);
 }
-/* exported updateCPUData */
+
 function updateCPUData(cpuRequest) {
   var cpuRequestData = JSON.parse(cpuRequest);  // parses the data into a JSON array
   if (!cpuRequestData) return;
