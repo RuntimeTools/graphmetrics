@@ -6,7 +6,7 @@
   "parserOptions": { "ecmaVersion": 6 },
   "rules": {
     "eqeqeq": "off",
-    "no-unused-vars": "warn",
+    "no-unused-vars": ["warn", { "varsIgnorePattern": "[iI]gnored" }]
     "max-len": ["error", 120, 8, {"ignoreComments": true}],
     "comma-dangle": "off",
     "spaced-comment": ["error", "always", { "exceptions": ["*"] }],
