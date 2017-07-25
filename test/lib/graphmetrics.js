@@ -16,7 +16,7 @@
 
 'use strict';
 
-const debug = require('debug')('appmetrics-dash');
+const debug = require('debug')('graphmetrics');
 const util = require('util');
 
 // Buffer 1 cpu, gc and memory event and aggregate other events
@@ -125,7 +125,7 @@ exports.monitor = function(options) {
     app.use(url, site);
     server.listen(port, host, function() {
       var a = this.address();
-      log('appmetrics-dash listening on %s:%s', a.address, a.port);
+      log('graphmetrics listening on %s:%s', a.address, a.port);
     });
   } else {
     // Use the server that has been defined by the application.

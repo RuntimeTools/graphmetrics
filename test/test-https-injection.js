@@ -1,7 +1,7 @@
 'use strict';
 
 // Test framework.
-const debug = require('debug')('appmetrics-dash:test');
+const debug = require('debug')('graphmetrics:test');
 const request = require('request');
 const tap = require('tap');
 const util = require('util');
