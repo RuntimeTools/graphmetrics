@@ -95,12 +95,13 @@ var httpChartPlaceholder = httpChart.append('text')
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
     .text(object.NoDataMsg);
-/* global updateHttpData:false */
+
 function updateHttpData(httpRequest) {
   var httpRequestData = JSON.parse(httpRequest);
   if (!httpRequestData) return;
   var httpLength = httpData.length;
   // Send data to throughput chart so as not to duplicate requests
+  // define as global for eslint purposes
   /* global updateThroughPutData:false */
   updateThroughPutData(httpRequestData);
   httpRequestData.longest = parseFloat(httpRequestData.longest);
