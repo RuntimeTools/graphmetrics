@@ -7,6 +7,9 @@
   "description": "Graphing package used in runtime dashboards",
   "dependencies": {
   },
+  "optionalDependencies": {
+    "node-report": "^2.1.0"
+  },
   "devDependencies": {
     "appmetrics": "^3.0.1",
     "debug": "^2.6.0",
