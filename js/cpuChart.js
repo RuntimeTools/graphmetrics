@@ -259,7 +259,7 @@ function resizeCPUChart() {
   chart.select('.lineLabel2')
     .attr('y', graphHeight + margin.bottom - 5);
 }
-
+/* exported updateCPUData */
 function updateCPUData(cpuRequest) {
   var cpuRequestData = JSON.parse(cpuRequest);  // parses the data into a JSON array
   if (!cpuRequestData) return;
