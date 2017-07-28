@@ -6,7 +6,8 @@
   "parserOptions": { "ecmaVersion": 6 },
   "rules": {
     "eqeqeq": "off",
-    "no-unused-vars": ["error", { "varsIgnorePattern": "update\\w*Data|updateHeader|populateEnvTable" }],
+    "no-unused-vars": ["error", { "varsIgnorePattern": "update\\w*Data|updateHeader|populateEnvTable",
+                                   "argsIgnorePattern": "^_" }],
     "max-len": ["error", 120, 8, {"ignoreComments": true}],
     "comma-dangle": "off",
     "spaced-comment": ["error", "always", { "exceptions": ["*"] }],
