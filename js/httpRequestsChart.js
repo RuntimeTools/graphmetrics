@@ -88,7 +88,7 @@ httpChart.append("text")
     .attr("y", 15 - margin.top)
     .attr("dominant-baseline", "central")
     .style("font-size", "18px")
-    .text("HTTP Incoming Requests");
+    .text(object.httpRequestsTitle);
 
 // Add the placeholder text
 var httpChartPlaceholder = httpChart.append("text")
@@ -96,7 +96,7 @@ var httpChartPlaceholder = httpChart.append("text")
     .attr("y", tallerGraphHeight/2)
     .attr("text-anchor", "middle")
     .style("font-size", "18px")
-    .text("No Data Available");
+    .text(object.NoDataMsg);
 
 function updateHttpData(httpRequest) {
         httpRequestData = JSON.parse(httpRequest);

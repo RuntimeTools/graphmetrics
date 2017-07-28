@@ -110,7 +110,7 @@ cpuChart.append("text")
     .attr("y", 15 - margin.top)
     .attr("dominant-baseline", "central")
     .style("font-size", "18px")
-    .text("CPU");
+    .text(object.cpuTitle);
 
 // Add the placeholder text
 var cpuChartPlaceholder = cpuChart.append("text")
@@ -118,7 +118,7 @@ var cpuChartPlaceholder = cpuChart.append("text")
     .attr("y", graphHeight/2 - 2)
     .attr("text-anchor", "middle")
     .style("font-size", "18px")
-    .text("No Data Available");
+    .text(object.NoDataMsg);
 
 // Add the system colour box
 cpuChart.append("rect")
@@ -134,7 +134,7 @@ var cpuSystemLabel = cpuChart.append("text")
     .attr("y", graphHeight + margin.bottom - 5)
     .attr("text-anchor", "start")
     .attr("class", "lineLabel")
-    .text("System");
+    .text(object.cpuSystemMsg);
 
 // Add the process colour box
 cpuChart.append("rect")
@@ -149,7 +149,7 @@ cpuChart.append("text")
     .attr("x", cpuSystemLabel.node().getBBox().width + 40)
     .attr("y", graphHeight + margin.bottom - 5)
     .attr("class", "lineLabel2")
-    .text("Application Process");
+    .text(object.ApplicationProcessMsg);
 
 var cpuChartIsFullScreen = false;
 
