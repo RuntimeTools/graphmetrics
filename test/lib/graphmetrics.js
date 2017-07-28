@@ -109,7 +109,7 @@ exports.monitor = function(options) {
     };
   }
   var path = require('path');
-  var directory = path.resolve(__dirname, '..', 'public');
+  var directory = path.resolve(__dirname, '..', '..');
   var site = express.static(directory);
   var server;
 
