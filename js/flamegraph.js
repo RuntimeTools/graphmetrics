@@ -100,7 +100,7 @@ function setColours() {
     row.sort((a, b) => (a.x_pos - b.x_pos));
   });
 
-  function nextColour(parent_colour) {
+  function nextColour() {
     colour_index++;
     colour_index = colour_index % colours.length;
     return colours[colour_index];
@@ -142,18 +142,20 @@ function drawFlameGraph(function_calls) {
     .enter()
     .append('rect')
     .attr('x', (d, _i) => {
-      if (isNaN(d.x_pos))
-        { console.error('NaN x_pos for ' + d.name);
+      if (isNaN(d.x_pos)) {
+        console.error('NaN x_pos for ' + d.name);
       } else {
         return d.x_pos;
-      } })
+      }
+    })
     .attr('y', (d, _i) => (flamegraphCanvasHeight - d.height) - d.y_pos)
     .attr('width', (d, _i) => {
       if (isNaN(d.width)) {
         console.error('NaN width for ' + d.name);
       } else {
         return d.width;
-      }})
+      }
+    })
     .attr('height', (d, _i) => d.height)
     .attr('label', (d, _i) => d.name)
     .style('fill', (d, _i) => d.colour)
@@ -170,7 +172,7 @@ function drawFlameGraph(function_calls) {
       currentSelection = this;
       selectNode(d);
     })
-    .append('title').text((d, i) => createStack(d));
+    .append('title').text((d, _i) => createStack(d));
 
   // Add text labels to each box.
   // let textSelection = svg.selectAll("text")
@@ -260,7 +262,8 @@ let details = window.d3.select('#flameDiv')
     .attr('width', flamegraphProfileWidth)
     .attr('height', flamegraphCanvasHeight);
 
-let detailsTitleBox = details.append('rect')
+// Draw the title box
+details.append('rect')
     .attr('width', '100%')
     .attr('height', 30)
     .attr('class', 'titlebox');
