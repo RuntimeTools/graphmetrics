@@ -6,7 +6,12 @@
   "parserOptions": { "ecmaVersion": 6 },
   "rules": {
     "eqeqeq": "off",
-    "no-unused-vars": ["error", { "varsIgnorePattern": "update\\w*Data|updateHeader|populateEnvTable|TreeNode|(?:clear|refresh|resize)FlameGraph",
+    "no-unused-vars": ["error", { "varsIgnorePattern": "update\\w*Data|
+                                                        updateHeader|
+                                                        populateEnvTable|
+                                                        TreeNode|
+                                                        (?:clear|refresh|resize)FlameGraph|
+                                                        populateKeyArray",
                                    "argsIgnorePattern": "^_" }],
     "max-len": ["error", 120, 8, {"ignoreComments": true}],
     "comma-dangle": "off",
@@ -31,6 +36,7 @@
     "$": false,
     "resize": false,
     "memPoolsCanvasWidth": true,
-    "memPoolsGraphWidth": true
+    "memPoolsGraphWidth": true,
+    "object": false
   }
 }
