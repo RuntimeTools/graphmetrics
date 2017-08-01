@@ -207,7 +207,7 @@ function selectNode(node) {
 function clearSelection() {
   detailsText.selectAll("tspan").remove();
   detailsText.append("tspan")
-    .text("Select a cell in the Flame Graph to view call stack details.");
+    .text(object.flamegraphDetailsMsg);
 }
 
 function clearFlameGraph() {
@@ -261,7 +261,7 @@ details.append("text")
   .attr("y", 15)
   .attr("dominant-baseline", "central")
   .style("font-size", "18px")
-  .text("Call Stack");
+  .text(object.flamegraphCallStackTitle);
 
 // Add the placeholder text
 let detailsText = details.append("text")

@@ -91,7 +91,7 @@ httpOBChart.append("text")
 .attr("y", 15 - margin.top)
 .attr("dominant-baseline", "central")
 .style("font-size", "18px")
-.text("HTTP Outbound Requests");
+.text(object.httpOutboundTitle);
 
 // Add the placeholder text
 var httpOBChartPlaceholder = httpOBChart.append("text")
@@ -99,7 +99,7 @@ var httpOBChartPlaceholder = httpOBChart.append("text")
     .attr("y", tallerGraphHeight / 2)
     .attr("text-anchor", "middle")
     .style("font-size", "18px")
-    .text("No Data Available");
+    .text(object.NoDataMsg);
 
 function updateHttpOBData(httpOutboundRequest) {
     httpOutboundRequestData = JSON.parse(httpOutboundRequest);  // parses the data into a JSON array

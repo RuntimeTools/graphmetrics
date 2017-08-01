@@ -86,7 +86,7 @@ probesChart.append("text")
     .attr("y", 15 - margin.top)
     .attr("dominant-baseline", "central")
     .style("font-size", "18px")
-    .text("Other Requests");
+    .text(object.probeEventsTitle);
 
 // Add the placeholder text
 var probesChartPlaceholder = probesChart.append("text")
@@ -94,7 +94,7 @@ var probesChartPlaceholder = probesChart.append("text")
     .attr("y", graphHeight / 2)
     .attr("text-anchor", "middle")
     .style("font-size", "18px")
-    .text("No Data Available");
+    .text(object.NoDataMsg);
 
 var probesChartIsFullScreen = false;
 

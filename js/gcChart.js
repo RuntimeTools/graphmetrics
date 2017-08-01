@@ -103,7 +103,7 @@ gcChart.append("text")
 .attr("y", 15 - margin.top)
 .attr("dominant-baseline", "central")
 .style("font-size", "18px")
-.text("Heap");
+.text(object.gcTitle);
 
 // Add the placeholder text
 var gcChartPlaceholder = gcChart.append("text")
@@ -111,7 +111,7 @@ var gcChartPlaceholder = gcChart.append("text")
     .attr("y", graphHeight / 2)
     .attr("text-anchor", "middle")
     .style("font-size", "18px")
-    .text("No Data Available");
+    .text(object.NoDataMsg);
 
 // Add the heap size colour box
 gcChart.append("rect")
@@ -127,7 +127,7 @@ var gcHeapSizeLabel = gcChart.append("text")
 .attr("y", graphHeight + margin.bottom - 5)
 .attr("text-anchor", "start")
 .attr("class", "lineLabel")
-.text("Heap Size");
+.text(object.gcHeapSizeMsg);
 
 // Add the used heap colour box
 gcChart.append("rect")
@@ -142,7 +142,7 @@ gcChart.append("text")
 .attr("x", gcHeapSizeLabel.node().getBBox().width + 40)
 .attr("y", graphHeight + margin.bottom - 5)
 .attr("class", "lineLabel2")
-.text("Used Heap");
+.text(object.gcUsedHeapMsg);
 
 // Draw the Latest HEAP SIZE Data
 gcChart.append("text")
