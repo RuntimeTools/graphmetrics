@@ -14,7 +14,7 @@ if (navigator.browserLanguage) {
 function populateKeyArray(callback) {
   var file = new XMLHttpRequest();
   var pathToFile = '';
-  //Provide .properties relative path - replace pathToFile with locale file
+  // Provide .properties relative path - replace pathToFile with locale file
   if (userLocale === 'en') {
     pathToFile = 'graphmetrics/locales/allTitles.properties';
   } else {
