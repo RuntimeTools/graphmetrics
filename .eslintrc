@@ -1,0 +1,40 @@
+{
+  "extends": "strongloop",
+  "env": {
+    "browser": true
+  },
+  "parserOptions": { "ecmaVersion": 6 },
+  "rules": {
+    "eqeqeq": "off",
+    "no-unused-vars": ["error", { "varsIgnorePattern": "update\\w*Data|updateHeader|populateEnvTable|TreeNode|(?:clear|refresh|resize)FlameGraph|populateKeyArray|clearProfilingData",
+                                   "argsIgnorePattern": "^_" }],
+    "max-len": ["error", 120, 8, {"ignoreComments": true}],
+    "comma-dangle": "off",
+    "spaced-comment": ["error", "always", { "exceptions": ["*"] }],
+    "strict": "off",
+  },
+  "globals": {
+    "d3": false,
+    "getTimeFormat": false,
+    "canvasWidth": true,
+    "canvasHeight": true,
+    "margin": true,
+    "graphWidth": true,
+    "graphHeight": true,
+    "monitoringStartTime": false,
+    "maxTimeWindow": false,
+    "httpCanvasWidth": true,
+    "httpGraphWidth": true,
+    "tallerGraphHeight": true,
+    "myurl": false,
+    "socket": false,
+    "$": false,
+    "resize": false,
+    "memPoolsCanvasWidth": true,
+    "memPoolsGraphWidth": true,
+    "object": false,
+    "TreeNode": false,
+    "clearFlameGraph": false,
+    "refreshFlameGraph": false
+  }
+}

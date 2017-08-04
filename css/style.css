@@ -47,15 +47,16 @@
     .col-md-3,
     .col-md-4,
     .col-md-5,
-    .col-md-6 { 
+    .col-md-6 {
         padding-right: 1px;
-        padding-left: 1px; 
-        padding-top: 0px; 
+        padding-left: 1px;
+        padding-top: 0px;
         padding-bottom: 0px
     }
 
     .cpuChart path,
     .memChart path,
+    .flameGraph path,
     .httpThroughPutChart path,
     .httpChart path {
         stroke: #00b4a0;
@@ -82,7 +83,7 @@
         stroke-width: 2;
         fill: none;
     }
-  
+
     g.xAxis path,
     g.xAxis line,
     g.yAxis path,

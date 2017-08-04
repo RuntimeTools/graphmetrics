@@ -19,7 +19,7 @@
     }
 
     body,html {
-        background-color: #f5f7fa; 
+        background-color: #f5f7fa;
         width : 100%;
         border-color:#f5f7fa;
         height: 100%;
@@ -33,6 +33,19 @@
         font: 26px Arial;
         font-weight: bold;
         text-align: center;
+        color: #3b4b54;
+    }
+
+    h4 {
+        font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+        font-size: 20px;
+        font-weight: bold;
+        color: #3b4b54;
+    }
+
+    p {
+        font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+        font-size: 16px;
         color: #3b4b54;
     }
 
@@ -58,6 +71,18 @@
         text-decoration: none;
     }
 
+    li a {
+        font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+        font-size: 16px;
+        color: #BBC3C8;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        color: black;
+        text-decoration: underline;
+    }
+
     a:hover {
         color: #BBC3C8;
         text-decoration: underline;
@@ -68,7 +93,7 @@
         float:left;
     }
 
-    .container-fluid {
+   .container-fluid {
         background-color: #f5f7fa;
     }
 
@@ -82,10 +107,10 @@
     .col-md-3,
     .col-md-4,
     .col-md-5,
-    .col-md-6 { 
+    .col-md-6 {
         padding-right: 1px;
-        padding-left: 1px; 
-        padding-top: 0px; 
+        padding-left: 1px;
+        padding-top: 0px;
         padding-bottom: 0px
     }
 
@@ -122,9 +147,9 @@
         stroke-width: 2;
         fill: none;
     }
-    
+
     path.usedHeapAfterGCLine {
-    	stroke: #ff7832;
+       stroke: #ff7832;
         stroke-width: 2;
         fill: none;
     }
@@ -216,4 +241,81 @@
         fill: #dde4ee;
         stroke: #aabbd4;
         stroke-width: 1px;
+    }
+
+    .invisible {
+        display: none;
+    }
+
+    .fullscreen {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    .heapDumppopup {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 80%; /* Full width */
+        padding: 20px;
+        background-color: #fefefe;
+        border: 1px solid #888;
+    }
+
+    .sidenavButton{
+        float:left;
+        align-content: top;
+        margin-right: 20px;
+        cursor:pointer;
+    }
+
+    .sidenav {
+        width: 0;
+        position: absolute;
+        z-index: 1;
+        top: 50px;
+        left: 0;
+        background-color: #1D3649;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 0px;
+        white-space: nowrap;
+        opacity: 0.85;
+    }
+
+    .sidenavEntry {
+      font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
+      font-size: 16px;
+      color: #3b4b54;
+      cursor:pointer;
+    }
+
+    .sidenav a {
+        padding: 8px 8px 8px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #FFFFFF;
+        display: block;
+        transition: 0.3s;
+    }
+
+    .sidenav a:hover, .offcanvas a:focus{
+        color: #f1f1f1;
+    }
+
+    .sidenav .closebutton {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        font-size: 36px;
+        margin-left: 50px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
     }
