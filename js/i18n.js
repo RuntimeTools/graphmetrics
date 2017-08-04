@@ -16,12 +16,12 @@
 
 // This script chooses a locale.properties and parses into an object containing each key-value string.
 // These strings replace the hard-coded strings in each of the 10 charts + flamegraph.
-var userLocale;
-if (navigator.browserLanguage) {
-  userLocale = navigator.browserLanguage;
-} else if (navigator.language) {
-  userLocale = navigator.language;
-}
+// var userLocale;
+// if (navigator.browserLanguage) {
+//   userLocale = navigator.browserLanguage;
+// } else if (navigator.language) {
+//   userLocale = navigator.language;
+// }
 
 function populateKeyArray(callback) {
   var file = new XMLHttpRequest();
