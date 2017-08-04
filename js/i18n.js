@@ -1,25 +1,40 @@
+/*******************************************************************************
+ * Copyright 2017 IBM Corp.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
+
 // This script chooses a locale.properties and parses into an object containing each key-value string.
 // These strings replace the hard-coded strings in each of the 10 charts + flamegraph.
-
-// Detect locale
-// IE
 var userLocale;
 if (navigator.browserLanguage) {
   userLocale = navigator.browserLanguage;
 } else if (navigator.language) {
-  // All other vendors
   userLocale = navigator.language;
 }
 
 function populateKeyArray(callback) {
   var file = new XMLHttpRequest();
   var pathToFile = '';
-  // Provide .properties relative path - replace pathToFile with locale file
-  if (userLocale === 'en') {
-    pathToFile = 'graphmetrics/locales/allTitles.properties';
-  } else {
-    pathToFile = 'graphmetrics/locales/FILENAME_' + userLocale + '.properties';
-  }
+
+// hardcode this file for now until we have translated files
+  pathToFile = 'graphmetrics/locales/en.properties';
+
+  // if (userLocale === 'en') {
+  //   pathToFile = 'graphmetrics/locales/allTitles.properties';
+  // } else {
+  //   pathToFile = 'graphmetrics/locales/FILENAME_' + userLocale + '.properties';
+  // }
 
   file.onreadystatechange = function() {
     if (file.readyState === 4 && file.status === 200) {
