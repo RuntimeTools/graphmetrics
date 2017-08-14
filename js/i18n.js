@@ -41,7 +41,7 @@ function populateLocalizedStrings(callback) {
       let lines = (file.responseText).split('\n');
       lines.pop();
       for (let i = 0; i < lines.length; i++) {
-        if(lines[i].charAt(0) !== '#') {
+        if (lines[i].charAt(0) !== '#') {
           let keyVal = lines[i]
                           .replace('\r', '')
                           .split('=');
@@ -53,6 +53,6 @@ function populateLocalizedStrings(callback) {
     }
   };
   file.open('GET', pathToFile);
-  file.overrideMimeType("text/plain; charset=utf-8");
+  file.overrideMimeType('text/plain; charset=utf-8');
   file.send();
 }
