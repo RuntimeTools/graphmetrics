@@ -39,7 +39,7 @@ envSVG.append('text')
     .attr('y', 15)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.envTitle);
+    .text(localizedStrings.envTitle);
 
 var paragraph = envSVG.append('g')
     .attr('class', 'envGroup')

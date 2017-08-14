@@ -90,7 +90,7 @@ httpOBChart.append('text')
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.httpOutboundTitle);
+    .text(localizedStrings.httpOutboundTitle);
 
 // Add the placeholder text
 var httpOBChartPlaceholder = httpOBChart.append('text')
@@ -98,7 +98,7 @@ var httpOBChartPlaceholder = httpOBChart.append('text')
     .attr('y', tallerGraphHeight / 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(object.NoDataMsg);
+    .text(localizedStrings.NoDataMsg);
 
 function updateHttpOBData(httpOutboundRequest) {
   var httpOutboundRequestData = JSON.parse(httpOutboundRequest);  // parses the data into a JSON array

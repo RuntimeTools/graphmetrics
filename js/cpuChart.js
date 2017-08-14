@@ -107,7 +107,7 @@ cpuChart.append('text')
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.cpuTitle);
+    .text(localizedStrings.cpuTitle);
 
 // Add the placeholder text
 var cpuChartPlaceholder = cpuChart.append('text')
@@ -115,7 +115,7 @@ var cpuChartPlaceholder = cpuChart.append('text')
     .attr('y', graphHeight / 2 - 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(object.NoDataMsg);
+    .text(localizedStrings.NoDataMsg);
 
 // Add the system colour box
 cpuChart.append('rect')
@@ -131,7 +131,7 @@ var cpuSystemLabel = cpuChart.append('text')
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
-    .text(object.cpuSystemMsg);
+    .text(localizedStrings.cpuSystemMsg);
 
 // Add the process colour box
 cpuChart.append('rect')
@@ -146,7 +146,7 @@ cpuChart.append('text')
     .attr('x', cpuSystemLabel.node().getBBox().width + 40)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('class', 'lineLabel2')
-    .text(object.ApplicationProcessMsg);
+    .text(localizedStrings.ApplicationProcessMsg);
 
 var cpuChartIsFullScreen = false;
 

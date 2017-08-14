@@ -219,7 +219,7 @@ function selectNode(node) {
 function clearSelection() {
   detailsText.selectAll('tspan').remove();
   detailsText.append('tspan')
-    .text(object.flamegraphDetailsMsg);
+    .text(localizedStrings.flamegraphDetailsMsg);
 }
 
 function clearFlameGraph() {
@@ -274,7 +274,7 @@ details.append('text')
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
   .style('font-size', '18px')
-  .text(object.flamegraphCallStackTitle);
+  .text(localizedStrings.flamegraphCallStackTitle);
 
 // Add the placeholder text
 let detailsText = details.append('text')

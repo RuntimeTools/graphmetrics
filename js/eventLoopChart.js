@@ -126,7 +126,7 @@ elChart.append('text')
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.eventLoopTitle);
+    .text(localizedStrings.eventLoopTitle);
 
 // Add the placeholder text
 var elChartPlaceholder = elChart.append('text')
@@ -134,7 +134,7 @@ var elChartPlaceholder = elChart.append('text')
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(object.NoDataMessage);
+    .text(localizedStrings.NoDataMessage);
 
 // Add the MAXIMUM colour box
 elChart.append('rect')
@@ -150,7 +150,7 @@ var elMaxLabel = elChart.append('text')
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
-    .text(object.eventLoopMaximumMsg);
+    .text(localizedStrings.eventLoopMaximumMsg);
 
 // Add the MINIMUM colour box
 elChart.append('rect')
@@ -165,7 +165,7 @@ var elMinLabel = elChart.append('text')
     .attr('x', elMaxLabel.node().getBBox().width + 40)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('class', 'lineLabel')
-    .text(object.eventLoopMinimumMsg);
+    .text(localizedStrings.eventLoopMinimumMsg);
 
 // Add the AVERAGE colour box
 elChart.append('rect')
@@ -180,7 +180,7 @@ elChart.append('text')
     .attr('x', elMaxLabel.node().getBBox().width + elMinLabel.node().getBBox().width + 65)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('class', 'lineLabel')
-    .text(object.eventLoopAverageMsg);
+    .text(localizedStrings.eventLoopAverageMsg);
 
 // Draw the Latest MAX Data
 elChart.append('text')

@@ -23,7 +23,7 @@
 //   userLocale = navigator.language;
 // }
 
-function populateKeyArray(callback) {
+function populateLocalizedStrings(callback) {
   var file = new XMLHttpRequest();
   var pathToFile = '';
 
@@ -48,9 +48,9 @@ function populateKeyArray(callback) {
                         .replace('=', ':');
         let keyVal = jsonStr.split(':');
         // Define the object field (key = [0] val = [1])
-        object[keyVal[0]] = keyVal[1];
+        localizedStrings[keyVal[0]] = keyVal[1];
       }
-      callback(object);
+      callback();
     }
   };
   file.open('GET', pathToFile, false);

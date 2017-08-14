@@ -111,7 +111,7 @@ memChart.append('text')
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.memoryTitle);
+    .text(localizedStrings.memoryTitle);
 
 // Add the placeholder text
 var memChartPlaceholder = memChart.append('text')
@@ -119,7 +119,7 @@ var memChartPlaceholder = memChart.append('text')
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(object.NoDataMsg);
+    .text(localizedStrings.NoDataMsg);
 
 // Add the system colour box
 memChart.append('rect')
@@ -135,7 +135,7 @@ var memSystemLabel = memChart.append('text')
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
-    .text(object.SystemMsg);
+    .text(localizedStrings.SystemMsg);
 
 // Add the process colour box
 memChart.append('rect')
@@ -150,7 +150,7 @@ memChart.append('text')
     .attr('x', memSystemLabel.node().getBBox().width + 40)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('class', 'lineLabel2')
-    .text(object.ApplicationProcessMsg);
+    .text(localizedStrings.ApplicationProcessMsg);
 
 var memChartIsFullScreen = false;
 
