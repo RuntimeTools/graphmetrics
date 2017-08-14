@@ -43,7 +43,7 @@ httpTop5Chart.append('text')
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.httpTop5Title);
+    .text(localizedStrings.httpTop5Title);
 
 // Add the placeholder text
 var httpTop5ChartPlaceholder = httpTop5Chart.append('text')
@@ -51,7 +51,7 @@ var httpTop5ChartPlaceholder = httpTop5Chart.append('text')
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(object.NoDataMsg);
+    .text(localizedStrings.NoDataMsg);
 
 function convertURL(url, httpDiv3GraphWidth) {
   var stringToDisplay = url.toString();

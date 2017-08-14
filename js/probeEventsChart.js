@@ -87,7 +87,7 @@ probesChart.append('text')
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.probeEventsTitle);
+    .text(localizedStrings.probeEventsTitle);
 
 // Add the placeholder text
 var probesChartPlaceholder = probesChart.append('text')
@@ -95,7 +95,7 @@ var probesChartPlaceholder = probesChart.append('text')
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(object.NoDataMsg);
+    .text(localizedStrings.NoDataMsg);
 
 var probesChartIsFullScreen = false;
 

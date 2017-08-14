@@ -98,7 +98,7 @@ httpThroughPutChart.append('text')
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
     .style('font-size', '18px')
-    .text(object.httpThroughPutTitle);
+    .text(localizedStrings.httpThroughPutTitle);
 
 // Add the placeholder text
 var httpTPChartPlaceholder = httpThroughPutChart.append('text')
@@ -106,7 +106,7 @@ var httpTPChartPlaceholder = httpThroughPutChart.append('text')
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(object.NoDataMsg);
+    .text(localizedStrings.NoDataMsg);
 
 function updateThroughPutData(httpThroughPutRequestData) {
   if (httpRate.length === 1) {

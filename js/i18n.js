@@ -23,7 +23,7 @@
 //   userLocale = navigator.language;
 // }
 
-function populateKeyArray(callback) {
+function populateLocalizedStrings(callback) {
   var file = new XMLHttpRequest();
   var pathToFile = '';
 
@@ -41,19 +41,18 @@ function populateKeyArray(callback) {
       let lines = (file.responseText).split('\n');
       lines.pop();
       for (let i = 0; i < lines.length; i++) {
-        let jsonStr = lines[i]
-                        .replace('\r', '')
-                        .replace('\"', '"')
-                        .replace('\n', '')
-                        .replace('=', ':');
-        let keyVal = jsonStr.split(':');
-        // Define the object field (key = [0] val = [1])
-        object[keyVal[0]] = keyVal[1];
+        if (lines[i].charAt(0) !== '#') {
+          let keyVal = lines[i]
+                          .replace('\r', '')
+                          .split('=');
+          // Define the object field (key = [0] val = [1])
+          localizedStrings[keyVal[0]] = keyVal[1];
+        }
       }
-      callback(object);
+      callback();
     }
   };
-  file.open('GET', pathToFile, false);
-  file.setRequestHeader('Content-Type', 'text/plain');
+  file.open('GET', pathToFile);
+  file.overrideMimeType('text/plain; charset=utf-8');
   file.send();
 }
