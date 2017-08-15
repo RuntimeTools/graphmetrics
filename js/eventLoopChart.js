@@ -310,7 +310,7 @@ function resizeEventLoopChart() {
     .call(el_yAxis);
 
   // Move labels
-  chart.selectAll('lineLabel')
+  chart.selectAll('.lineLabel')
     .attr('y', graphHeight + margin.bottom - 5);
   chart.select('.colourbox1')
     .attr('y', graphHeight + margin.bottom - 15);
