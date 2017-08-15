@@ -23,7 +23,7 @@
 //   userLocale = navigator.language;
 // }
 
-function populateLocalizedStrings(callback) {
+function populateLocalizedStrings() {
   var file = new XMLHttpRequest();
   var pathToFile = '';
 
@@ -36,23 +36,21 @@ function populateLocalizedStrings(callback) {
   //   pathToFile = 'graphmetrics/locales/FILENAME_' + userLocale + '.properties';
   // }
 
-  file.onreadystatechange = function() {
-    if (file.readyState === 4 && file.status === 200) {
-      let lines = (file.responseText).split('\n');
-      lines.pop();
-      for (let i = 0; i < lines.length; i++) {
-        if (lines[i].charAt(0) !== '#') {
-          let keyVal = lines[i]
-                          .replace('\r', '')
-                          .split('=');
-          // Define the object field (key = [0] val = [1])
-          localizedStrings[keyVal[0]] = keyVal[1];
-        }
-      }
-      callback();
-    }
-  };
-  file.open('GET', pathToFile);
+
+  file.open('GET', pathToFile, false);
   file.overrideMimeType('text/plain; charset=utf-8');
   file.send();
+  if (file.readyState === 4 && file.status === 200) {
+    let lines = (file.responseText).split('\n');
+    lines.pop();
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].charAt(0) !== '#') {
+        let keyVal = lines[i]
+                        .replace('\r', '')
+                        .split('=');
+        // Define the object field (key = [0] val = [1])
+        localizedStrings[keyVal[0]] = keyVal[1];
+      }
+    }
+  }
 }
