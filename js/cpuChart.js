@@ -131,7 +131,7 @@ var cpuSystemLabel = cpuChart.append('text')
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
-    .text(localizedStrings.cpuSystemMsg);
+    .text(localizedStrings.SystemMsg);
 
 // Add the process colour box
 cpuChart.append('rect')
