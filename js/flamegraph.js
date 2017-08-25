@@ -174,7 +174,7 @@ function drawFlameGraph(function_calls) {
 function highlightSelectedNode() {
   // Set the highlighting and make the selected element the last to be
   // drawn to stop the border being covered on some edges by other rectangles.
-  d3.selectAll('rect')
+  svg.selectAll('rect')
   .style('stroke-width', (d, _i) => d == currentSelection ? 3 : 1)
   .each(function(d, _i) {
     if (d == currentSelection) {
