@@ -20,6 +20,7 @@
 // easily pass them to d3.
 // This should only be cleared if we start a different profile.
 let all_tree_nodes = [];
+let max_depth = 0;
 
 // Constructor, creates a TreeNode from a profile node.
 function TreeNode(name, file, line, parent_ref = undefined) {
@@ -40,6 +41,7 @@ function TreeNode(name, file, line, parent_ref = undefined) {
   this.height = 0;
   this.x_pos = 0;
   this.y_pos = 0;
+  this.selected = false;
   this.addTicks = function(ticks) {
     this.count += ticks;
     let next_parent = this.parent_ref;
@@ -49,6 +51,7 @@ function TreeNode(name, file, line, parent_ref = undefined) {
     }
   };
   all_tree_nodes.push(this);
+
 }
 
 // Walk the nodes as a tree to work out plot
@@ -59,6 +62,8 @@ function updateNodeAndChildren(current_node, width, x_pos = 0, depth = 0) {
   current_node.depth = depth;
   current_node.x_pos = x_pos;
   current_node.y_pos = depth * flamegraphBoxHeight;
+
+  max_depth = Math.max(max_depth, current_node.depth);
 
   // Stack the children in the middle of the parent.
   let cumulative_count = current_node.child_count + current_node.count;
@@ -83,14 +88,13 @@ function updateNodeAndChildren(current_node, width, x_pos = 0, depth = 0) {
 
 // Four colours should be enough, more might be prettier though.
 // let colours = ["red", "orange", "pink", "blue"];
-let colours = ['coral', 'tomato', 'orangered', 'gold', 'orange', 'darkorange'];
-
- // Put colour_index outside the update function so we don't reuse the
- // first few over and over again and use the whole set instead.
-let colour_index = 0;
+const colours = ['coral', 'tomato', 'orangered', 'gold', 'orange', 'darkorange'];
 
 function setColours() {
+
+  let colour_index = 0;
   let nodes_by_depth = [];
+
   all_tree_nodes.forEach(node => {
     let row = nodes_by_depth[node.depth] || [];
     row.push(node);
@@ -116,6 +120,7 @@ function setColours() {
       }
     });
   });
+
 }
 
 let currentSelection = null;
@@ -131,11 +136,6 @@ function drawFlameGraph(function_calls) {
 
   let rectSelection = svg.selectAll('rect')
       .data(function_calls);
-
-  // Only update x and width on update, labels never change.
-  // rectSelection
-  //   .attr("x", (d, i) => {if( isNaN(d.x_pos) ) { console.error("NaN x_pos for " + d.name) } else { return d.x_pos}})
-  //   .attr("width", (d,i) => {if( isNaN(d.width) ) { console.error("NaN width for " + d.name) } else {return d.width}});
 
   // Set the colour, height and y position for new entries.
   rectSelection
@@ -159,42 +159,28 @@ function drawFlameGraph(function_calls) {
     .attr('height', (d, _i) => d.height)
     .attr('label', (d, _i) => d.name)
     .style('fill', (d, _i) => d.colour)
+    .style('stroke', 'rgb(0,0,0)')
     .on('click', function(d, _i) {
-      // De-select the current selection and select the new one.
-      if (currentSelection) {
-        d3.select(currentSelection)
-        .style('stroke-width', 0)
-        .style('stroke', 'rgb(0,0,0)');
-      }
-      d3.select(this)
-        .style('stroke-width', 3)
-        .style('stroke', 'rgb(0,0,0)');
-      currentSelection = this;
+      currentSelection = d;
       selectNode(d);
+      highlightSelectedNode();
     })
     .append('title').text((d, _i) => createStack(d));
 
-  // Add text labels to each box.
-  // let textSelection = svg.selectAll("text")
-  //   .data(function_calls);
-  //
-  // // Only update x and width on update, labels never change.
-  // textSelection
-  //   .attr("x", (d, i) => {if( isNaN(d.x_pos) ) { console.error("NaN x_pos for " + d.name) } else { return d.x_pos}})
-  //   .attr("width", (d, i) => {if( isNaN(d.width) ) { console.error("NaN width for " + d.name) } else {return d.width}})
-  //
-  // textSelection
-  //   .enter()
-  //   .append("text")
-  //   .attr("x", (d, i) => {if( isNaN(d.x_pos) ) { console.error("NaN x_pos for " + d.name) } else { return d.x_pos}})
-  //   .attr("y", (d, i) => (flamegraphCanvasHeight - (d.height/2)) - d.y_pos)
-  //   .attr("width", (d, i) => {if( isNaN(d.width) ) { console.error("NaN width for " + d.name) } else {return d.width}})
-  //   .attr("height", (d, i) => d.height)
-  //   .text((d, i)=> d.name)
-  //   .attr("fill", "black");
-  //   // .style("stroke-width", 3)
-  //   // .style("stroke", "rgb(0,0,0)");
+  highlightSelectedNode();
+}
 
+
+function highlightSelectedNode() {
+  // Set the highlighting and make the selected element the last to be
+  // drawn to stop the border being covered on some edges by other rectangles.
+  svg.selectAll('rect')
+  .style('stroke-width', (d, _i) => d == currentSelection ? 3 : 1)
+  .each(function(d, _i) {
+    if (d == currentSelection) {
+      this.parentElement.appendChild(this);
+    }
+  });
 }
 
 function selectNode(node) {
@@ -224,7 +210,9 @@ function clearSelection() {
 
 function clearFlameGraph() {
   all_tree_nodes = [];
+  max_depth = 0;
   clearSelection();
+  refreshFlameGraph();
 }
 
 function createStack(node) {
@@ -240,27 +228,59 @@ function createStack(node) {
 
 let flamegraphCanvasWidth;
 let flamegraphProfileWidth;
+let flamegraphMinCanvasHeight;
 let flamegraphCanvasHeight;
 let flamegraphBoxHeight;
 
+function resizeFlameGraph() {
+
+  // Make sure the width isn't < 0 when the tab isn't shown.
+  let profilingTabWidth = Math.max(0, $('#flameDiv').width() - 8);
+  flamegraphCanvasWidth = profilingTabWidth * 0.6;
+  flamegraphProfileWidth = profilingTabWidth * 0.35; // Leave 0.05 for padding.
+  flamegraphMinCanvasHeight = window.innerHeight - 120;
+  flamegraphBoxHeight = 20;
+
+  var heightNeeded = max_depth * flamegraphBoxHeight;
+  if (heightNeeded > flamegraphMinCanvasHeight) {
+    flamegraphCanvasHeight = heightNeeded;
+  } else {
+    flamegraphCanvasHeight = flamegraphMinCanvasHeight;
+  }
+
+  svg.attr('width', flamegraphCanvasWidth)
+    .attr('height', flamegraphCanvasHeight);
+
+  details.attr('width', flamegraphProfileWidth)
+    .attr('height', flamegraphCanvasHeight);
+
+  detailsText.attr('height', flamegraphCanvasHeight - 50);
+
+}
+
 function refreshFlameGraph() {
+
+  resizeFlameGraph();
+
   // The first node should always be the root node.
-  updateNodeAndChildren(all_tree_nodes[0], flamegraphCanvasWidth);
+  if (all_tree_nodes.length > 0) {
+    updateNodeAndChildren(all_tree_nodes[0], flamegraphCanvasWidth);
+    // Resize as the height may have changed with new nodes.
+
+  }
   drawFlameGraph(all_tree_nodes);
 }
 
+/** Initialise Flame Graph **/
+
 let svg = window.d3.select('#flameDiv')
   .append('svg')
-  .attr('class', 'flameGraph')
-  .attr('width', flamegraphCanvasWidth)
-  .attr('height', flamegraphCanvasHeight);
+  .attr('class', 'flameGraph');
 
 // Create a details pane the same size as the flamegraph.
 let details = window.d3.select('#flameDiv')
     .append('svg')
-    .attr('class', 'callStack')
-    .attr('width', flamegraphProfileWidth)
-    .attr('height', flamegraphCanvasHeight);
+    .attr('class', 'callStack');
 
 // Draw the title box
 details.append('rect')
@@ -281,28 +301,10 @@ let detailsText = details.append('text')
   .attr('x', 0)
   .attr('y', 50)
   .attr('width', '100%')
-  .attr('height', flamegraphCanvasHeight - 50)
   .attr('text-anchor', 'left')
   .style('font-size', '18px')
   .style('font-family', 'monospace');
 
 
 clearSelection();
-
-function resizeFlameGraph() {
-
-  let profilingTabWidth = $('#flameDiv').width() - 8;
-  flamegraphCanvasWidth = profilingTabWidth * 0.6;
-  flamegraphProfileWidth = profilingTabWidth * 0.35; // Leave 0.05 for padding.
-  flamegraphCanvasHeight = window.innerHeight - 120;
-  flamegraphBoxHeight = 20;
-
-  svg.attr('width', flamegraphCanvasWidth)
-    .attr('height', flamegraphCanvasHeight);
-
-  details.attr('width', flamegraphProfileWidth)
-    .attr('height', flamegraphCanvasHeight);
-
-  detailsText.attr('height', flamegraphCanvasHeight - 50);
-
-}
+refreshFlameGraph();
