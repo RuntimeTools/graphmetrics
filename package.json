@@ -5,8 +5,7 @@
     "node": ">=4"
   },
   "description": "Graphing package used in runtime dashboards",
-  "dependencies": {
-  },
+  "dependencies": {},
   "optionalDependencies": {
     "node-report": "^2.1.0"
   },
