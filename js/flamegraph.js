@@ -38,9 +38,8 @@ function TreeNode(name, file, line, parent_ref = undefined) {
   this.line = line;
   this.colour = colours[0];
   this.width = 0;
-  this.height = 0;
   this.x_pos = 0;
-  this.y_pos = 0;
+  this.depth = (parent_ref === undefined) ? 0 : parent_ref.depth + 1;
   this.selected = false;
   this.addTicks = function(ticks) {
     this.count += ticks;
@@ -51,19 +50,14 @@ function TreeNode(name, file, line, parent_ref = undefined) {
     }
   };
   all_tree_nodes.push(this);
-
+  max_depth = Math.max(max_depth, this.depth);
 }
 
 // Walk the nodes as a tree to work out plot
 // sizes.
-function updateNodeAndChildren(current_node, width, x_pos = 0, depth = 0) {
+function updateNodeAndChildren(current_node, width, x_pos = 0) {
   current_node.width = width;
-  current_node.height = flamegraphBoxHeight;
-  current_node.depth = depth;
   current_node.x_pos = x_pos;
-  current_node.y_pos = depth * flamegraphBoxHeight;
-
-  max_depth = Math.max(max_depth, current_node.depth);
 
   // Stack the children in the middle of the parent.
   let cumulative_count = current_node.child_count + current_node.count;
@@ -81,7 +75,7 @@ function updateNodeAndChildren(current_node, width, x_pos = 0, depth = 0) {
       child_width = width * ((child_node.count + child_node.child_count) / cumulative_count);
     }
 
-    updateNodeAndChildren(child_node, child_width, child_x_pos, depth + 1);
+    updateNodeAndChildren(child_node, child_width, child_x_pos);
     child_x_pos = child_x_pos + child_width;
   }
 }
@@ -125,6 +119,10 @@ function setColours() {
 
 let currentSelection = null;
 
+function get_y(node) {
+  return flamegraphCanvasHeight - ((node.depth + 1) * flamegraphBoxHeight);
+}
+
 function drawFlameGraph(function_calls) {
 
   setColours();
@@ -148,7 +146,7 @@ function drawFlameGraph(function_calls) {
         return d.x_pos;
       }
     })
-    .attr('y', (d, _i) => (flamegraphCanvasHeight - d.height) - d.y_pos)
+    .attr('y', (d, _i) => get_y(d))
     .attr('width', (d, _i) => {
       if (isNaN(d.width)) {
         console.error('NaN width for ' + d.name);
@@ -156,14 +154,21 @@ function drawFlameGraph(function_calls) {
         return d.width;
       }
     })
-    .attr('height', (d, _i) => d.height)
+    .attr('height', flamegraphBoxHeight)
     .attr('label', (d, _i) => d.name)
     .style('fill', (d, _i) => d.colour)
     .style('stroke', 'rgb(0,0,0)')
     .on('click', function(d, _i) {
-      currentSelection = d;
-      selectNode(d);
+      if (d == currentSelection) {
+        // De-select
+        currentSelection = null;
+        clearNodeDetails();
+      } else {
+        currentSelection = d;
+        showNodeDetails(d);
+      }
       highlightSelectedNode();
+      refreshFlameGraph();
     })
     .append('title').text((d, _i) => createStack(d));
 
@@ -183,35 +188,51 @@ function highlightSelectedNode() {
   });
 }
 
-function selectNode(node) {
-  detailsText.selectAll('tspan').remove();
-  let stack = '';
-  let current_node = node;
+function showNodeDetails(node) {
 
+  // Clear the info for the existing selection.
+  detailsTable.selectAll('*').remove();
+
+  let current_node = node;
+  let current_total_count = current_node.child_count + current_node.count;
+  let total_count = all_tree_nodes[0].child_count + all_tree_nodes[0].count;
+  let subStrings = {};
+  if (total_count > 0) {
+    subStrings.total_percent = ((current_total_count / total_count) * 100).toFixed(1);
+    subStrings.current_percent = ((current_node.count / total_count) * 100).toFixed(1);
+  } else {
+    subStrings.total_percent = '0';
+    subStrings.current_percent = '0';
+  }
+  detailsTable.text(formatTemplate(localizedStrings.flamegraphDetailsTotals, subStrings));
+
+  let list = detailsTable.append('ol')
+    .text(localizedStrings.flamegraphCallStackTitle);
+
+  // If current_node == null we won't add new text.
   while (current_node) {
     // Trim off node_modules path if exists.
     let fileName = current_node.file.split('node_modules/').pop();
     let functionName = current_node.name == '' ? '<anonymous function>' : current_node.name;
-    detailsText
-      .append('tspan')
-      .attr('x', 0)
-      .attr('dy', 20) // TODO - Set this to the text height.
-      .text(`${functionName} (${fileName}:${current_node.line})`);
+    let row = list.append('li');
+    row.text(`${functionName} (${fileName}:${current_node.line})`);
+
     current_node = current_node.parent_ref;
   }
-  return stack;
 }
 
-function clearSelection() {
-  detailsText.selectAll('tspan').remove();
-  detailsText.append('tspan')
+function clearNodeDetails() {
+  // Clear the info for the existing selection.
+  detailsTable.selectAll('*').remove();
+  detailsTable
     .text(localizedStrings.flamegraphDetailsMsg);
 }
 
 function clearFlameGraph() {
   all_tree_nodes = [];
   max_depth = 0;
-  clearSelection();
+  flamegraphBoxHeight = 20;
+  clearNodeDetails();
   refreshFlameGraph();
 }
 
@@ -226,35 +247,56 @@ function createStack(node) {
   return stack;
 }
 
-let flamegraphCanvasWidth;
-let flamegraphProfileWidth;
-let flamegraphMinCanvasHeight;
 let flamegraphCanvasHeight;
-let flamegraphBoxHeight;
+const flamgegraphBoxMaxHeight = 20;
+const flamgegraphBoxMinHeight = 5;
+let flamegraphBoxHeight = flamgegraphBoxMaxHeight;
 
 function resizeFlameGraph() {
 
   // Make sure the width isn't < 0 when the tab isn't shown.
-  let profilingTabWidth = Math.max(0, $('#flameDiv').width() - 8);
-  flamegraphCanvasWidth = profilingTabWidth * 0.6;
-  flamegraphProfileWidth = profilingTabWidth * 0.35; // Leave 0.05 for padding.
-  flamegraphMinCanvasHeight = window.innerHeight - 120;
-  flamegraphBoxHeight = 20;
+  // let profilingTabWidth = Math.max(0, $('#flameDiv').width() - 8);
+  if (showStack == showGraph) {
+    svgDiv.attr('class', 'col-md-8');
+    detailsDiv.attr('class', 'col-md-4');
+  } else if (showGraph && !showStack) {
+    svgDiv.attr('class', '');
+    detailsDiv.attr('class', 'hidden');
+  } else if (!showGraph && showStack) {
+    svgDiv.attr('class', 'hidden');
+    detailsDiv.attr('class', '');
+  }
 
-  var heightNeeded = max_depth * flamegraphBoxHeight;
+  let flamegraphMinCanvasHeight = window.innerHeight - 120;
+
+  let heightNeeded = max_depth * flamgegraphBoxMinHeight;
   if (heightNeeded > flamegraphMinCanvasHeight) {
     flamegraphCanvasHeight = heightNeeded;
   } else {
     flamegraphCanvasHeight = flamegraphMinCanvasHeight;
   }
 
-  svg.attr('width', flamegraphCanvasWidth)
+  // -30 from height for the title bar.
+  // +1 to max_depth since depth starts at 0
+  flamegraphBoxHeight = Math.min(flamgegraphBoxMaxHeight, (flamegraphCanvasHeight - 30) / (max_depth + 1));
+
+  svgCanvas
     .attr('height', flamegraphCanvasHeight);
 
-  details.attr('width', flamegraphProfileWidth)
-    .attr('height', flamegraphCanvasHeight);
+  detailsDiv
+    .style('height', `${flamegraphCanvasHeight}px`);
 
-  detailsText.attr('height', flamegraphCanvasHeight - 50);
+  detailsTitleSvg.attr('width', $('#detailsDiv').width() + 2);
+
+  detailsTable.style('height', `${$('#detailsDiv').height() - 32}px`);
+
+  resizeGraphIcon
+    .attr('x', $('#flameGraphTitle').width() - (24 + 4))
+    .attr('y', 4);
+
+  resizeDetailsIcon
+    .attr('x', $('#detailsTitle').width() - (24 + 4))
+    .attr('y', 4);
 
 }
 
@@ -264,47 +306,139 @@ function refreshFlameGraph() {
 
   // The first node should always be the root node.
   if (all_tree_nodes.length > 0) {
-    updateNodeAndChildren(all_tree_nodes[0], flamegraphCanvasWidth);
     // Resize as the height may have changed with new nodes.
-
+    updateNodeAndChildren(all_tree_nodes[0], $('#flameGraph').width());
   }
+
   drawFlameGraph(all_tree_nodes);
+}
+
+let showStack = true;
+let showGraph = true;
+
+function toggleGraphMaximiseIcon(hover) {
+  let iconType = showStack ? 'max' : 'min';
+  let colourType = hover ? '' : '_grey';
+  resizeGraphIcon.attr('xlink:href', `graphmetrics/images/${iconType}imize_24${colourType}.png`);
+}
+
+function toggleDetailsMaximiseIcon(hover) {
+  let iconType = showGraph ? 'max' : 'min';
+  let colourType = hover ? '' : '_grey';
+  resizeDetailsIcon.attr('xlink:href', `graphmetrics/images/${iconType}imize_24${colourType}.png`);
 }
 
 /** Initialise Flame Graph **/
 
-let svg = window.d3.select('#flameDiv')
+let flameDiv = window.d3.select('#flameDiv');
+
+flameDiv.attr('class', 'container-fluid');
+
+let rowDiv = flameDiv
+  .append('div')
+  .attr('class', 'row');
+
+let svgDiv = rowDiv.append('div');
+
+let detailsDiv = rowDiv
+  .append('div')
+  .style('color', 'black')
+  .style('background', 'white')
+  .style('border', '1px solid #aabbd4')
+  .style('margin-top', '3px')
+  .style('padding', '0px')
+  .attr('id', 'detailsDiv');
+;
+
+let svgCanvas = svgDiv
   .append('svg')
-  .attr('class', 'flameGraph');
+  .attr('width', '100%')
+  .attr('height', '100%')
+  .attr('class', 'flameGraph')
+  .attr('id', 'flameGraph');
 
-// Create a details pane the same size as the flamegraph.
-let details = window.d3.select('#flameDiv')
-    .append('svg')
-    .attr('class', 'callStack');
+let graphTitleGroup = svgCanvas.append('g');
 
-// Draw the title box
-details.append('rect')
-    .attr('width', '100%')
-    .attr('height', 30)
-    .attr('class', 'titlebox');
-
-// Draw the title
-details.append('text')
+graphTitleGroup
+  .append('rect')
   .attr('x', 0)
+  .attr('y', 0)
+  .attr('width', '100%')
+  .attr('height', 30)
+  .attr('class', 'titlebox')
+  .attr('id', 'flameGraphTitle');
+
+graphTitleGroup.append('text')
+  .attr('x', 7)
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
   .style('font-size', '18px')
-  .text(localizedStrings.flamegraphCallStackTitle);
+  .text(localizedStrings.flamegraphGraphTitle);
 
-// Add the placeholder text
-let detailsText = details.append('text')
+let resizeGraphIcon = graphTitleGroup.append('image')
+  .attr('width', 24)
+  .attr('height', 24)
+  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+  .attr('class', 'maximize')
+  .on('click', function() {
+    // TODO - Hide the stack panel and make this bigger.
+    showStack = !showStack;
+    toggleGraphMaximiseIcon(true);
+    refreshFlameGraph();
+  })
+  .on('mouseover', function() {
+    toggleGraphMaximiseIcon(true);
+  })
+  .on('mouseout', function() {
+    toggleGraphMaximiseIcon(false);
+  });
+
+// This will be the area we actually draw the flame graph in.
+let svg = svgCanvas.append('g');
+
+let detailsTitleSvg = detailsDiv.append('svg')
+  .attr('height', 32)
+  .style('margin', '-1px');
+
+detailsTitleSvg
+  .append('rect')
   .attr('x', 0)
-  .attr('y', 50)
+  .attr('y', 0)
   .attr('width', '100%')
-  .attr('text-anchor', 'left')
+  .attr('height', 32)
+  .attr('class', 'titlebox')
+  .attr('id', 'detailsTitle');
+
+detailsTitleSvg.append('text')
+  .attr('x', 7)
+  .attr('y', 15)
+  .attr('dominant-baseline', 'central')
   .style('font-size', '18px')
-  .style('font-family', 'monospace');
+  .text(localizedStrings.flamegraphDetailsTitle);
+
+let resizeDetailsIcon = detailsTitleSvg.append('image')
+  .attr('width', 24)
+  .attr('height', 24)
+  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+  .attr('class', 'maximize')
+  .on('click', function() {
+    showGraph = !showGraph;
+    toggleDetailsMaximiseIcon(true);
+    refreshFlameGraph();
+  })
+  .on('mouseover', function() {
+    toggleDetailsMaximiseIcon(true);
+  })
+  .on('mouseout', function() {
+    toggleDetailsMaximiseIcon(false);
+  });
+
+// Empty div for the selected function details text.
+let detailsTable = detailsDiv
+    .append('div')
+    .style('font-family', 'monospace')
+    .style('overflow-y', 'auto');
 
 
-clearSelection();
+clearNodeDetails();
 refreshFlameGraph();
