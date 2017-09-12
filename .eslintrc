@@ -33,6 +33,7 @@
     "memPoolsCanvasWidth": true,
     "memPoolsGraphWidth": true,
     "localizedStrings": false,
+    "formatTemplate": false,
     "TreeNode": false,
     "clearFlameGraph": false,
     "refreshFlameGraph": false
