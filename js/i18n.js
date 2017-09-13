@@ -54,3 +54,11 @@ function populateLocalizedStrings() {
     }
   }
 }
+
+function formatTemplate(str, substitutions) {
+  let result = str;
+  for (let key in substitutions) {
+    result = result.replace('{' + key + '}', substitutions[key]);
+  }
+  return result;
+}
