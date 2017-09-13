@@ -288,7 +288,7 @@ function resizeFlameGraph() {
 
   detailsTitleSvg.attr('width', $('#detailsDiv').width() + 2);
 
-  detailsTable.style('height', `${$('#detailsDiv').height() - 32}px`);
+  detailsTable.style('height', `${$('#detailsDiv').height() - ($('#detailsTitleSvg').height() + 4)}px`);
 
   resizeGraphIcon
     .attr('x', $('#flameGraphTitle').width() - (24 + 4))
@@ -398,6 +398,7 @@ let svg = svgCanvas.append('g');
 
 let detailsTitleSvg = detailsDiv.append('svg')
   .attr('height', 32)
+  .attr('id', 'detailsTitleSvg')
   .style('margin', '-1px');
 
 detailsTitleSvg
