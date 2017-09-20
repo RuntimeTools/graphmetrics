@@ -108,7 +108,7 @@ var httpTPChartPlaceholder = httpThroughPutChart.append('text')
     .style('font-size', '18px')
     .text(localizedStrings.NoDataMsg);
 
-var runningTotal = 0
+var runningTotal = 0;
 
 function updateThroughPutData(httpThroughPutRequestData) {
   if (httpRate.length === 1) {
