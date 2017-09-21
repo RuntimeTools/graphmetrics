@@ -143,8 +143,8 @@ memChart.append('foreignObject')
    .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartSystemCheckbox checked>' +
      '<span class=\'lbl\'></span></label>')
    .on('click', function(){
-      memSystemLineVisible = memSVG.select('#memChartSystemCheckbox').node().checked;
-      resizeMemChart();
+     memSystemLineVisible = memSVG.select('#memChartSystemCheckbox').node().checked;
+     resizeMemChart();
    });
 
 // Add the SYSTEM label
@@ -175,8 +175,8 @@ memChart.append('foreignObject')
    .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartProcessCheckbox checked>' +
      '<span class=\'lbl\'></span></label>')
    .on('click', function(){
-      memProcessLineVisible = memSVG.select('#memChartProcessCheckbox').node().checked;
-      resizeMemChart();
+     memProcessLineVisible = memSVG.select('#memChartProcessCheckbox').node().checked;
+     resizeMemChart();
    });
 
 // Add the PROCESS label
