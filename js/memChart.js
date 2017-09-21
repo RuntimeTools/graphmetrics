@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright 2017 IBM Corp.
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * Licensed under the Apache License, Version 2.0 (the 'License'); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * distributed under the License is distributed on an 'AS IS' BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
  * License for the specific language governing permissions and limitations under
  * the License.
@@ -65,6 +65,9 @@ var mem_systemLine = d3.svg.line()
     .y(function(d) {
       return mem_yScale(d.system);
     });
+
+var memProcessLineVisible = true;
+var memSystemLineVisible = true;
 
 // Define the memory SVG
 var memSVG = d3.select('#memDiv1')
@@ -129,9 +132,24 @@ memChart.append('rect')
     .attr('width', 10)
     .attr('height', 10);
 
+// Add the system checkbox
+memChart.append('foreignObject')
+   .attr('class', 'checkboxHolder')
+   .attr('x', 15)
+   .attr('y', graphHeight + margin.bottom - 25)
+   .attr('width', 30)
+   .attr('height', 25)
+   .append('xhtml:tree')
+   .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartSystemCheckbox checked>' +
+     '<span class=\'lbl\'></span></label>')
+   .on('click', function(){
+     memSystemLineVisible = memSVG.select('#memChartSystemCheckbox').node().checked;
+     resizeMemChart();
+   });
+
 // Add the SYSTEM label
 var memSystemLabel = memChart.append('text')
-    .attr('x', 15)
+    .attr('x', 35)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
@@ -139,15 +157,31 @@ var memSystemLabel = memChart.append('text')
 
 // Add the process colour box
 memChart.append('rect')
-    .attr('x', memSystemLabel.node().getBBox().width + 25)
+    .attr('x', memSystemLabel.node().getBBox().width + 45)
     .attr('y', graphHeight + margin.bottom - 15)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox2');
 
+
+// Add the process checkbox
+memChart.append('foreignObject')
+   .attr('class', 'checkboxHolder')
+   .attr('x', memSystemLabel.node().getBBox().width + 60)
+   .attr('y', graphHeight + margin.bottom - 25)
+   .attr('width', 30)
+   .attr('height', 25)
+   .append('xhtml:tree')
+   .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartProcessCheckbox checked>' +
+     '<span class=\'lbl\'></span></label>')
+   .on('click', function(){
+     memProcessLineVisible = memSVG.select('#memChartProcessCheckbox').node().checked;
+     resizeMemChart();
+   });
+
 // Add the PROCESS label
 memChart.append('text')
-    .attr('x', memSystemLabel.node().getBBox().width + 40)
+    .attr('x', memSystemLabel.node().getBBox().width + 80)
     .attr('y', graphHeight + margin.bottom - 5)
     .attr('class', 'lineLabel2')
     .text(localizedStrings.ApplicationProcessMsg);
@@ -243,12 +277,18 @@ function resizeMemChart() {
       return d3.format('.2s')(d * 1024 * 1024);
     });
   mem_yScale.domain([0, Math.ceil(d3.extent(memData, function(d) {
-    return d.system;
+    if (memSystemLineVisible) {
+      return d.system;
+    } else {
+      return d.process;
+    }
   })[1] / 100) * 100]);
   chart.select('.systemLine')
-    .attr('d', mem_systemLine(memData));
+    .attr('d', mem_systemLine(memData))
+    .attr('visibility', memSystemLineVisible ? 'visible' : 'hidden');
   chart.select('.processLine')
-    .attr('d', mem_processLine(memData));
+    .attr('d', mem_processLine(memData))
+    .attr('visibility', memProcessLineVisible ? 'visible' : 'hidden');
   chart.select('.xAxis')
     .attr('transform', 'translate(0,' + graphHeight + ')')
     .call(mem_xAxis);
@@ -259,6 +299,8 @@ function resizeMemChart() {
     .attr('y', graphHeight + margin.bottom - 15);
   chart.select('.lineLabel')
     .attr('y', graphHeight + margin.bottom - 5);
+  chart.selectAll('.checkboxHolder')
+    .attr('y', graphHeight + margin.bottom - 25);
   chart.select('.colourbox2')
     .attr('y', graphHeight + margin.bottom - 15);
   chart.select('.lineLabel2')
@@ -275,7 +317,7 @@ function updateMemData(memRequest) {
   d.process = +d.physical / (1024 * 1024);
   memData.push(d);
   if (memData.length === 2) {
-    // second data point - remove "No Data Available" label
+    // second data point - remove 'No Data Available' label
     memChartPlaceholder.attr('visibility', 'hidden');
   }
   // Only keep 30 minutes of data
@@ -291,7 +333,11 @@ function updateMemData(memRequest) {
     return d.date;
   }));
   mem_yScale.domain([0, Math.ceil(d3.extent(memData, function(d) {
-    return d.system;
+    if (memSystemLineVisible) {
+      return d.system;
+    } else {
+      return d.process;
+    }
   })[1] / 100) * 100]);
   mem_xAxis.tickFormat(getTimeFormat());
   // Select the section we want to apply our changes to
@@ -305,8 +351,8 @@ function updateMemData(memRequest) {
     .call(mem_xAxis);
   selection.select('.yAxis')
     .call(mem_yAxis);
-//  selection.select(".processLatest")
-//    .text(memProcessLatest + "MB");
-//  selection.select(".systemLatest")
-//    .text(memSystemLatest + "MB");
+//  selection.select('.processLatest')
+//    .text(memProcessLatest + 'MB');
+//  selection.select('.systemLatest')
+//    .text(memSystemLatest + 'MB');
 }
