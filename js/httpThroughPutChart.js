@@ -108,6 +108,8 @@ var httpTPChartPlaceholder = httpThroughPutChart.append('text')
     .style('font-size', '18px')
     .text(localizedStrings.NoDataMsg);
 
+var runningTotal = 0;
+
 function updateThroughPutData(httpThroughPutRequestData) {
   if (httpRate.length === 1) {
     // second data point - remove "No Data Available" label
@@ -120,9 +122,13 @@ function updateThroughPutData(httpThroughPutRequestData) {
     } else {
       // calculate the new http rate
       var timeDifference = d.time / 1000 - httpRate[httpRate.length - 1].time / 1000;
-      if (timeDifference > 0) {
-        var averageRate = d.total / timeDifference;
+      if (timeDifference >= 2) {
+        var averageRate = (d.total + runningTotal) / timeDifference;
         httpRate.push({httpRate: averageRate, time: d.time});
+        runningTotal = 0;
+      } else {
+        // don't plot this point if less than 2 seconds has elapsed as we can get skewed graphs.
+        runningTotal += d.total;
       }
     }
   }

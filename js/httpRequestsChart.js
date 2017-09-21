@@ -100,15 +100,15 @@ function updateHttpData(httpRequest) {
   var httpRequestData = JSON.parse(httpRequest);
   if (!httpRequestData) return;
   var httpLength = httpData.length;
-  // Send data to throughput chart so as not to duplicate requests
-  // define as global for eslint purposes
-  /* global updateThroughPutData:false */
-  updateThroughPutData(httpRequestData);
   httpRequestData.longest = parseFloat(httpRequestData.longest);
   httpRequestData.average = parseFloat(httpRequestData.average);
   httpRequestData.time = parseInt(httpRequestData.time, 10);
   httpRequestData.total = parseInt(httpRequestData.total, 10);
   if (httpRequestData.total > 0) {
+    // Send data to throughput chart so as not to duplicate requests
+    // define as global for eslint purposes
+    /* global updateThroughPutData:false */
+    updateThroughPutData(httpRequestData);
     if (httpLength === 0) {
       // first data - remove "No Data Available" label
       httpChartPlaceholder.attr('visibility', 'hidden');
