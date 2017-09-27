@@ -16,6 +16,7 @@
 
 // Bar chart for top 5 URLs by average request time
 var httpTop5Data = [];
+let httpTop5options = {};
 
 var httpTop5_barHeight = tallerGraphHeight / 5;
 var httpDiv3CanvasWidth = $('#httpDiv3').width() - 8; // -8 for margin and border
@@ -55,8 +56,8 @@ var httpTop5ChartPlaceholder = httpTop5Chart.append('text')
 
 function convertURL(url, httpDiv3GraphWidth) {
   var stringToDisplay = url.toString();
-  if (stringToDisplay.startsWith('http://' + myurl)) {
-    stringToDisplay = stringToDisplay.substring(myurl.length + 7);
+  if (stringToDisplay.startsWith('http://' + httpTop5options.host)) {
+    stringToDisplay = stringToDisplay.substring(httpTop5options.host.length + 7);
   }
   // Do a rough calculation to find out whether the URL will need more space than is available and truncate if it does
   var stringLength = stringToDisplay.length;
@@ -177,10 +178,23 @@ function updateHttpAverages(workingData) {
     // a must be equal to b
     return 0;
   });
+  if (httpTop5options['filteredPath']) {
+    httpTop5Data = httpTop5Data.filter((d) => {
+      return !((d.url == httpTop5options.filteredPath) ||
+      d.url.startsWith(httpTop5options.filteredPath + '/'));
+    });
+  }
   if (httpTop5Data.length > 5) {
     httpTop5Data = httpTop5Data.slice(0, 5);
   }
   updateChart();
+}
+
+// Sets the hostname to hide and
+// and path to filter from the top 5.
+// (The path to the dashboard.)
+function setHttpTop5Options(options) {
+  httpTop5options = options;
 }
 
 function updateURLData(data) {
