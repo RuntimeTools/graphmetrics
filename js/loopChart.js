@@ -134,7 +134,7 @@ var lChartPlaceholder = lChart.append('text')
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
     .style('font-size', '18px')
-    .text(localizedStrings.NoDataMessage);
+    .text(localizedStrings.NoDataMsg);
 
 // Add the MAXIMUM colour box
 lChart.append('rect')
