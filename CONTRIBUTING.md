@@ -1,4 +1,4 @@
-# Contributing to javametrics
+# Contributing to graphmetrics
 
 We welcome contributions, but request you follow these guidelines.
 
