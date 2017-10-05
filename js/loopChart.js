@@ -344,7 +344,7 @@ function updateLoopData(lRequest) {
   // Only keep 'maxTimeWindow' (defined in index.html) milliseconds of data
   var currentTime = Date.now();
   var first = lData[0];
-  while (first.hasOwnProperty('time') && first.time + maxTimeWindow < currentTime) {
+  while (first.hasOwnProperty('time') && first.time.valueOf() + maxTimeWindow < currentTime) {
     lData.shift();
     first = lData[0];
   }

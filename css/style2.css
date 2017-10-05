@@ -148,6 +148,12 @@
         fill: none;
     }
 
+    path.httpsline {
+        stroke: #dc267f;
+        stroke-width: 2;
+        fill: none;
+    }
+
     path.usedHeapAfterGCLine {
        stroke: #ff7832;
         stroke-width: 2;
@@ -203,7 +209,7 @@
     }
 
     .colourbox4 {
-        fill: #ff7832;
+        fill: #dc267f;
         stroke: #dbe6e9;
         stroke-width: 1px;
     }
