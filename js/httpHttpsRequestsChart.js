@@ -22,160 +22,160 @@ var httpsData = [];
 var startTime;
 
 var http_xAxis = d3.svg.axis()
-    .scale(http_xScale)
-    .orient('bottom')
-    .ticks(3)
-    .tickFormat(getTimeFormat());
+  .scale(http_xScale)
+  .orient('bottom')
+  .ticks(3)
+  .tickFormat(getTimeFormat());
 
 var http_yAxis = d3.svg.axis()
-    .scale(http_yScale)
-    .orient('left')
-    .ticks(5)
-    .tickFormat(function(d) {
-      return d + 'ms';
-    });
+  .scale(http_yScale)
+  .orient('left')
+  .ticks(5)
+  .tickFormat(function(d) {
+    return d + 'ms';
+  });
 
 var mouseOverHttpGraph = false;
 
 // Define the HTTP request time line
 var httpline = d3.svg.line()
-    .x(function(d) {
-      return http_xScale(d.time);
-    })
-    .y(function(d) {
-      return http_yScale(d.longest);
-    });
+  .x(function(d) {
+    return http_xScale(d.time);
+  })
+  .y(function(d) {
+    return http_yScale(d.longest);
+  });
 
 // https
 var httpsline = d3.svg.line()
-    .x(function(d) {
-      return http_xScale(d.time);
-    })
-    .y(function(d) {
-      return http_yScale(d.longest);
-    });
+  .x(function(d) {
+    return http_xScale(d.time);
+  })
+  .y(function(d) {
+    return http_yScale(d.longest);
+  });
 
 var httpSVG = d3.select('#httpDiv1')
-    .append('svg')
-    .attr('width', httpCanvasWidth)
-    .attr('height', canvasHeight)
-    .attr('class', 'httpChart')
-    .on('mouseover', function() {
-      mouseOverHttpGraph = true;
-    })
-    .on('mouseout', function() {
-      mouseOverHttpGraph = false;
-    });
+  .append('svg')
+  .attr('width', httpCanvasWidth)
+  .attr('height', canvasHeight)
+  .attr('class', 'httpChart')
+  .on('mouseover', function() {
+    mouseOverHttpGraph = true;
+  })
+  .on('mouseout', function() {
+    mouseOverHttpGraph = false;
+  });
 
 var httpTitleBox = httpSVG.append('rect')
-    .attr('width', httpCanvasWidth)
-    .attr('height', 30)
-    .attr('class', 'titlebox');
+  .attr('width', httpCanvasWidth)
+  .attr('height', 30)
+  .attr('class', 'titlebox');
 
 var httpChart = httpSVG.append('g')
-    .attr('transform',
-      'translate(' + margin.left + ',' + margin.top + ')');
+  .attr('transform',
+    'translate(' + margin.left + ',' + margin.top + ')');
 
 // Create the line
 httpChart.append('path')
-    .attr('class', 'httpline')
-    .attr('d', httpline(httpData));
+  .attr('class', 'httpline')
+  .attr('d', httpline(httpData));
 
 // Create the https line
 httpChart.append('path')
-    .attr('class', 'httpsline')
-    .attr('d', httpsline(httpsData));
+  .attr('class', 'httpsline')
+  .attr('d', httpsline(httpsData));
 
 // Define the axes
 httpChart.append('g')
-    .attr('class', 'xAxis')
-    .attr('transform', 'translate(0,' + graphHeight + ')')
-    .call(http_xAxis);
+  .attr('class', 'xAxis')
+  .attr('transform', 'translate(0,' + graphHeight + ')')
+  .call(http_xAxis);
 
 httpChart.append('g')
-    .attr('class', 'yAxis')
-    .call(http_yAxis);
+  .attr('class', 'yAxis')
+  .call(http_yAxis);
 
 // Add the title
 httpChart.append('text')
-    .attr('x', 7 - margin.left)
-    .attr('y', 15 - margin.top)
-    .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
-    .text(localizedStrings.httpRequestsTitle);
+  .attr('x', 7 - margin.left)
+  .attr('y', 15 - margin.top)
+  .attr('dominant-baseline', 'central')
+  .style('font-size', '18px')
+  .text(localizedStrings.httpRequestsTitle);
 
 // Add the placeholder text
 var httpChartPlaceholder = httpChart.append('text')
-    .attr('x', httpGraphWidth / 2)
-    .attr('y', graphHeight / 2)
-    .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
-    .text(localizedStrings.NoDataMsg);
+  .attr('x', httpGraphWidth / 2)
+  .attr('y', graphHeight / 2)
+  .attr('text-anchor', 'middle')
+  .style('font-size', '18px')
+  .text(localizedStrings.NoDataMsg);
 
   // Add the http colour box
-  httpChart.append('rect')
-      .attr('x', 0)
-      .attr('y', graphHeight + margin.bottom - 15)
-      .attr('class', 'colourbox3')
-      .attr('width', 10)
-      .attr('height', 10);
+httpChart.append('rect')
+  .attr('x', 0)
+  .attr('y', graphHeight + margin.bottom - 15)
+  .attr('class', 'colourbox3')
+  .attr('width', 10)
+  .attr('height', 10);
 
 var httpLineVisible = true;
 var httpsLineVisible = true;
 
 // Add the http checkbox
 httpChart.append('foreignObject')
-   .attr('class', 'checkboxHolder')
-   .attr('x', 15)
-   .attr('y', graphHeight + margin.bottom - 25)
-   .attr('width', 30)
-   .attr('height', 25)
-   .append('xhtml:tree')
-   .html('<label class=\'inline\'><input type=\'checkbox\' id=httpChartHttpCheckbox checked>' +
+  .attr('class', 'checkboxHolder')
+  .attr('x', 15)
+  .attr('y', graphHeight + margin.bottom - 25)
+  .attr('width', 30)
+  .attr('height', 25)
+  .append('xhtml:tree')
+  .html('<label class=\'inline\'><input type=\'checkbox\' id=httpChartHttpCheckbox checked>' +
      '<span class=\'lbl\'></span></label>')
-   .on('click', function(){
-     httpLineVisible = httpSVG.select('#httpChartHttpCheckbox').node().checked;
-     resizeHttpChart();
-   });
+  .on('click', function(){
+    httpLineVisible = httpSVG.select('#httpChartHttpCheckbox').node().checked;
+    resizeHttpChart();
+  });
 
 // Add the HTTP label
 var httpLabel = httpChart.append('text')
-    .attr('x', 35)
-    .attr('y', graphHeight + margin.bottom - 5)
-    .attr('text-anchor', 'start')
-    .attr('class', 'lineLabel')
-    .text('HTTP');
+  .attr('x', 35)
+  .attr('y', graphHeight + margin.bottom - 5)
+  .attr('text-anchor', 'start')
+  .attr('class', 'lineLabel')
+  .text('HTTP');
 
 // Add the https colour box
 httpChart.append('rect')
-    .attr('x', httpLabel.node().getBBox().width + 45)
-    .attr('y', graphHeight + margin.bottom - 15)
-    .attr('width', 10)
-    .attr('height', 10)
-    .attr('class', 'colourbox4');
+  .attr('x', httpLabel.node().getBBox().width + 45)
+  .attr('y', graphHeight + margin.bottom - 15)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('class', 'colourbox4');
 
 
 // Add the https checkbox
 httpChart.append('foreignObject')
-   .attr('class', 'checkboxHolder')
-   .attr('x', httpLabel.node().getBBox().width + 60)
-   .attr('y', graphHeight + margin.bottom - 25)
-   .attr('width', 30)
-   .attr('height', 25)
-   .append('xhtml:tree')
-   .html('<label class=\'inline\'><input type=\'checkbox\' id=httpsChartHttpsCheckbox checked>' +
+  .attr('class', 'checkboxHolder')
+  .attr('x', httpLabel.node().getBBox().width + 60)
+  .attr('y', graphHeight + margin.bottom - 25)
+  .attr('width', 30)
+  .attr('height', 25)
+  .append('xhtml:tree')
+  .html('<label class=\'inline\'><input type=\'checkbox\' id=httpsChartHttpsCheckbox checked>' +
      '<span class=\'lbl\'></span></label>')
-   .on('click', function(){
-     httpsLineVisible = httpSVG.select('#httpsChartHttpsCheckbox').node().checked;
-     resizeHttpChart();
-   });
+  .on('click', function(){
+    httpsLineVisible = httpSVG.select('#httpsChartHttpsCheckbox').node().checked;
+    resizeHttpChart();
+  });
 
 // Add the HTTPS label
 httpChart.append('text')
-    .attr('x', httpLabel.node().getBBox().width + 80)
-    .attr('y', graphHeight + margin.bottom - 5)
-    .attr('class', 'lineLabel2')
-    .text('HTTPS');
+  .attr('x', httpLabel.node().getBBox().width + 80)
+  .attr('y', graphHeight + margin.bottom - 5)
+  .attr('class', 'lineLabel2')
+  .text('HTTPS');
 
 function updateHttpData(httpRequest) {
   var httpRequestData = JSON.parse(httpRequest);
@@ -209,7 +209,7 @@ function updateHttpData(httpRequest) {
   if (httpData.length === 0) return;
   // Only keep 'maxTimeWindow' amount of data
   let currentTime = Date.now();
-  if(!startTime)
+  if (!startTime)
     startTime = monitoringStartTime.getTime();
   if (startTime + maxTimeWindow < currentTime) {
     startTime = currentTime - maxTimeWindow;
@@ -233,7 +233,7 @@ function redrawHttpChart() {
   http_xScale.domain([startTime, currentTime]);
   http_yScale.domain([0, d3.max([d3.max(httpData, function(d) {
     return httpLineVisible ? d.longest : 0;
-  }),d3.max(httpsData, function(d) {
+  }), d3.max(httpsData, function(d) {
     return httpsLineVisible ? d.longest : 0;
   })])]);
   http_xAxis.tickFormat(getTimeFormat());
@@ -257,8 +257,8 @@ function redrawHttpChart() {
   var points = selection.selectAll('.point').data(httpData)
     .attr('cx', function(d) { return http_xScale(d.time); })
     .attr('cy', function(d) { return http_yScale(d.longest); });
-  //points.exit().remove();
-  if(httpLineVisible) {
+  // points.exit().remove();
+  if (httpLineVisible) {
     points.enter().append('circle')
       .attr('class', 'point')
       .attr('r', 4)
@@ -280,14 +280,14 @@ function redrawHttpChart() {
           + 's for URL: ' + d.url;
         }
       });
-    }
+  }
 
   // Re-adjust the points
   var httpsPoints = selection.selectAll('.httpsPoint').data(httpsData)
     .attr('cx', function(d) { return http_xScale(d.time); })
     .attr('cy', function(d) { return http_yScale(d.longest); });
-  //httpsPoints.exit().remove();
-  if(httpsLineVisible) {
+  // httpsPoints.exit().remove();
+  if (httpsLineVisible) {
     httpsPoints.enter().append('circle')
       .attr('class', 'httpsPoint')
       .attr('r', 4)
@@ -309,8 +309,8 @@ function redrawHttpChart() {
           + 's for URL: ' + d.url;
         }
       });
-    }
   }
+}
 
 function updateHttpsData(httpRequest) {
   var httpRequestData = JSON.parse(httpRequest);
@@ -344,7 +344,7 @@ function updateHttpsData(httpRequest) {
   if (httpsData.length === 0) return;
   // Only keep 'maxTimeWindow' amount of data
   let currentTime = Date.now();
-  if(!startTime)
+  if (!startTime)
     startTime = monitoringStartTime.getTime();
   if (startTime + maxTimeWindow < currentTime) {
     startTime = currentTime - maxTimeWindow;
@@ -364,51 +364,51 @@ var httpChartIsFullScreen = false;
 
 // Add the maximise/minimise button
 var httpResize = httpSVG.append('image')
-    .attr('x', httpCanvasWidth - 30)
-    .attr('y', 4)
-    .attr('width', 24)
-    .attr('height', 24)
-    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-    .attr('class', 'maximize')
-    .on('click', function(){
-      httpChartIsFullScreen = !httpChartIsFullScreen;
-      d3.selectAll('.hideable')
-        .classed('invisible', httpChartIsFullScreen);
-      d3.select('#httpDiv1')
-        .classed('fullscreen', httpChartIsFullScreen)
-        .classed('invisible', false); // remove invisible from this chart
-      if (httpChartIsFullScreen) {
-        d3.select('.httpChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-        // Redraw this chart only
-        resizeHttpChart();
-      } else {
-        d3.select('.httpChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-        canvasHeight = 250;
-        graphHeight = canvasHeight - margin.top - margin.bottom;
-        // Redraw all
-        resize();
-      }
-    })
-    .on('mouseover', function() {
-      if (httpChartIsFullScreen) {
-        d3.select('.httpChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-      } else {
-        d3.select('.httpChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-      }
-    })
-    .on('mouseout', function() {
-      if (httpChartIsFullScreen) {
-        d3.select('.httpChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      } else {
-        d3.select('.httpChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      }
-    });
+  .attr('x', httpCanvasWidth - 30)
+  .attr('y', 4)
+  .attr('width', 24)
+  .attr('height', 24)
+  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+  .attr('class', 'maximize')
+  .on('click', function(){
+    httpChartIsFullScreen = !httpChartIsFullScreen;
+    d3.selectAll('.hideable')
+      .classed('invisible', httpChartIsFullScreen);
+    d3.select('#httpDiv1')
+      .classed('fullscreen', httpChartIsFullScreen)
+      .classed('invisible', false); // remove invisible from this chart
+    if (httpChartIsFullScreen) {
+      d3.select('.httpChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      // Redraw this chart only
+      resizeHttpChart();
+    } else {
+      d3.select('.httpChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      canvasHeight = 250;
+      graphHeight = canvasHeight - margin.top - margin.bottom;
+      // Redraw all
+      resize();
+    }
+  })
+  .on('mouseover', function() {
+    if (httpChartIsFullScreen) {
+      d3.select('.httpChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+    } else {
+      d3.select('.httpChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+    }
+  })
+  .on('mouseout', function() {
+    if (httpChartIsFullScreen) {
+      d3.select('.httpChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+    } else {
+      d3.select('.httpChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+    }
+  });
 
 function resizeHttpChart() {
   httpCanvasWidth = $('#httpDiv1').width() - 8; // -8 for margins and borders
