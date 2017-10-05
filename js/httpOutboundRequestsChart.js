@@ -26,7 +26,7 @@ var httpOB_xAxis = d3.svg.axis()
     .scale(httpOB_xScale)
     .orient('bottom')
     .ticks(3)
-    .tickFormat(d3.time.format('%H:%M:%S'));
+    .tickFormat(getTimeFormat());
 
 var httpOB_yAxis = d3.svg.axis()
     .scale(httpOB_yScale)
@@ -132,6 +132,7 @@ function updateHttpOBData(httpOutboundRequest) {
     httpOB_yScale.domain([0, d3.max(httpOBData, function(d) {
       return d.longest;
     })]);
+    httpOB_xAxis.tickFormat(getTimeFormat());
 
     var selection = d3.select('.httpOBChart');
     selection.selectAll('circle').remove();
@@ -241,7 +242,8 @@ function resizeHttpOBChart() {
   httpOB_xAxis = d3.svg.axis()
     .scale(httpOB_xScale)
     .orient('bottom')
-    .ticks(3);
+    .ticks(3)
+    .tickFormat(getTimeFormat());
   httpOB_yScale = d3.scale.linear().range([tallerGraphHeight, 0]);
   httpOB_yAxis = d3.svg.axis()
     .scale(httpOB_yScale)
