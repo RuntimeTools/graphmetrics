@@ -181,7 +181,7 @@ var httpOBResize = httpOBSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       httpOBChartIsFullScreen = !httpOBChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', httpOBChartIsFullScreen);
       d3.select('#httpOBDiv')
         .classed('fullscreen', httpOBChartIsFullScreen)

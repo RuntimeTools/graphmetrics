@@ -169,7 +169,7 @@ var httpTPResize = httpThroughPutSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       httpTPChartIsFullScreen = !httpTPChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', httpTPChartIsFullScreen);
       d3.select('#httpDiv2')
         .classed('fullscreen', httpTPChartIsFullScreen)

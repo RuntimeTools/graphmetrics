@@ -170,7 +170,7 @@ var gcResize = gcSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       gcChartIsFullScreen = !gcChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', gcChartIsFullScreen);
       d3.select('#gcDiv')
         .classed('fullscreen', gcChartIsFullScreen)

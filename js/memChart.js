@@ -198,7 +198,7 @@ var memResize = memSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       memChartIsFullScreen = !memChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', memChartIsFullScreen);
       d3.select('#memDiv1')
         .classed('fullscreen', memChartIsFullScreen)

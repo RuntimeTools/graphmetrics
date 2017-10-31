@@ -372,7 +372,7 @@ var httpResize = httpSVG.append('image')
   .attr('class', 'maximize')
   .on('click', function(){
     httpChartIsFullScreen = !httpChartIsFullScreen;
-    d3.selectAll('.hideable')
+    d3.select('#dashboard').selectAll('.hideable')
       .classed('invisible', httpChartIsFullScreen);
     d3.select('#httpDiv1')
       .classed('fullscreen', httpChartIsFullScreen)
