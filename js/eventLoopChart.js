@@ -215,7 +215,7 @@ var elResize = elSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       elChartIsFullScreen = !elChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', elChartIsFullScreen);
       d3.select('#eventLoopDiv')
         .classed('fullscreen', elChartIsFullScreen)

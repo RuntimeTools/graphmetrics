@@ -222,7 +222,7 @@ var mempoolsResize = mempoolsSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       mempoolsChartIsFullScreen = !mempoolsChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', mempoolsChartIsFullScreen);
       d3.select('#memPoolsDiv')
         .classed('fullscreen', mempoolsChartIsFullScreen)

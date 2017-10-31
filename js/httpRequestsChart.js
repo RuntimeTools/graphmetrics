@@ -197,7 +197,7 @@ var httpResize = httpSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       httpChartIsFullScreen = !httpChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', httpChartIsFullScreen);
       d3.select('#httpDiv1')
         .classed('fullscreen', httpChartIsFullScreen)
@@ -242,6 +242,7 @@ function resizeHttpChart() {
     canvasHeight = $('#httpDiv1').height() - 100;
     tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
   }
+
   // Redraw placeholder
   httpChartPlaceholder
     .attr('x', httpGraphWidth / 2)

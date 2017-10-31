@@ -109,7 +109,7 @@ var probesResize = probesSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       probesChartIsFullScreen = !probesChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', probesChartIsFullScreen);
       d3.select('#probeEventsDiv')
         .classed('fullscreen', probesChartIsFullScreen)

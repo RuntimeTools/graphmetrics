@@ -160,7 +160,7 @@ var cpuResize = cpuSVG.append('image')
     .attr('class', 'maximize')
     .on('click', function(){
       cpuChartIsFullScreen = !cpuChartIsFullScreen;
-      d3.selectAll('.hideable')
+      d3.select('#dashboard').selectAll('.hideable')
         .classed('invisible', cpuChartIsFullScreen);
       d3.select('#cpuDiv1')
         .classed('fullscreen', cpuChartIsFullScreen)
