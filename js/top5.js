@@ -213,14 +213,14 @@ function Top5(divName, parentName, title) {
     graphWidth = canvasWidth - margin.left - margin.right;
     top5ChartPlaceholder
       .attr('x', graphWidth / 2)
-      .attr('y', graphHeight / 2)
+      .attr('y', graphHeight / 2);
     top5_xScale = d3.scale.linear().range([0, graphWidth]);
     top5SVG
       .attr('width', canvasWidth)
       .attr('height', tableHeight);
     top5TitleBox
       .attr('width', canvasWidth);
-      updateChart();
+    updateChart();
   }
 
   // Resize at the end of setup.

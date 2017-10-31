@@ -6,7 +6,7 @@
   "parserOptions": { "ecmaVersion": 6 },
   "rules": {
     "eqeqeq": "off",
-    "no-unused-vars": ["error", { "varsIgnorePattern": "update\\w*Data|updateHeader|TextTable|TreeNode|(?:clear|refresh|resize)FlameGraph|populateLocalizedStrings|formatTemplate|clearProfilingData|setHttpTop5Options",
+    "no-unused-vars": ["error", { "varsIgnorePattern": "update\\w*Data|updateHeader|TextTable|TreeNode|(?:clear|refresh|resize)FlameGraph|populateLocalizedStrings|formatTemplate|clearProfilingData|Top5",
                                    "argsIgnorePattern": "^_" }],
     "max-len": ["error", 120, 8, {"ignoreComments": true}],
     "comma-dangle": "off",

@@ -103,7 +103,7 @@ function TextTable(divName, parentName, title) {
     // clear the table
     paragraph.selectAll('text').remove();
 
-    // create a row for each object in the data
+    // create a row for each object in the data
     let rows = paragraph.selectAll('text')
     .data(tableData)
     .enter()
@@ -129,7 +129,7 @@ function TextTable(divName, parentName, title) {
   }
 
   function resizeTable() {
-    divCanvasWidth = $(divName).width() - 8; // -8 for margins and borders
+    let divCanvasWidth = $(divName).width() - 8; // -8 for margins and borders
     if (tableIsFullScreen) {
       tableHeight = $(divName).height() - 100;
     } else {
