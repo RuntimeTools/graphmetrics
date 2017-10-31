@@ -30,7 +30,7 @@ function Top5(divName, parentName, title) {
 
   let top5_barHeight = tallerGraphHeight / 5;
   // -8 for margin and border, min 100 in case this is on a hidden tab.
-  let canvasWidth = Math.min($(divName).width() - 8, 100);
+  let canvasWidth = Math.max($(divName).width() - 8, 100);
   let graphWidth = canvasWidth - margin.left - margin.right;
   let graphHeight = tableHeight - margin.top - margin.bottom;
   let top5_xScale = d3.scale.linear().range([0, graphWidth]);
@@ -206,11 +206,11 @@ function Top5(divName, parentName, title) {
     if (top5ChartIsFullScreen) {
       tableHeight = $(divName).height() - 100;
     }
-    canvasWidth = $(divName).width() - 8;
+    canvasWidth = Math.max($(divName).width() - 8, 100);
+    graphWidth = canvasWidth - margin.left - margin.right;
     top5Resize
       .attr('x', canvasWidth - 30)
       .attr('y', 4);
-    graphWidth = canvasWidth - margin.left - margin.right;
     top5ChartPlaceholder
       .attr('x', graphWidth / 2)
       .attr('y', graphHeight / 2);
