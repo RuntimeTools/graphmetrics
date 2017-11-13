@@ -51,6 +51,8 @@ function TextTable(divName, parentName, title) {
 
   // Add the maximise button
   let resizeImage = svg.append('image')
+  .attr('width', 24)
+  .attr('height', 24)
   .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
   .attr('class', 'maximize')
   .on('click', function(){

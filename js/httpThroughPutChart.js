@@ -214,7 +214,7 @@ function resizeHttpThroughputChart() {
   httpDiv2GraphWidth = httpDiv2CanvasWidth - margin.left - margin.right;
   // Redraw placeholder
   httpTPChartPlaceholder
-    .attr('x', httpGraphWidth / 2)
+    .attr('x', httpDiv2CanvasWidth / 2)
     .attr('y', tallerGraphHeight / 2);
   httpTPResize
     .attr('x', httpDiv2CanvasWidth - 30)
