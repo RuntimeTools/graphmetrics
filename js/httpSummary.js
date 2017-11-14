@@ -42,15 +42,17 @@ function HttpSummary(divName, parentName, title) {
   let graphHeight = tableHeight - margin.top - margin.bottom;
   let top5_xScale = d3.scale.linear().range([0, graphWidth]);
 
-  let top5SVG = d3.select(divName)
+  let httpSummarySVG = d3.select(divName)
   .append('svg')
-  .attr('class', 'httpTop5Chart');
+  .attr('class', 'httpSummaryChart');
 
-  let top5TitleBox = top5SVG.append('rect')
-  .attr('height', 30)
+  // Set titleBoxHeight here as we use it for the graph div below
+  let titleBoxHeight = 30;
+  let top5TitleBox = httpSummarySVG.append('rect')
+  .attr('height', titleBoxHeight)
   .attr('class', 'titlebox');
 
-  let top5Chart = top5SVG.append('g')
+  let top5Chart = httpSummarySVG.append('g')
   .attr('transform',
   'translate(' + margin.left + ',' + margin.top + ')');
 
@@ -82,24 +84,24 @@ function HttpSummary(divName, parentName, title) {
     return stringToDisplay;
   }
 
-  let top5ChartIsFullScreen = false;
+  let httpSummaryIsFullScreen = false;
 
   // Add the maximise button
-  let top5Resize = top5SVG.append('image')
+  let top5Resize = httpSummarySVG.append('image')
   .attr('width', 24)
   .attr('height', 24)
   .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
   .attr('class', 'maximize')
   .on('click', function(){
-    top5ChartIsFullScreen = !top5ChartIsFullScreen;
-    d3.select(parentName).selectAll('.hideable').classed('invisible', top5ChartIsFullScreen);
+    httpSummaryIsFullScreen = !httpSummaryIsFullScreen;
+    d3.select(parentName).selectAll('.hideable').classed('invisible', httpSummaryIsFullScreen);
     d3.select(divName)
-    .classed('fullscreen', top5ChartIsFullScreen)
+    .classed('fullscreen', httpSummaryIsFullScreen)
     .classed('invisible', false); // remove invisible from this chart
-    if (top5ChartIsFullScreen) {
+    if (httpSummaryIsFullScreen) {
       top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
       // Redraw this chart only
-      resizeTop5Chart();
+      resizeTable();
     } else {
       canvasWidth = $(divName).width() - 8; // -8 for margins and borders
       graphWidth = canvasWidth - margin.left - margin.right;
@@ -111,27 +113,56 @@ function HttpSummary(divName, parentName, title) {
     }
   })
   .on('mouseover', function() {
-    if (top5ChartIsFullScreen) {
+    if (httpSummaryIsFullScreen) {
       top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
     } else {
       top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
     }
   })
   .on('mouseout', function() {
-    if (top5ChartIsFullScreen) {
+    if (httpSummaryIsFullScreen) {
       top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
     } else {
       top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
     }
   });
 
+  // Attempt to add foreign object to http summary for list
+  // summarydiv
+  let httpSummaryContent = httpSummarySVG.append('foreignObject')
+  .attr('width', graphWidth)
+  .attr('height', (graphHeight-titleBoxHeight))
+  .attr('x', '0')
+  .attr('y', titleBoxHeight)
+
+  let httpSummaryDiv = httpSummaryContent
+  .append('xhtml:body')
+  .append('xhtml:div')
+  .attr('id', 'httpSummaryContent')
+  .attr('style', 'height:100%; width:100%;');
+
+  let httpSummaryTable = httpSummaryDiv.append('xhtml:table')
+  .attr('style', 'height:100%; width:100%; color: black;');
+
+  // Set titles for table
+  httpSummaryTable.append('xhtml:th').text('Endpoint')
+  .attr('style', 'font-weight: lighter; font-size: 14px; text-align: center;');
+  httpSummaryTable.append('xhtml:th').text('Total Hits')
+  .attr('style', 'font-weight: lighter; font-size: 14px; text-align: center;');
+  httpSummaryTable.append('xhtml:th').text('Average Response Times')
+  .attr('style', 'font-weight: lighter; font-size: 14px; text-align: center;');
+
+
+
+
+
   function updateChart() {
     top5_xScale.domain([0, d3.max(top5Data, function(d) {
       return d.averageResponseTime;
     })]);
-    d3.select('.httpTop5Chart').selectAll('.bar')
+    d3.select('.httpSummaryChart').selectAll('.bar')
     .remove();
-    let bar = d3.select('.httpTop5Chart').selectAll('.bar')
+    let bar = d3.select('.httpSummaryChart').selectAll('.bar')
     .data(top5Data)
     .enter().append('g')
     .attr('class', 'bar')
@@ -210,12 +241,15 @@ function HttpSummary(divName, parentName, title) {
     updateHttpAverages(top5RequestData);
   }
 
-  function resizeTop5Chart() {
-    if (top5ChartIsFullScreen) {
+  function resizeTable() {
+    if (httpSummaryIsFullScreen) {
       tableHeight = $(divName).height() - 100;
     }
     canvasWidth = Math.max($(divName).width() - 8, 100);
     graphWidth = canvasWidth - margin.left - margin.right;
+    console.log("table height: " + tableHeight);
+    console.log("canvas width: " + canvasWidth);
+    console.log("graph width: " + graphWidth);
     top5Resize
       .attr('x', canvasWidth - 30)
       .attr('y', 4);
@@ -223,20 +257,23 @@ function HttpSummary(divName, parentName, title) {
       .attr('x', graphWidth / 2)
       .attr('y', graphHeight / 2);
     top5_xScale = d3.scale.linear().range([0, graphWidth]);
-    top5SVG
+    httpSummarySVG
       .attr('width', canvasWidth)
       .attr('height', tableHeight);
     top5TitleBox
       .attr('width', canvasWidth);
+    httpSummaryContent
+      .attr('width', canvasWidth)
+      .attr('height', tableHeight);
     updateChart();
   }
 
   // Resize at the end of setup.
-  resizeTop5Chart();
+  resizeTable();
   updateChart();
 
   let exports = {};
-  exports.resizeTop5Chart = resizeTop5Chart;
+  exports.resizeTable = resizeTable;
   exports.updateURLData = updateURLData;
   exports.settop5Options = settop5Options;
 
