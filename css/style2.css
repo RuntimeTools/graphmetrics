@@ -358,10 +358,28 @@
     }
 
     .httpSummaryDiv {
-      padding: 10px;
+      padding: 10px 0px 10px 10px;
     }
 
     .httpSummaryContentDiv {
       overflow-y: scroll;
       padding: 7px 0px 0px 1px;
+    }
+
+    .arrow {
+      display: inline-block;
+      vertical-align: super;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      margin-left: 5px;
+    }
+
+    .arrow-up {
+      border-bottom: 5px solid black;
+    }
+
+    .arrow-down {
+      border-top: 5px solid black;
     }

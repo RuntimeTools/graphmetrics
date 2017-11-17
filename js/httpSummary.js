@@ -163,6 +163,13 @@ function HttpSummary(divName, parentName, title) {
       dummyRow.append('xhtml:td').text(httpSummaryData[i].hits).attr('style', 'width: 20%;');
       dummyRow.append('xhtml:td').text(httpSummaryData[i].averageResponseTime).attr('style', 'width: 30%;');
     }
+
+    for (var i = 0; i < 90; i++) {
+      let dummyRow = httpSummaryContentTable.append('xhtml:tr');
+      dummyRow.append('xhtml:td').text('sdfsdfslkdjfs').attr('style', 'width: 50%;');
+      dummyRow.append('xhtml:td').text('sdfsdfslkdjfs').attr('style', 'width: 20%;');
+      dummyRow.append('xhtml:td').text('sdfsdfslkdjfs').attr('style', 'width: 30%;');
+    }
   }
 
   function updateHttpAverages(workingData) {
@@ -227,8 +234,20 @@ function HttpSummary(divName, parentName, title) {
       .attr('height', (tableHeight-titleBoxHeight));
     httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeader').height());
     httpSummaryContentDiv
-      .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px')
+      .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px');
+      scrollBarCorrection();
     updateChart();
+  }
+
+  // Correct the size of the table titles
+  // by adding padding-right to its div based
+  // on the width of the scroll bar on screen
+  function scrollBarCorrection() {
+    let outerWidth = $('.httpSummaryContentDiv:eq(0)').outerWidth();
+    let innerWidth = $('.httpSummaryContentDiv:eq(0) table').outerWidth();
+    let padding = outerWidth-innerWidth;
+    // Add padding to httpSummaryTableHeader
+    $('.httpSummaryTableHeader').css('padding-right', padding+'px');
   }
 
   // Resize at the end of setup.
