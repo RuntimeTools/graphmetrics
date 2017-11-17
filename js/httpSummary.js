@@ -19,28 +19,20 @@
 // that should be minimised when this is maximised.
 // title - A string title for this text table.
 function HttpSummary(divName, parentName, title) {
-  let jsonForTempOutput = {
-  	desc: "HTTP Summary",
-	  divName: divName,
-	  parentName: parentName,
-	  title: title
-  }
-  console.log(jsonForTempOutput);
-
   // Bar chart for top 5 URLs by average request time
-  let top5Data = [];
-  let top5options = {};
+  let httpSummaryData = [];
+  let httpSummaryOptions = {};
 
   // TODO - This should probably be a parameter to the constructor
   // or an argument to resizeTable().
   let tableHeight = 250;
 
-  let top5_barHeight = tallerGraphHeight / 5;
+  let httpSummary_barHeight = tallerGraphHeight / 5;
   // -8 for margin and border, min 100 in case this is on a hidden tab.
   let canvasWidth = Math.max($(divName).width() - 8, 100);
   let graphWidth = canvasWidth - margin.left - margin.right;
   let graphHeight = tableHeight - margin.top - margin.bottom;
-  let top5_xScale = d3.scale.linear().range([0, graphWidth]);
+  let httpSummary_xScale = d3.scale.linear().range([0, graphWidth]);
 
   let httpSummarySVG = d3.select(divName)
   .append('svg')
@@ -48,16 +40,16 @@ function HttpSummary(divName, parentName, title) {
 
   // Set titleBoxHeight here as we use it for the graph div below
   let titleBoxHeight = 30;
-  let top5TitleBox = httpSummarySVG.append('rect')
+  let httpSummaryTitleBox = httpSummarySVG.append('rect')
   .attr('height', titleBoxHeight)
   .attr('class', 'titlebox');
 
-  let top5Chart = httpSummarySVG.append('g')
+  let httpSummaryChart = httpSummarySVG.append('g')
   .attr('transform',
   'translate(' + margin.left + ',' + margin.top + ')');
 
   // Add the title
-  top5Chart.append('text')
+  httpSummaryChart.append('text')
   .attr('x', 7 - margin.left)
   .attr('y', 15 - margin.top)
   .attr('dominant-baseline', 'central')
@@ -65,15 +57,15 @@ function HttpSummary(divName, parentName, title) {
   .text(title);
 
   // Add the placeholder text
-  let top5ChartPlaceholder = top5Chart.append('text')
+  let httpSummaryChartPlaceholder = httpSummaryChart.append('text')
   .attr('text-anchor', 'middle')
   .style('font-size', '18px')
   .text(localizedStrings.NoDataMsg);
 
   function convertURL(url, graphWidth) {
     let stringToDisplay = url.toString();
-    if (stringToDisplay.startsWith('http://' + top5options.host)) {
-      stringToDisplay = stringToDisplay.substring(top5options.host.length + 7);
+    if (stringToDisplay.startsWith('http://' + httpSummaryOptions.host)) {
+      stringToDisplay = stringToDisplay.substring(httpSummaryOptions.host.length + 7);
     }
     // Do a rough calculation to find out whether the URL will need more space than is available and truncate if it does
     let stringLength = stringToDisplay.length;
@@ -87,7 +79,7 @@ function HttpSummary(divName, parentName, title) {
   let httpSummaryIsFullScreen = false;
 
   // Add the maximise button
-  let top5Resize = httpSummarySVG.append('image')
+  let summaryResize = httpSummarySVG.append('image')
   .attr('width', 24)
   .attr('height', 24)
   .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
@@ -99,13 +91,13 @@ function HttpSummary(divName, parentName, title) {
     .classed('fullscreen', httpSummaryIsFullScreen)
     .classed('invisible', false); // remove invisible from this chart
     if (httpSummaryIsFullScreen) {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
       // Redraw this chart only
       resizeTable();
     } else {
       canvasWidth = $(divName).width() - 8; // -8 for margins and borders
       graphWidth = canvasWidth - margin.left - margin.right;
-      top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
       tableHeight = 250;
       graphHeight = tableHeight - margin.top - margin.bottom;
       // Redraw all
@@ -114,16 +106,16 @@ function HttpSummary(divName, parentName, title) {
   })
   .on('mouseover', function() {
     if (httpSummaryIsFullScreen) {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+      summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
     } else {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+      summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
     }
   })
   .on('mouseout', function() {
     if (httpSummaryIsFullScreen) {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
     } else {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
     }
   });
 
@@ -131,78 +123,49 @@ function HttpSummary(divName, parentName, title) {
   // summarydiv
   let httpSummaryContent = httpSummarySVG.append('foreignObject')
   .attr('width', graphWidth)
-  .attr('height', (graphHeight-titleBoxHeight))
+  .attr('height', (tableHeight-titleBoxHeight))
   .attr('x', '0')
   .attr('y', titleBoxHeight)
+  .attr('class', 'httpSummaryContent');
 
   let httpSummaryDiv = httpSummaryContent
   .append('xhtml:body')
   .append('xhtml:div')
-  .attr('id', 'httpSummaryContent')
-  .attr('style', 'height:100%; width:100%;');
+  .attr('class', 'httpSummaryDiv');
 
-  let httpSummaryTable = httpSummaryDiv.append('xhtml:table')
-  .attr('style', 'height:100%; width:100%; color: black;');
+  let httpSummaryTableTitles = httpSummaryDiv.append('xhtml:div')
+  .attr('class', 'httpSummaryTableHeader')
+  .append('xhtml:table');
 
   // Set titles for table
-  httpSummaryTable.append('xhtml:th').text('Endpoint')
-  .attr('style', 'font-weight: lighter; font-size: 14px; text-align: center;');
-  httpSummaryTable.append('xhtml:th').text('Total Hits')
-  .attr('style', 'font-weight: lighter; font-size: 14px; text-align: center;');
-  httpSummaryTable.append('xhtml:th').text('Average Response Times')
-  .attr('style', 'font-weight: lighter; font-size: 14px; text-align: center;');
+  let httpSummaryTableTitlesRow = httpSummaryTableTitles.append('xhtml:tr');
+  httpSummaryTableTitlesRow.append('xhtml:td').text('Endpoint')
+  .attr('style', 'width: 50%;');
+  httpSummaryTableTitlesRow.append('xhtml:td').text('Total Hits')
+  .attr('style', 'width: 20%;');
+  httpSummaryTableTitlesRow.append('xhtml:td').text('Average Times')
+  .attr('style', 'width: 30%;');
 
-
-
-
+  let httpSummaryContentTableHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeader').height());
+  let httpSummaryContentTable = httpSummaryDiv.append('xhtml:div')
+  .attr('class', 'httpSummaryContentTable')
+  .attr('cellspacing', '0')
+  .attr('cellpadding', '0')
+  .attr('style', 'height: ' + httpSummaryContentTableHeight + 'px')
+  .append('xhtml:table');
 
   function updateChart() {
-    top5_xScale.domain([0, d3.max(top5Data, function(d) {
-      return d.averageResponseTime;
-    })]);
-    d3.select('.httpSummaryChart').selectAll('.bar')
-    .remove();
-    let bar = d3.select('.httpSummaryChart').selectAll('.bar')
-    .data(top5Data)
-    .enter().append('g')
-    .attr('class', 'bar')
-    .attr('transform', function(d, i) {
-      return 'translate(50,' + (margin.top + i * top5_barHeight) + ')';
-    });
-    // Background
-    bar.append('rect')
-    .attr('width', graphWidth)
-    .attr('height', top5_barHeight - 4)
-    .style('fill', '#9fa7a7');
-    bar.append('rect')
-    .attr('width', function(d) {
-      return top5_xScale(d.averageResponseTime);
-    })
-    .attr('height', top5_barHeight - 4);
-    bar.append('text')
-    .attr('x', 2)
-    .attr('y', top5_barHeight / 2)
-    .attr('dy', '.35em')
-    .attr('fill', 'white')
-    .text(function(d) {
-      return convertURL(d.url, graphWidth);
-    });
-    bar.append('text')
-    .attr('x', graphWidth - 2)
-    .attr('y', top5_barHeight / 2)
-    .attr('text-anchor', 'end')
-    .attr('fill', 'white')
-    .attr('dy', '.35em')
-    .text(function(d) {
-      return d3.format(',.2f')(d.averageResponseTime) + 'ms';
-    });
-    // Tooltip
-    bar.append('svg:title')
-    .text(function(d) { return d.url; });
+    httpSummaryContentTable.html('');
+    for (var i = 0; i < httpSummaryData.length; i++) {
+      let dummyRow = httpSummaryContentTable.append('xhtml:tr');
+      dummyRow.append('xhtml:td').text(httpSummaryData[i].url).attr('style', 'width: 50%;');
+      dummyRow.append('xhtml:td').text(httpSummaryData[i].hits).attr('style', 'width: 20%;');
+      dummyRow.append('xhtml:td').text(httpSummaryData[i].averageResponseTime).attr('style', 'width: 30%;');
+    }
   }
 
   function updateHttpAverages(workingData) {
-    top5Data = workingData.sort(function(a, b) {
+    httpSummaryData = workingData.sort(function(a, b) {
       if (a.averageResponseTime > b.averageResponseTime) {
         return -1;
       }
@@ -212,14 +175,14 @@ function HttpSummary(divName, parentName, title) {
       // a must be equal to b
       return 0;
     });
-    if (top5options['filteredPath']) {
-      top5Data = top5Data.filter((d) => {
-        return !((d.url == top5options.filteredPath) ||
-        d.url.startsWith(top5options.filteredPath + '/'));
+    if (httpSummaryOptions['filteredPath']) {
+      httpSummaryData = httpSummaryData.filter((d) => {
+        return !((d.url == httpSummaryOptions.filteredPath) ||
+        d.url.startsWith(httpSummaryOptions.filteredPath + '/'));
       });
     }
-    if (top5Data.length > 5) {
-      top5Data = top5Data.slice(0, 5);
+    if (httpSummaryData.length > 5) {
+      httpSummaryData = httpSummaryData.slice(0, 5);
     }
     updateChart();
   }
@@ -227,18 +190,17 @@ function HttpSummary(divName, parentName, title) {
   // Sets the hostname to hide and
   // and path to filter from the top 5.
   // (The path to the dashboard.)
-  function settop5Options(options) {
-    top5options = options;
-    console.log(options);
+  function setHttpSummaryOptions(options) {
+    httpSummaryOptions = options;
   }
 
   function updateURLData(data) {
-    if (top5Data.length == 0) {
+    if (httpSummaryData.length == 0) {
       // first data - remove "No Data Available" label
-      top5ChartPlaceholder.attr('visibility', 'hidden');
+      httpSummaryChartPlaceholder.attr('visibility', 'hidden');
     }
-    let top5RequestData = JSON.parse(data);  // parses the data into a JSON array
-    updateHttpAverages(top5RequestData);
+    let httpSummaryRequestData = JSON.parse(data);  // parses the data into a JSON array
+    updateHttpAverages(httpSummaryRequestData);
   }
 
   function resizeTable() {
@@ -247,24 +209,21 @@ function HttpSummary(divName, parentName, title) {
     }
     canvasWidth = Math.max($(divName).width() - 8, 100);
     graphWidth = canvasWidth - margin.left - margin.right;
-    console.log("table height: " + tableHeight);
-    console.log("canvas width: " + canvasWidth);
-    console.log("graph width: " + graphWidth);
-    top5Resize
+    summaryResize
       .attr('x', canvasWidth - 30)
       .attr('y', 4);
-    top5ChartPlaceholder
+    httpSummaryChartPlaceholder
       .attr('x', graphWidth / 2)
       .attr('y', graphHeight / 2);
-    top5_xScale = d3.scale.linear().range([0, graphWidth]);
+    httpSummary_xScale = d3.scale.linear().range([0, graphWidth]);
     httpSummarySVG
       .attr('width', canvasWidth)
       .attr('height', tableHeight);
-    top5TitleBox
+    httpSummaryTitleBox
       .attr('width', canvasWidth);
     httpSummaryContent
       .attr('width', canvasWidth)
-      .attr('height', tableHeight);
+      .attr('height', (tableHeight-titleBoxHeight));
     updateChart();
   }
 
@@ -275,7 +234,7 @@ function HttpSummary(divName, parentName, title) {
   let exports = {};
   exports.resizeTable = resizeTable;
   exports.updateURLData = updateURLData;
-  exports.settop5Options = settop5Options;
+  exports.setHttpSummaryOptions = setHttpSummaryOptions;
 
   return exports;
 }

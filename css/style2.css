@@ -328,3 +328,40 @@
       .sidenav {padding-top: 15px;}
       .sidenav a {font-size: 18px;}
     }
+
+
+    .httpSummaryDiv {
+      color: black;
+    }
+
+    .httpSummaryDiv, .httpSummaryDiv table {
+      height:100%;
+      width:100%;
+      table-layout: fixed;
+    }
+
+    .httpSummaryContent table>tr {
+      display: list-item;
+    }
+
+    .httpSummaryContent table>tr>td {
+      font-weight: lighter;
+      font-size: 14px;
+      text-align: center;
+      vertical-align:top;
+      word-wrap: break-word;
+      padding: 1px 0px;
+      display: inline-block;
+    }
+    .httpSummaryContent table>tr>td:first-child {
+      text-align: left;
+    }
+
+    .httpSummaryDiv {
+      padding: 10px;
+    }
+
+    .httpSummaryContentTable {
+      overflow-y: scroll;
+      padding: 7px 0px 0px 1px;
+    }
