@@ -361,7 +361,7 @@
       padding: 10px;
     }
 
-    .httpSummaryContentTable {
+    .httpSummaryContentDiv {
       overflow-y: scroll;
       padding: 7px 0px 0px 1px;
     }

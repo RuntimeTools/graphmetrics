@@ -146,13 +146,14 @@ function HttpSummary(divName, parentName, title) {
   httpSummaryTableTitlesRow.append('xhtml:td').text('Average Times')
   .attr('style', 'width: 30%;');
 
-  let httpSummaryContentTableHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeader').height());
-  let httpSummaryContentTable = httpSummaryDiv.append('xhtml:div')
-  .attr('class', 'httpSummaryContentTable')
+  let httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeader').height());
+  let httpSummaryContentDiv = httpSummaryDiv.append('xhtml:div')
+  .attr('class', 'httpSummaryContentDiv')
   .attr('cellspacing', '0')
   .attr('cellpadding', '0')
-  .attr('style', 'height: ' + httpSummaryContentTableHeight + 'px')
-  .append('xhtml:table');
+  .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px')
+
+  let httpSummaryContentTable = httpSummaryContentDiv.append('xhtml:table');
 
   function updateChart() {
     httpSummaryContentTable.html('');
@@ -224,6 +225,9 @@ function HttpSummary(divName, parentName, title) {
     httpSummaryContent
       .attr('width', canvasWidth)
       .attr('height', (tableHeight-titleBoxHeight));
+    httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeader').height());
+    httpSummaryContentDiv
+      .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px')
     updateChart();
   }
 
