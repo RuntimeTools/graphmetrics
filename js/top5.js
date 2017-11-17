@@ -191,7 +191,6 @@ function Top5(divName, parentName, title) {
   // (The path to the dashboard.)
   function settop5Options(options) {
     top5options = options;
-    // console.log(options);
   }
 
   function updateURLData(data) {
