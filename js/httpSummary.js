@@ -172,7 +172,6 @@ function HttpSummary(divName, parentName, title) {
 
   function updateHttpAverages(workingData) {
     httpSummaryData = sorting(workingData, sort.key);
-    console.log(sort);
     if (httpSummaryOptions['filteredPath']) {
       httpSummaryData = httpSummaryData.filter((d) => {
         return !((d.url == httpSummaryOptions.filteredPath) ||
@@ -268,7 +267,6 @@ function HttpSummary(divName, parentName, title) {
     if (event.target.tagName === 'SPAN') {
       switchCase = ($(event.target).parent().attr('id')).toString();
     }
-    console.log(switchCase);
     switch(switchCase) {
       case sort.key:
         sort.reverse = !sort.reverse;
