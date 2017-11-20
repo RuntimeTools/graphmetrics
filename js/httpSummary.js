@@ -22,6 +22,11 @@ function HttpSummary(divName, parentName, title) {
   // Bar chart for top 5 URLs by average request time
   let httpSummaryData = [];
   let httpSummaryOptions = {};
+  var sort = {key: 'endpoint', reverse: false};
+
+  // unicode for arrows
+  let arrowUp = '&#9650;';
+  let arrowDown = '&#9660;';
 
   // TODO - This should probably be a parameter to the constructor
   // or an argument to resizeTable().
@@ -134,19 +139,19 @@ function HttpSummary(divName, parentName, title) {
   .attr('class', 'httpSummaryDiv');
 
   let httpSummaryTableTitles = httpSummaryDiv.append('xhtml:div')
-  .attr('class', 'httpSummaryTableHeader')
+  .attr('class', 'httpSummaryTableHeaderDiv')
   .append('xhtml:table');
 
   // Set titles for table
   let httpSummaryTableTitlesRow = httpSummaryTableTitles.append('xhtml:tr');
-  httpSummaryTableTitlesRow.append('xhtml:td').text('Endpoint')
-  .attr('style', 'width: 50%;');
-  httpSummaryTableTitlesRow.append('xhtml:td').text('Total Hits')
-  .attr('style', 'width: 20%;');
-  httpSummaryTableTitlesRow.append('xhtml:td').text('Average Times')
-  .attr('style', 'width: 30%;');
+  httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
+    .text('Endpoint').attr('id', 'endpoint').append('xhtml:span').html(arrowDown);
+  httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
+    .text('Total Hits').attr('id', 'hits').append('xhtml:span');
+  httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
+    .text('Average Times').attr('id', 'times').append('xhtml:span');
 
-  let httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeader').height());
+  let httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeaderDiv').height());
   let httpSummaryContentDiv = httpSummaryDiv.append('xhtml:div')
   .attr('class', 'httpSummaryContentDiv')
   .attr('cellspacing', '0')
@@ -159,39 +164,39 @@ function HttpSummary(divName, parentName, title) {
     httpSummaryContentTable.html('');
     for (var i = 0; i < httpSummaryData.length; i++) {
       let dummyRow = httpSummaryContentTable.append('xhtml:tr');
-      dummyRow.append('xhtml:td').text(httpSummaryData[i].url).attr('style', 'width: 50%;');
-      dummyRow.append('xhtml:td').text(httpSummaryData[i].hits).attr('style', 'width: 20%;');
-      dummyRow.append('xhtml:td').text(httpSummaryData[i].averageResponseTime).attr('style', 'width: 30%;');
-    }
-
-    for (var i = 0; i < 90; i++) {
-      let dummyRow = httpSummaryContentTable.append('xhtml:tr');
-      dummyRow.append('xhtml:td').text('sdfsdfslkdjfs').attr('style', 'width: 50%;');
-      dummyRow.append('xhtml:td').text('sdfsdfslkdjfs').attr('style', 'width: 20%;');
-      dummyRow.append('xhtml:td').text('sdfsdfslkdjfs').attr('style', 'width: 30%;');
+      dummyRow.append('xhtml:td').text(httpSummaryData[i].url);
+      dummyRow.append('xhtml:td').text(httpSummaryData[i].hits);
+      dummyRow.append('xhtml:td').text(httpSummaryData[i].averageResponseTime);
     }
   }
 
   function updateHttpAverages(workingData) {
-    httpSummaryData = workingData.sort(function(a, b) {
-      if (a.averageResponseTime > b.averageResponseTime) {
-        return -1;
-      }
-      if (a.averageResponseTime < b.averageResponseTime) {
-        return 1;
-      }
-      // a must be equal to b
-      return 0;
-    });
+    httpSummaryData = sorting(workingData, sort.key);
+    console.log(sort);
     if (httpSummaryOptions['filteredPath']) {
       httpSummaryData = httpSummaryData.filter((d) => {
         return !((d.url == httpSummaryOptions.filteredPath) ||
         d.url.startsWith(httpSummaryOptions.filteredPath + '/'));
       });
     }
-    if (httpSummaryData.length > 5) {
-      httpSummaryData = httpSummaryData.slice(0, 5);
+
+    function sorting(objectToSort, key) {
+      function sortByKey(a, b) {
+          var x = a[key];
+          var y = b[key];
+          return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+      }
+      objectToSort.sort(sortByKey);
+      if (sort.reverse) {
+        objectToSort.reverse(sortByKey);
+      }
+      return objectToSort;
     }
+
+    // Potentially the part which cuts the list to 5
+    // if (httpSummaryData.length > 5) {
+    //   httpSummaryData = httpSummaryData.slice(0, 5);
+    // }
     updateChart();
   }
 
@@ -232,7 +237,7 @@ function HttpSummary(divName, parentName, title) {
     httpSummaryContent
       .attr('width', canvasWidth)
       .attr('height', (tableHeight-titleBoxHeight));
-    httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeader').height());
+    httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeaderDiv').height());
     httpSummaryContentDiv
       .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px');
       scrollBarCorrection();
@@ -246,13 +251,65 @@ function HttpSummary(divName, parentName, title) {
     let outerWidth = $('.httpSummaryContentDiv:eq(0)').outerWidth();
     let innerWidth = $('.httpSummaryContentDiv:eq(0) table').outerWidth();
     let padding = outerWidth-innerWidth;
-    // Add padding to httpSummaryTableHeader
-    $('.httpSummaryTableHeader').css('padding-right', padding+'px');
+    // Add padding to httpSummaryTableHeaderDiv
+    // httpSummaryContentDiv has a padding-left of 1
+    if (padding > 1) {
+      $('.httpSummaryTableHeaderDiv').css('padding-right', padding+'px');
+    } else {
+      // If no scroll bar add 10px to the padding right
+      $('.httpSummaryDiv').css('padding-right', '10px');
+    }
+  }
+
+  // Function to sort the data depending on how the user wants it to be ordered
+  function sortData(e) {
+    let switchCase = e.target.id.toString();
+    // If the sort icon is clicked instead, get the id of its parent
+    if (event.target.tagName === 'SPAN') {
+      switchCase = ($(event.target).parent().attr('id')).toString();
+    }
+    console.log(switchCase);
+    switch(switchCase) {
+      case sort.key:
+        sort.reverse = !sort.reverse;
+        break;
+      case 'endpoint':
+        sort.key = 'endpoint';
+        sort.reverse = false;
+        break;
+      case 'hits':
+        sort.key = 'hits';
+        sort.reverse = false;
+        break;
+      case 'times':
+        sort.key = 'times';
+        sort.reverse = false;
+        break;
+      default:
+        console.error('Not a sortable element');
+    }
+    updateSortArrows();
+    updateHttpAverages(httpSummaryData);
+  }
+
+  // Function to update which arrow is shown on the screen to indicate sorting
+  function updateSortArrows() {
+    // The sort.key will always be the same as an id for
+    // one of the three fields in the table
+    $('.httpSummaryTableHeader span').html('');
+    let arrow = arrowDown;
+    if (sort.reverse) {
+      arrow = arrowUp;
+    }
+    $('#' + sort.key + ' span').html(arrow);
   }
 
   // Resize at the end of setup.
   resizeTable();
   updateChart();
+
+  // Onclick of table header, sort data
+  $('.httpSummaryTableHeaderDiv td').click(sortData);
 
   let exports = {};
   exports.resizeTable = resizeTable;

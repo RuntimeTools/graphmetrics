@@ -342,10 +342,10 @@
 
     .httpSummaryContent table>tr {
       display: list-item;
+      list-style-type: none;
     }
 
     .httpSummaryContent table>tr>td {
-      font-weight: lighter;
       font-size: 14px;
       text-align: center;
       vertical-align:top;
@@ -353,8 +353,29 @@
       padding: 1px 0px;
       display: inline-block;
     }
+
     .httpSummaryContent table>tr>td:first-child {
       text-align: left;
+      width: 40%;
+    }
+
+    .httpSummaryContent table>tr>td:nth-child(2) {
+      width: 25%;
+    }
+
+    .httpSummaryContent table>tr>td:nth-child(3) {
+      width: 35%;
+    }
+
+    .httpSummaryTableHeader {
+      cursor: pointer;
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
     }
 
     .httpSummaryDiv {
@@ -367,19 +388,26 @@
     }
 
     .arrow {
-      display: inline-block;
+      /*display: inline-block;
       vertical-align: super;
       width: 0;
       height: 0;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
+      margin-left: 5px;*/
+      border: solid black;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px;
       margin-left: 5px;
     }
 
     .arrow-up {
-      border-bottom: 5px solid black;
+      transform: rotate(-135deg);
+      -webkit-transform: rotate(-135deg);
     }
 
     .arrow-down {
-      border-top: 5px solid black;
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
     }
