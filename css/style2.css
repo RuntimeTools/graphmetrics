@@ -329,6 +329,14 @@
       .sidenav a {font-size: 18px;}
     }
 
+    /* Everytime we use a foreignObject to "escape" the svg set a body colour */
+    foreignObject>body {
+      background-color: #ffffff;
+    }
+
+
+    /* HTTP SUMMARY STYLES */
+
 
     .httpSummaryDiv {
       color: black;
@@ -369,6 +377,7 @@
 
     .httpSummaryTableHeader {
       cursor: pointer;
+      border-radius: 3px;
       -webkit-touch-callout: none; /* iOS Safari */
       -webkit-user-select: none; /* Safari */
       -khtml-user-select: none; /* Konqueror HTML */
@@ -376,6 +385,15 @@
       -ms-user-select: none; /* Internet Explorer/Edge */
       user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
+    }
+
+    .httpSummaryTableHeader:hover {
+      background-color: #dde4ee;
+    }
+
+    .httpSummaryTableHeader.active {
+      background-color: #dde4ee;
+      font-weight: bold;
     }
 
     .httpSummaryDiv {

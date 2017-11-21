@@ -144,7 +144,7 @@ function HttpSummary(divName, parentName, title) {
 
   // Set titles for table
   let httpSummaryTableTitlesRow = httpSummaryTableTitles.append('xhtml:tr');
-  httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
+  httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader active')
     .text('Endpoint').attr('id', 'endpoint').append('xhtml:span').html(arrowDown);
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
     .text('Total Hits').attr('id', 'hits').append('xhtml:span');
@@ -300,6 +300,10 @@ function HttpSummary(divName, parentName, title) {
       arrow = arrowUp;
     }
     $('#' + sort.key + ' span').html(arrow);
+
+    // Update the active element and give it a border
+    $('.httpSummaryTableHeader').removeClass('active');
+    $('#' + sort.key).addClass('active');
   }
 
   // Resize at the end of setup.
