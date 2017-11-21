@@ -31,8 +31,9 @@ function TextTable(divName, parentName, title) {
   .append('svg')
   .attr('class', 'envData');
 
+  let titleBoxHeight = 30;
   let titleBox = svg.append('rect')
-  .attr('height', 30)
+  .attr('height', titleBoxHeight)
   .attr('class', 'titlebox');
 
   svg.append('text')
@@ -41,11 +42,6 @@ function TextTable(divName, parentName, title) {
   .attr('dominant-baseline', 'central')
   .style('font-size', '18px')
   .text(title);
-
-  let paragraph = svg.append('g')
-  .attr('class', 'envGroup')
-  .attr('transform',
-  'translate(' + 20 + ',' + (margin.top + 10) + ')');
 
   let tableIsFullScreen = false;
 
@@ -86,6 +82,18 @@ function TextTable(divName, parentName, title) {
     }
   });
 
+  let innerHTML = svg.append('g')
+  .append('foreignObject')
+  .attr('height', (tableHeight-titleBoxHeight))
+  .attr('x', '0')
+  .attr('y', titleBoxHeight);
+  // .attr('class', 'httpSummaryContent');
+  console.log(innerHTML);
+
+  let innerDiv = innerHTML.append('xhtml:body').append('xhtml:div')
+
+  let table = innerDiv.append('xhtml:table')
+
   function populateTableJSON(requestData) {
     let data = JSON.parse(requestData);
     if (data == null) return;
@@ -101,33 +109,39 @@ function TextTable(divName, parentName, title) {
   // Tabulate an array of data in the form:
   // { {Parameter: "param-name", Value: "somevalue"}, {...}}
   function tabulate(tableData) {
-
+    console.log(tableData);
     // clear the table
-    paragraph.selectAll('text').remove();
+    table.html('');
 
-    // create a row for each object in the data
-    let rows = paragraph.selectAll('text')
-    .data(tableData)
-    .enter()
-    .append('text')
-    .style('font-size', '14px')
-    .attr('transform', function(d, i) {
-      return 'translate(0,' + (i * tableRowHeight) + ')';
-    });
+    // innerHTML.append('xhtml')
+    for (var i = 0; i < tableData.length; i++) {
+      let row = table.append('xhtml:tr');
+      row.append('xhtml:td').text(tableData[i].Parameter);
+      row.append('xhtml:td').text(tableData[i].Value);
+    }
+    // // create a row for each object in the data
+    // let rows = innerHTML.selectAll('text')
+    // .data(tableData)
+    // .enter()
+    // .append('text')
+    // .style('font-size', '14px')
+    // .attr('transform', function(d, i) {
+    //   return 'translate(0,' + (i * tableRowHeight) + ')';
+    // });
 
-    // create a cell in each row for each column
-    rows.selectAll('tspan')
-    .data(function(row) {
-      return ['Parameter', 'Value'].map(function(column) {
-        return {column: column, value: row[column]};
-      });
-    })
-    .enter()
-    .append('tspan')
-    .attr('x', function(d, i) {
-      return i * tableRowWidth; // indent second element for each row
-    })
-    .text(function(d) { return d.value; });
+    // // create a cell in each row for each column
+    // rows.selectAll('tspan')
+    // .data(function(row) {
+    //   return ['Parameter', 'Value'].map(function(column) {
+    //     return {column: column, value: row[column]};
+    //   });
+    // })
+    // .enter()
+    // .append('tspan')
+    // .attr('x', function(d, i) {
+    //   return i * tableRowWidth; // indent second element for each row
+    // })
+    // .text(function(d) { return d.value; });
   }
 
   function resizeTable() {
@@ -145,6 +159,9 @@ function TextTable(divName, parentName, title) {
     .attr('height', tableHeight);
     titleBox
     .attr('width', divCanvasWidth);
+    innerHTML
+    .attr('width', divCanvasWidth)
+    .attr('height', tableHeight-titleBoxHeight);
   }
 
   let exports = {};
