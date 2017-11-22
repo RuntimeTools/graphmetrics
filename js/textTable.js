@@ -88,7 +88,7 @@ function TextTable(divName, parentName, title) {
   .attr('x', '0')
   .attr('y', titleBoxHeight);
   // .attr('class', 'httpSummaryContent');
-  console.log(innerHTML);
+  // console.log(innerHTML);
 
   let innerDiv = innerHTML.append('xhtml:body').append('xhtml:div')
 
@@ -109,39 +109,37 @@ function TextTable(divName, parentName, title) {
   // Tabulate an array of data in the form:
   // { {Parameter: "param-name", Value: "somevalue"}, {...}}
   function tabulate(tableData) {
-    console.log(tableData);
     // clear the table
     table.html('');
-
-    // innerHTML.append('xhtml')
     for (var i = 0; i < tableData.length; i++) {
       let row = table.append('xhtml:tr');
       row.append('xhtml:td').text(tableData[i].Parameter);
       row.append('xhtml:td').text(tableData[i].Value);
     }
-    // // create a row for each object in the data
-    // let rows = innerHTML.selectAll('text')
-    // .data(tableData)
-    // .enter()
-    // .append('text')
-    // .style('font-size', '14px')
-    // .attr('transform', function(d, i) {
-    //   return 'translate(0,' + (i * tableRowHeight) + ')';
-    // });
 
-    // // create a cell in each row for each column
-    // rows.selectAll('tspan')
-    // .data(function(row) {
-    //   return ['Parameter', 'Value'].map(function(column) {
-    //     return {column: column, value: row[column]};
-    //   });
-    // })
-    // .enter()
-    // .append('tspan')
-    // .attr('x', function(d, i) {
-    //   return i * tableRowWidth; // indent second element for each row
-    // })
-    // .text(function(d) { return d.value; });
+    // Check for any overflowing text
+    for (var i = 0; i < $('.envData td').length; i++) {
+      let el = $('.envData td').get(i);
+      // Only check odd numbers in el list (The Value field)
+      // Math.ceil as sometimes they are .something off being equal
+      if (Math.ceil(el.scrollWidth) > Math.ceil($(el).width()) && (i % 2 == 1)) {
+        // Text has overflowed
+        console.log(i);
+        console.log(Math.ceil(el.scrollWidth));
+        console.log(Math.ceil($(el).width()));
+        $(el).addClass('largeValue');
+        let text = $(el).text();
+        // Get amount of elements and divide by five (5 lines to expand on to)
+        let lineLength = Math.ceil((text.length)/5);
+        // Split string into 3
+        let splitString = text.match(new RegExp('.{1,' + lineLength + '}', 'g'));
+        let html = '';
+        for (var j = 0; j < splitString.length; j++) {
+          html += '<div>' + splitString[j] + '</div>';
+        }
+        $(el).html(html);
+      }
+    }
   }
 
   function resizeTable() {
