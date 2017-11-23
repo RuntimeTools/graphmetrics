@@ -261,10 +261,11 @@ function HttpSummary(divName, parentName, title) {
 
   // Function to sort the data depending on how the user wants it to be ordered
   function sortData(e) {
+     if( !e ) e = window.event;
     let switchCase = e.target.id.toString();
     // If the sort icon is clicked instead, get the id of its parent
-    if (event.target.tagName === 'SPAN') {
-      switchCase = ($(event.target).parent().attr('id')).toString();
+    if (e.target.tagName === 'SPAN') {
+      switchCase = ($(e.target).parent().attr('id')).toString();
     }
     switch (switchCase) {
       case sort.key:
