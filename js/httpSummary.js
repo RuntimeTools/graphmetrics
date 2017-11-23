@@ -44,7 +44,6 @@ function HttpSummary(divName, parentName, title) {
   const normalTableHeight = calculateTableHeight();
   let tableHeight = normalTableHeight;
 
-  let httpSummary_barHeight = tallerGraphHeight / 5;
   // -8 for margin and border, min 100 in case this is on a hidden tab.
   let canvasWidth = Math.max($(divName).width() - 8, 100);
   let graphWidth = canvasWidth - margin.left - margin.right;
@@ -164,7 +163,7 @@ function HttpSummary(divName, parentName, title) {
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
     .text('Average Times').attr('id', 'times').append('xhtml:span');
 
-  let httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeaderDiv').height());
+  let httpSummaryContentDivHeight = tableHeight-(40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
   let httpSummaryContentDiv = httpSummaryDiv.append('xhtml:div')
   .attr('class', 'httpSummaryContentDiv')
   .attr('cellspacing', '0')
@@ -252,7 +251,7 @@ function HttpSummary(divName, parentName, title) {
     httpSummaryContent
       .attr('width', canvasWidth)
       .attr('height', (tableHeight-titleBoxHeight));
-    httpSummaryContentDivHeight = tableHeight-(40+titleBoxHeight+$('.httpSummaryTableHeaderDiv').height());
+    httpSummaryContentDivHeight = tableHeight-(40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
     httpSummaryContentDiv
       .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px');
       scrollBarCorrection();
@@ -269,7 +268,7 @@ function HttpSummary(divName, parentName, title) {
     // Add padding to httpSummaryTableHeaderDiv
     // httpSummaryContentDiv has a padding-left of 1
     if (padding > 1) {
-      $('.httpSummaryTableHeaderDiv').css('padding-right', padding+'px');
+      $('.httpSummaryTableHeaderDiv').css('padding-right', padding +'px');
     } else {
       // If no scroll bar add 10px to the padding right
       $('.httpSummaryDiv').css('padding-right', '10px');
