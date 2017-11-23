@@ -78,20 +78,6 @@ function HttpSummary(divName, parentName, title) {
   .style('font-size', '18px')
   .text(localizedStrings.NoDataMsg);
 
-  function convertURL(url, graphWidth) {
-    let stringToDisplay = url.toString();
-    if (stringToDisplay.startsWith('http://' + httpSummaryOptions.host)) {
-      stringToDisplay = stringToDisplay.substring(httpSummaryOptions.host.length + 7);
-    }
-    // Do a rough calculation to find out whether the URL will need more space than is available and truncate if it does
-    let stringLength = stringToDisplay.length;
-    let charSpaceAvailable = Math.floor(graphWidth / 8); // allow 8 pixels per character (higher than needed but allows space for the time at the end)
-    if (stringLength > charSpaceAvailable) {
-      stringToDisplay = '...' + stringToDisplay.substring(stringLength - charSpaceAvailable - 3);
-    }
-    return stringToDisplay;
-  }
-
   let httpSummaryIsFullScreen = false;
 
   // Add the maximise button
@@ -140,7 +126,7 @@ function HttpSummary(divName, parentName, title) {
   // summarydiv
   let httpSummaryContent = httpSummarySVG.append('foreignObject')
   .attr('width', graphWidth)
-  .attr('height', (tableHeight-titleBoxHeight))
+  .attr('height', (tableHeight - titleBoxHeight))
   .attr('x', '0')
   .attr('y', titleBoxHeight)
   .attr('class', 'httpSummaryContent');
@@ -163,12 +149,12 @@ function HttpSummary(divName, parentName, title) {
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
     .text('Average Times').attr('id', 'times').append('xhtml:span');
 
-  let httpSummaryContentDivHeight = tableHeight-(40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
+  let httpSummaryContentDivHeight = tableHeight - (40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
   let httpSummaryContentDiv = httpSummaryDiv.append('xhtml:div')
   .attr('class', 'httpSummaryContentDiv')
   .attr('cellspacing', '0')
   .attr('cellpadding', '0')
-  .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px')
+  .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px');
 
   let httpSummaryContentTable = httpSummaryContentDiv.append('xhtml:table');
 
@@ -193,9 +179,9 @@ function HttpSummary(divName, parentName, title) {
 
     function sorting(objectToSort, key) {
       function sortByKey(a, b) {
-          var x = a[key];
-          var y = b[key];
-          return ((x < y) ? 1 : ((x > y) ? -1 : 0));
+        var x = a[key];
+        var y = b[key];
+        return ((x < y) ? 1 : ((x > y) ? -1 : 0));
       }
       objectToSort.sort(sortByKey);
       if (sort.reverse) {
@@ -250,11 +236,11 @@ function HttpSummary(divName, parentName, title) {
       .attr('width', canvasWidth);
     httpSummaryContent
       .attr('width', canvasWidth)
-      .attr('height', (tableHeight-titleBoxHeight));
-    httpSummaryContentDivHeight = tableHeight-(40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
+      .attr('height', (tableHeight - titleBoxHeight));
+    httpSummaryContentDivHeight = tableHeight - (40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
     httpSummaryContentDiv
       .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px');
-      scrollBarCorrection();
+    scrollBarCorrection();
     updateChart();
   }
 
@@ -264,11 +250,11 @@ function HttpSummary(divName, parentName, title) {
   function scrollBarCorrection() {
     let outerWidth = $('.httpSummaryContentDiv:eq(0)').outerWidth();
     let innerWidth = $('.httpSummaryContentDiv:eq(0) table').outerWidth();
-    let padding = outerWidth-innerWidth;
+    let padding = outerWidth - innerWidth;
     // Add padding to httpSummaryTableHeaderDiv
     // httpSummaryContentDiv has a padding-left of 1
     if (padding > 1) {
-      $('.httpSummaryTableHeaderDiv').css('padding-right', padding +'px');
+      $('.httpSummaryTableHeaderDiv').css('padding-right', padding + 'px');
     } else {
       // If no scroll bar add 10px to the padding right
       $('.httpSummaryDiv').css('padding-right', '10px');
@@ -282,7 +268,7 @@ function HttpSummary(divName, parentName, title) {
     if (event.target.tagName === 'SPAN') {
       switchCase = ($(event.target).parent().attr('id')).toString();
     }
-    switch(switchCase) {
+    switch (switchCase) {
       case sort.key:
         sort.reverse = !sort.reverse;
         break;
