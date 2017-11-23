@@ -28,9 +28,21 @@ function HttpSummary(divName, parentName, title) {
   let arrowUp = '&#9650;';
   let arrowDown = '&#9660;';
 
-  // TODO - This should probably be a parameter to the constructor
-  // or an argument to resizeTable().
-  let tableHeight = 250;
+  function calculateTableHeight() {
+    // TODO - This should probably be a parameter to the constructor
+    // or an argument to resizeTable().
+    let height = 250;
+    // If the div has class of 'height-2' (Double height div) change tableHeight
+    if ($(divName).hasClass('height-2')) {
+      // TODO - This should be dynamic, at the moment it isn't
+      // as other heights are not dynamic either
+      height = 510;
+    }
+    return height;
+  }
+
+  const normalTableHeight = calculateTableHeight();
+  let tableHeight = normalTableHeight;
 
   let httpSummary_barHeight = tallerGraphHeight / 5;
   // -8 for margin and border, min 100 in case this is on a hidden tab.
@@ -103,7 +115,8 @@ function HttpSummary(divName, parentName, title) {
       canvasWidth = $(divName).width() - 8; // -8 for margins and borders
       graphWidth = canvasWidth - margin.left - margin.right;
       summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      tableHeight = 250;
+      tableHeight = normalTableHeight;
+      $(divName).parent().attr('style', 'position: relative');
       graphHeight = tableHeight - margin.top - margin.bottom;
       // Redraw all
       resize();
@@ -218,6 +231,9 @@ function HttpSummary(divName, parentName, title) {
   function resizeTable() {
     if (httpSummaryIsFullScreen) {
       tableHeight = $(divName).height() - 100;
+      if ($(divName).hasClass('height-2')) {
+        $(divName).parent().attr('style', 'position: absolute');
+      }
     }
     canvasWidth = Math.max($(divName).width() - 8, 100);
     graphWidth = canvasWidth - margin.left - margin.right;
