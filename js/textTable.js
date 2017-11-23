@@ -20,8 +20,6 @@
 // title - A string title for this text table.
 function TextTable(divName, parentName, title) {
 
-  let tableRowHeight = 30;
-  let tableRowWidth = 170;
   // TODO - This should probably be a parameter to the constructor
   // or an argument to resizeTable().
   let tableHeight = 250;
@@ -84,15 +82,14 @@ function TextTable(divName, parentName, title) {
 
   let innerHTML = svg.append('g')
   .append('foreignObject')
-  .attr('height', (tableHeight-titleBoxHeight))
+  .attr('height', (tableHeight - titleBoxHeight))
   .attr('x', '0')
   .attr('y', titleBoxHeight);
   // .attr('class', 'httpSummaryContent');
   // console.log(innerHTML);
 
-  let innerDiv = innerHTML.append('xhtml:body').append('xhtml:div')
-
-  let table = innerDiv.append('xhtml:table')
+  let innerDiv = innerHTML.append('xhtml:body').append('xhtml:div');
+  let table = innerDiv.append('xhtml:table');
 
   function populateTableJSON(requestData) {
     let data = JSON.parse(requestData);
@@ -118,7 +115,7 @@ function TextTable(divName, parentName, title) {
     }
 
     // Check for any overflowing text
-    for (var i = 0; i < $('.envData td').length; i++) {
+    for (i = 0; i < $('.envData td').length; i++) {
       let el = $('.envData td').get(i);
       // Only check odd numbers in el list (The Value field)
       // Math.ceil as sometimes they are .something off being equal
@@ -129,7 +126,7 @@ function TextTable(divName, parentName, title) {
         // TODO we should work this out dynamically so that we can
         //      work out how many lines we actually need rather than defaulting to 5
         // Get amount of elements and divide by five (5 lines to expand on to)
-        let lineLength = Math.ceil((text.length)/5);
+        let lineLength = Math.ceil((text.length) / 5);
         // Split string into 3
         let splitString = text.match(new RegExp('.{1,' + lineLength + '}', 'g'));
         let html = '';
@@ -158,7 +155,7 @@ function TextTable(divName, parentName, title) {
     .attr('width', divCanvasWidth);
     innerHTML
     .attr('width', divCanvasWidth)
-    .attr('height', tableHeight-titleBoxHeight);
+    .attr('height', tableHeight - titleBoxHeight);
   }
 
   let exports = {};
