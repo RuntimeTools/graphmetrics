@@ -48,7 +48,6 @@ function HttpSummary(divName, parentName, title) {
   let canvasWidth = Math.max($(divName).width() - 8, 100);
   let graphWidth = canvasWidth - margin.left - margin.right;
   let graphHeight = tableHeight - margin.top - margin.bottom;
-  let httpSummary_xScale = d3.scale.linear().range([0, graphWidth]);
 
   let httpSummarySVG = d3.select(divName)
   .append('svg')
@@ -228,7 +227,6 @@ function HttpSummary(divName, parentName, title) {
     httpSummaryChartPlaceholder
       .attr('x', graphWidth / 2)
       .attr('y', graphHeight / 2);
-    httpSummary_xScale = d3.scale.linear().range([0, graphWidth]);
     httpSummarySVG
       .attr('width', canvasWidth)
       .attr('height', tableHeight);
