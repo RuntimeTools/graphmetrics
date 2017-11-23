@@ -124,11 +124,10 @@ function TextTable(divName, parentName, title) {
       // Math.ceil as sometimes they are .something off being equal
       if (Math.ceil(el.scrollWidth) > Math.ceil($(el).width()) && (i % 2 == 1)) {
         // Text has overflowed
-        console.log(i);
-        console.log(Math.ceil(el.scrollWidth));
-        console.log(Math.ceil($(el).width()));
         $(el).addClass('largeValue');
         let text = $(el).text();
+        // TODO we should work this out dynamically so that we can
+        //      work out how many lines we actually need rather than defaulting to 5
         // Get amount of elements and divide by five (5 lines to expand on to)
         let lineLength = Math.ceil((text.length)/5);
         // Split string into 3
