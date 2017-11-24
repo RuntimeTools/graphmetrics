@@ -103,15 +103,15 @@
         background-color: #ffffff;
     }
 
-    .col-md-2,
-    .col-md-3,
-    .col-md-4,
-    .col-md-5,
-    .col-md-6 {
+    [class*="col-"] {
         padding-right: 1px;
         padding-left: 1px;
         padding-top: 0px;
         padding-bottom: 0px
+    }
+
+    .height-2 {
+      height: 520px;
     }
 
     .cpuChart path,
@@ -253,14 +253,18 @@
         display: none;
     }
 
+    .graph-container {
+      position: relative;
+    }
+
     .fullscreen {
         position: absolute;
         z-index: 1;
-        width: 100%;
-        height: 100%;
+        /* Use view height and width to make div independent of parent */
+        width: 100vw;
+        height: 90vh;
         margin-left: -15px;
         padding-left: 15px;
-
     }
 
     .heapDumppopup {
@@ -327,4 +331,135 @@
     @media screen and (max-height: 450px) {
       .sidenav {padding-top: 15px;}
       .sidenav a {font-size: 18px;}
+    }
+
+    /*  TABLES INSIDE SVG STYLES (textTable.js and httpSummary.js)  */
+
+    /* Everytime we use a foreignObject to "escape" the svg set a body colour */
+    foreignObject>body {
+      background-color: #ffffff;
+    }
+
+    foreignObject>body>div {
+      color: black;
+      font-size: 14px;
+      padding: 10px 0px 10px 10px;
+    }
+
+    foreignObject>body>div, foreignObject>body>div table {
+      height:100%;
+      width:100%;
+      table-layout: fixed;
+    }
+
+    foreignObject>body>div table>tr {
+      display: list-item;
+      list-style-type: none;
+    }
+
+    foreignObject>body>div table>tr>td {
+      padding: 1px 0px;
+      display: inline-block;
+    }
+
+    /* Control how a Value looks if it is bigger than one line */
+    foreignObject>body>div table>tr>td.largeValue {
+      padding: 5px;
+      overflow-x: scroll;
+    }
+
+    foreignObject>body>div table>tr>td.largeValue>div {
+      padding: 0;
+      margin: 0;
+      white-space: nowrap;
+    }
+
+    /* Only set the width of the td when it is a text table. */
+    .envData>g>foreignObject>body>div table>tr>td:first-child {
+      width: 40%;
+    }
+
+    .envData>g>foreignObject>body>div table>tr>td:last-child {
+      width: 60%;
+    }
+
+
+    /* HTTP SUMMARY STYLES */
+
+
+
+    .httpSummaryContent table>tr {
+      display: list-item;
+      list-style-type: none;
+    }
+
+    .httpSummaryContent table>tr>td {
+      /*font-size: 14px;*/
+      text-align: center;
+      vertical-align:top;
+      word-wrap: break-word;
+    }
+
+    .httpSummaryContent table>tr>td:first-child {
+      text-align: left;
+      width: 40%;
+    }
+
+    .httpSummaryContent table>tr>td:nth-child(2) {
+      width: 25%;
+    }
+
+    .httpSummaryContent table>tr>td:nth-child(3) {
+      width: 35%;
+    }
+
+    .httpSummaryTableHeader {
+      cursor: pointer;
+      border-radius: 3px;
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+    }
+
+    .httpSummaryTableHeader:hover {
+      background-color: #dde4ee;
+    }
+
+    .httpSummaryTableHeader.active {
+      background-color: #dde4ee;
+      font-weight: bold;
+    }
+
+    .httpSummaryContentDiv {
+      overflow-y: scroll;
+      padding: 7px 0px 0px 1px;
+    }
+
+    .arrow {
+      /*display: inline-block;
+      vertical-align: super;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      margin-left: 5px;*/
+      border: solid black;
+      border-width: 0 2px 2px 0;
+      display: inline-block;
+      padding: 3px;
+      margin-left: 5px;
+    }
+
+    .arrow-up {
+      transform: rotate(-135deg);
+      -webkit-transform: rotate(-135deg);
+    }
+
+    .arrow-down {
+      transform: rotate(45deg);
+      -webkit-transform: rotate(45deg);
     }
