@@ -145,7 +145,7 @@ function HttpSummary(divName, parentName, title) {
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
     .text('Total Hits').attr('id', 'hits').append('xhtml:span');
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
-    .text('Average Times').attr('id', 'averageResponseTime').append('xhtml:span');
+    .text('Average Response Times (ms)').attr('id', 'averageResponseTime').append('xhtml:span');
 
   let httpSummaryContentDivHeight = tableHeight - (40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
   let httpSummaryContentDiv = httpSummaryDiv.append('xhtml:div')
@@ -162,7 +162,9 @@ function HttpSummary(divName, parentName, title) {
       let dummyRow = httpSummaryContentTable.append('xhtml:tr');
       dummyRow.append('xhtml:td').text(httpSummaryData[i].url);
       dummyRow.append('xhtml:td').text(httpSummaryData[i].hits);
-      dummyRow.append('xhtml:td').text(httpSummaryData[i].averageResponseTime);
+      // Round averageResponseTime to two decimal
+      let time = Number(httpSummaryData[i].averageResponseTime).toFixed(2);
+      dummyRow.append('xhtml:td').text(time);
     }
   }
 
