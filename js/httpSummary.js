@@ -19,10 +19,9 @@
 // that should be minimised when this is maximised.
 // title - A string title for this text table.
 function HttpSummary(divName, parentName, title) {
-  // Bar chart for top 5 URLs by average request time
   let httpSummaryData = [];
   let httpSummaryOptions = {};
-  var sort = {key: 'endpoint', reverse: false};
+  var sort = {key: 'url', reverse: false};
 
   // unicode for arrows
   let arrowUp = '&#9650;';
@@ -142,11 +141,11 @@ function HttpSummary(divName, parentName, title) {
   // Set titles for table
   let httpSummaryTableTitlesRow = httpSummaryTableTitles.append('xhtml:tr');
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader active')
-    .text('Endpoint').attr('id', 'endpoint').append('xhtml:span').html(arrowDown);
+    .text('Endpoint').attr('id', 'url').append('xhtml:span').html(arrowDown);
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
     .text('Total Hits').attr('id', 'hits').append('xhtml:span');
   httpSummaryTableTitlesRow.append('xhtml:td').attr('class', 'httpSummaryTableHeader')
-    .text('Average Times').attr('id', 'times').append('xhtml:span');
+    .text('Average Times').attr('id', 'averageResponseTime').append('xhtml:span');
 
   let httpSummaryContentDivHeight = tableHeight - (40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
   let httpSummaryContentDiv = httpSummaryDiv.append('xhtml:div')
@@ -189,10 +188,6 @@ function HttpSummary(divName, parentName, title) {
       return objectToSort;
     }
 
-    // Potentially the part which cuts the list to 5
-    // if (httpSummaryData.length > 5) {
-    //   httpSummaryData = httpSummaryData.slice(0, 5);
-    // }
     updateChart();
   }
 
@@ -261,7 +256,7 @@ function HttpSummary(divName, parentName, title) {
 
   // Function to sort the data depending on how the user wants it to be ordered
   function sortData(e) {
-    if (!e) e = window.event;
+     if( !e ) e = window.event;
     let switchCase = e.target.id.toString();
     // If the sort icon is clicked instead, get the id of its parent
     if (e.target.tagName === 'SPAN') {
@@ -271,16 +266,16 @@ function HttpSummary(divName, parentName, title) {
       case sort.key:
         sort.reverse = !sort.reverse;
         break;
-      case 'endpoint':
-        sort.key = 'endpoint';
+      case 'url':
+        sort.key = 'url';
         sort.reverse = false;
         break;
       case 'hits':
         sort.key = 'hits';
         sort.reverse = false;
         break;
-      case 'times':
-        sort.key = 'times';
+      case 'averageResponseTime':
+        sort.key = 'averageResponseTime';
         sort.reverse = false;
         break;
       default:
