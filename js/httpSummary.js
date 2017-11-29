@@ -268,6 +268,7 @@ function HttpSummary(divName, parentName, title) {
     if (e.target.tagName === 'SPAN') {
       switchCase = ($(e.target).parent().attr('id')).toString();
     }
+    console.log(switchCase);
     switch (switchCase) {
       case sort.key:
         sort.reverse = !sort.reverse;
@@ -282,6 +283,10 @@ function HttpSummary(divName, parentName, title) {
         break;
       case 'averageResponseTime':
         sort.key = 'averageResponseTime';
+        sort.reverse = false;
+        break;
+      case 'longestResponseTime':
+        sort.key = 'longestResponseTime';
         sort.reverse = false;
         break;
       default:
