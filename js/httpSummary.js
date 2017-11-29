@@ -268,7 +268,6 @@ function HttpSummary(divName, parentName, title) {
     if (e.target.tagName === 'SPAN') {
       switchCase = ($(e.target).parent().attr('id')).toString();
     }
-    console.log(switchCase);
     switch (switchCase) {
       case sort.key:
         sort.reverse = !sort.reverse;
