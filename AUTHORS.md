@@ -7,4 +7,4 @@ Authors ordered by first contribution
  - Matt Colegate (https://github.com/mattcolegate)
  - Howard Hellyer (https://github.com/hhellyer)
  - Richard Chamberlain (https://github.com/rmchamberlain)
- 
+ - James Wallis (https://github.com/jamesemwallis)
