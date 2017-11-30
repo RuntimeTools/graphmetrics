@@ -110,6 +110,10 @@
         padding-bottom: 0px
     }
 
+    #flameDiv [class*="col-"] {
+      padding-right: 15px;
+    }
+
     .height-2 {
       height: 520px;
     }
