@@ -119,22 +119,22 @@ function TextTable(divName, parentName, title) {
       let el = $('.envData td').get(i);
       // Only check odd numbers in el list (The Value field)
       // Math.ceil as sometimes they are .something off being equal
-      if (Math.ceil(el.scrollWidth) > Math.ceil($(el).width()) && (i % 2 == 1)) {
-        // Text has overflowed
-        $(el).addClass('largeValue');
-        let text = $(el).text();
-        // TODO we should work this out dynamically so that we can
-        //      work out how many lines we actually need rather than defaulting to 5
-        // Get amount of elements and divide by five (5 lines to expand on to)
-        let lineLength = Math.ceil((text.length) / 5);
-        // Split string into 3
-        let splitString = text.match(new RegExp('.{1,' + lineLength + '}', 'g'));
-        let html = '';
-        for (var j = 0; j < splitString.length; j++) {
-          html += '<div>' + splitString[j] + '</div>';
-        }
-        $(el).html(html);
-      }
+      // if (Math.ceil(el.scrollWidth) > Math.ceil($(el).width()) && (i % 2 == 1)) {
+      //   // Text has overflowed
+      //   $(el).addClass('largeValue');
+      //   let text = $(el).text();
+      //   // TODO we should work this out dynamically so that we can
+      //   //      work out how many lines we actually need rather than defaulting to 5
+      //   // Get amount of elements and divide by five (5 lines to expand on to)
+      //   let lineLength = Math.ceil((text.length) / 5);
+      //   // Split string into 3
+      //   let splitString = text.match(new RegExp('.{1,' + lineLength + '}', 'g'));
+      //   let html = '';
+      //   for (var j = 0; j < splitString.length; j++) {
+      //     html += '<div>' + splitString[j] + '</div>';
+      //   }
+      //   $(el).html(html);
+      // }
     }
   }
 
