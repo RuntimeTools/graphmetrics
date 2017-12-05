@@ -364,14 +364,22 @@
 
     /* Control how a Value looks if it is bigger than one line */
     foreignObject>body>div table>tr>td.largeValue {
-      padding: 5px;
-      overflow-x: scroll;
+      /*padding: 5px;*/
+      /*overflow-x: scroll;*/
     }
 
     foreignObject>body>div table>tr>td.largeValue>div {
       padding: 0;
       margin: 0;
       white-space: nowrap;
+    }
+
+    foreignObject>body>div table>tr>td.largeValue>pre {
+      border: 0;
+      background-color: inherit;
+      font-family: inherit;
+      margin: 0;
+      padding: 9.5px 2px;
     }
 
     /* Only set the width of the td when it is a text table. */
