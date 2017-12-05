@@ -142,8 +142,15 @@ function TextTable(divName, parentName, title) {
     let divCanvasWidth = $(divName).width() - 8; // -8 for margins and borders
     if (tableIsFullScreen) {
       tableHeight = $(divName).height() - 100;
+      // If parent is a graph-container (Used to vertically group graphs) make position absolute
+      if ($(divName).parent().hasClass('graph-container')) {
+        $(divName).parent().attr('style', 'position: absolute');
+      }
     } else {
       tableHeight = 250;
+      if ($(divName).parent().hasClass('graph-container')) {
+        $(divName).parent().attr('style', 'position: relative');
+      }
     }
     resizeImage
     .attr('x', divCanvasWidth - 30)

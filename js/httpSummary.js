@@ -36,8 +36,16 @@ function HttpSummary(divName, parentName, title) {
       // TODO - This should be dynamic, at the moment it isn't
       // as other heights are not dynamic either
       height = 510;
+    } else if ($(divName).hasClass('height-fill')) {
+      // Set height to the rest of the page
+      let body = document.getElementsByTagName('BODY')[0].offsetHeight;
+      let nav = document.getElementsByClassName('nav')[0].offsetHeight;
+      let header = document.getElementsByClassName('headerDiv')[0].offsetHeight;
+      // 20 to make it not hit the bottom
+      height = body - (nav + header) - 20;
     }
     return height;
+
   }
 
   const normalTableHeight = calculateTableHeight();
@@ -170,6 +178,24 @@ function HttpSummary(divName, parentName, title) {
       let longestTime = Number(httpSummaryData[i].longestResponseTime).toFixed(2);
       dummyRow.append('xhtml:td').text(longestTime);
     }
+    dummyData = [];
+    for (var i = 0; i < 50; i++) {
+      dummyData[i] = {};
+      dummyData[i].url = "http://localhost:" + i*100;
+      dummyData[i].hits = i;
+      dummyData[i].averageResponseTime = i*1.5;
+      dummyData[i].longestResponseTime = i*4;
+    }
+    for (var i = 0; i < dummyData.length; i++) {
+      let dummyRow = httpSummaryContentTable.append('xhtml:tr');
+      dummyRow.append('xhtml:td').text(dummyData[i].url);
+      dummyRow.append('xhtml:td').text(dummyData[i].hits);
+      // Round averageResponseTime to two decimal
+      let averageTime = Number(dummyData[i].averageResponseTime).toFixed(2);
+      dummyRow.append('xhtml:td').text(averageTime);
+      let longestTime = Number(dummyData[i].longestResponseTime).toFixed(2);
+      dummyRow.append('xhtml:td').text(longestTime);
+    }
   }
 
   function updateHttpAverages(workingData) {
@@ -215,10 +241,14 @@ function HttpSummary(divName, parentName, title) {
 
   function resizeTable() {
     if (httpSummaryIsFullScreen) {
-      tableHeight = $(divName).height() - 100;
-      if ($(divName).hasClass('height-2')) {
-        $(divName).parent().attr('style', 'position: absolute');
+      // Make sure that the height doesn't change if its already full 
+      if (!($(divName).hasClass('height-fill'))) {
+        tableHeight = $(divName).height() - 100;
+        if ($(divName).hasClass('height-2')) {
+          $(divName).parent().attr('style', 'position: absolute');
+        }
       }
+
     }
     canvasWidth = Math.max($(divName).width() - 8, 100);
     graphWidth = canvasWidth - margin.left - margin.right;
