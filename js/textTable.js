@@ -117,7 +117,7 @@ function TextTable(divName, parentName, title) {
     // Check for any overflowing text
     let tableChildren = $($(table)[0]).find('td');
     // Old way (Everything at once) $('.envData td')
-    for (i = 0; i < tableChildren.length; i++) {
+    for (var i = 0; i < tableChildren.length; i++) {
       let el = $(tableChildren).get(i);
       // Only check odd numbers in el list (The Value field) Assume all titles are set well
       if (i % 2 == 1) {
@@ -125,8 +125,7 @@ function TextTable(divName, parentName, title) {
         if ((Math.ceil(el.scrollWidth) > Math.ceil($(el).width()) && (!($(el).hasClass('largeValue'))))) {
           // Text has overflowed
           $(el).addClass('largeValue');
-        }
-        else if ((Math.ceil(el.scrollWidth) < Math.ceil($(el).width()) && ($(el).hasClass('largeValue')))) {
+        } else if ((Math.ceil(el.scrollWidth) < Math.ceil($(el).width()) && ($(el).hasClass('largeValue')))) {
           $(el).removeClass('largeValue');
         }
         // Now fix text overflow
@@ -146,7 +145,7 @@ function TextTable(divName, parentName, title) {
           // Get all large text boxes
           let large = $(tableRows).has('.largeValue');
           let amountOfLarge = $(large).length;
-          let height = (totalHeightLeft/amountOfLarge);
+          let height = (totalHeightLeft / amountOfLarge);
           $(large).each(function() {
             $(this).height(height);
           });
