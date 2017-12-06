@@ -169,32 +169,14 @@ function HttpSummary(divName, parentName, title) {
   function updateChart() {
     httpSummaryContentTable.html('');
     for (var i = 0; i < httpSummaryData.length; i++) {
-      let dummyRow = httpSummaryContentTable.append('xhtml:tr');
-      dummyRow.append('xhtml:td').text(httpSummaryData[i].url);
-      dummyRow.append('xhtml:td').text(httpSummaryData[i].hits);
+      let row = httpSummaryContentTable.append('xhtml:tr');
+      row.append('xhtml:td').text(httpSummaryData[i].url);
+      row.append('xhtml:td').text(httpSummaryData[i].hits);
       // Round averageResponseTime to two decimal
       let averageTime = Number(httpSummaryData[i].averageResponseTime).toFixed(2);
-      dummyRow.append('xhtml:td').text(averageTime);
+      row.append('xhtml:td').text(averageTime);
       let longestTime = Number(httpSummaryData[i].longestResponseTime).toFixed(2);
-      dummyRow.append('xhtml:td').text(longestTime);
-    }
-    dummyData = [];
-    for (var i = 0; i < 50; i++) {
-      dummyData[i] = {};
-      dummyData[i].url = "http://localhost:" + i*100;
-      dummyData[i].hits = i;
-      dummyData[i].averageResponseTime = i*1.5;
-      dummyData[i].longestResponseTime = i*4;
-    }
-    for (var i = 0; i < dummyData.length; i++) {
-      let dummyRow = httpSummaryContentTable.append('xhtml:tr');
-      dummyRow.append('xhtml:td').text(dummyData[i].url);
-      dummyRow.append('xhtml:td').text(dummyData[i].hits);
-      // Round averageResponseTime to two decimal
-      let averageTime = Number(dummyData[i].averageResponseTime).toFixed(2);
-      dummyRow.append('xhtml:td').text(averageTime);
-      let longestTime = Number(dummyData[i].longestResponseTime).toFixed(2);
-      dummyRow.append('xhtml:td').text(longestTime);
+      row.append('xhtml:td').text(longestTime);
     }
   }
 
@@ -241,7 +223,7 @@ function HttpSummary(divName, parentName, title) {
 
   function resizeTable() {
     if (httpSummaryIsFullScreen) {
-      // Make sure that the height doesn't change if its already full 
+      // Make sure that the height doesn't change if its already full
       if (!($(divName).hasClass('height-fill'))) {
         tableHeight = $(divName).height() - 100;
         if ($(divName).hasClass('height-2')) {
