@@ -125,6 +125,7 @@ function TextTable(divName, parentName, title) {
         if ((Math.ceil(el.scrollWidth) > Math.ceil($(el).width()) && (!($(el).hasClass('largeValue'))))) {
           // Text has overflowed
           $(el).addClass('largeValue');
+          $(el).
         } else if ((Math.ceil(el.scrollWidth) < Math.ceil($(el).width()) && ($(el).hasClass('largeValue')))) {
           $(el).removeClass('largeValue');
         }
