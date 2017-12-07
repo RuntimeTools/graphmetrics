@@ -374,7 +374,7 @@
     /* Control how a Value looks if it is bigger than one line */
     foreignObject>body>div table>tr>td.largeValue {
       padding-left: 2px;
-      overflow-y: scroll;
+      overflow-y: auto;
     }
 
     foreignObject>body>div table>tr>td.largeValue>p {
