@@ -110,6 +110,10 @@
         padding-bottom: 0px
     }
 
+    #flameDiv [class*="col-"] {
+      padding-right: 15px;
+    }
+
     .height-2 {
       height: 520px;
     }
@@ -369,7 +373,7 @@
 
     /* Control how a Value looks if it is bigger than one line */
     foreignObject>body>div table>tr>td.largeValue {
-      padding: 2px;
+      padding-left: 2px;
       overflow-y: scroll;
     }
 
@@ -385,7 +389,7 @@
       word-wrap: break-word;
       white-space: normal;
       display: block;
-      height: 150px;
+      line-height: 16px;
     }
 
     .envData>g>foreignObject>body>div table>tr>td {
@@ -457,13 +461,6 @@
     }
 
     .arrow {
-      /*display: inline-block;
-      vertical-align: super;
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      margin-left: 5px;*/
       border: solid black;
       border-width: 0 2px 2px 0;
       display: inline-block;
