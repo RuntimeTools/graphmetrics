@@ -105,19 +105,11 @@ function TextTable(divName, parentName, title) {
   function tabulate(tableData) {
     // clear the table
     table.html('');
-    let dumrow = table.append('xhtml:tr');
-    dumrow.append('xhtml:td').text('Dummy data 1');
-    dumrow.append('xhtml:td').text('Curabitur aliquet quam id dui posuere blandit. Curabitur aliquet quam id dui posuere blandit. Pellentesque in ipsum id orci porta dapibus.');
     for (var i = 0; i < tableData.length; i++) {
       let row = table.append('xhtml:tr');
       row.append('xhtml:td').text(tableData[i].Parameter);
       row.append('xhtml:td').text(tableData[i].Value);
     }
-    // test data
-    dumrow = table.append('xhtml:tr');
-    dumrow.append('xhtml:td').text('Dummy data 2');
-    dumrow.append('xhtml:td').text('Quisque velit nisi, pretium ut lacinia in, elementum id enim. Donec sollicitudin molestie malesuada.');
-
     checkTextOverflow();
   }
 
