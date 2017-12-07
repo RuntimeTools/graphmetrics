@@ -125,7 +125,7 @@ function TextTable(divName, parentName, title) {
       if (i % 2 == 1) {
         let alreadyAssigned = $(el).hasClass('largeValue');
         let overflow = isGreater(el.scrollWidth, $(el).width());
-        if(el.hasAttribute('data-scrollWidth')) {
+        if (el.hasAttribute('data-scrollWidth')) {
           overflow = isGreater($(el).attr('data-scrollWidth'), $(el).width());
         }
         if (overflow && !(alreadyAssigned)) {
@@ -145,7 +145,7 @@ function TextTable(divName, parentName, title) {
    * @return true or false, the result of the calculation
    */
   function isGreater(first, second) {
-    return (Math.ceil(first) > Math.ceil(second))
+    return (Math.ceil(first) > Math.ceil(second));
   }
 
   /**
