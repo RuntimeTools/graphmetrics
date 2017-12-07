@@ -85,9 +85,6 @@ function TextTable(divName, parentName, title) {
   .attr('height', (tableHeight - titleBoxHeight))
   .attr('x', '0')
   .attr('y', titleBoxHeight);
-  // .attr('class', 'httpSummaryContent');
-  // console.log(innerHTML);
-
   let innerDiv = innerHTML.append('xhtml:body').append('xhtml:div');
   let table = innerDiv.append('xhtml:table');
 
@@ -113,49 +110,112 @@ function TextTable(divName, parentName, title) {
       row.append('xhtml:td').text(tableData[i].Parameter);
       row.append('xhtml:td').text(tableData[i].Value);
     }
+    checkTextOverflow();
+  }
 
+  /**
+   * Function to check whether text has overflown in a text table
+   */
+  function checkTextOverflow() {
     // Check for any overflowing text
-    for (i = 0; i < $('.envData td').length; i++) {
-      let el = $('.envData td').get(i);
-      // Only check odd numbers in el list (The Value field)
-      // Math.ceil as sometimes they are .something off being equal
-      if (Math.ceil(el.scrollWidth) > Math.ceil($(el).width()) && (i % 2 == 1)) {
-        // Text has overflowed
-        $(el).addClass('largeValue');
-        let text = $(el).text();
-        // TODO we should work this out dynamically so that we can
-        //      work out how many lines we actually need rather than defaulting to 5
-        // Get amount of elements and divide by five (5 lines to expand on to)
-        let lineLength = Math.ceil((text.length) / 5);
-        // Split string into 3
-        let splitString = text.match(new RegExp('.{1,' + lineLength + '}', 'g'));
-        let html = '';
-        for (var j = 0; j < splitString.length; j++) {
-          html += '<div>' + splitString[j] + '</div>';
+    let tableChildren = $($(table)[0]).find('td');
+    for (var i = 0; i < tableChildren.length; i++) {
+      let el = $(tableChildren).get(i);
+      // Only check odd numbers in el list (The Value field) Assume all titles are set well
+      if (i % 2 == 1) {
+        let alreadyAssigned = $(el).hasClass('largeValue');
+        let overflow = isGreater(el.scrollWidth, $(el).width());
+        if (el.hasAttribute('data-scrollWidth')) {
+          overflow = isGreater($(el).attr('data-scrollWidth'), $(el).width());
         }
-        $(el).html(html);
+        if (overflow && !(alreadyAssigned)) {
+          // Add the data-scrollWidth attr so that it never changes
+          $(el).addClass('largeValue').attr('data-scrollWidth', el.scrollWidth);
+        }
+        // If largeValue fix the overflow
+        if ($(el).hasClass('largeValue')) {
+          fixLargeValues(el);
+        }
       }
     }
+  }
+
+  /**
+   * Function to check whether a number is greater than another, ceils to round up
+   * @return true or false, the result of the calculation
+   */
+  function isGreater(first, second) {
+    return (Math.ceil(first) > Math.ceil(second));
+  }
+
+  /**
+   * Function to fix the overflow of a large string in a text table.
+   *    Attempts to remove overflow
+   * @param el, the element that has overflown
+   */
+  function fixLargeValues(el) {
+    // First assume all can fit into the box without having to scroll
+    let text = $(el).text();
+    let html = `<p data-toggle="tooltip" title="${text}">${text}</p>`;
+    $(el).html(html);
+
+    // Now check that there isn't any overflow in the text box
+    let containerHeight = $(el).closest('foreignObject>body>div').height();
+    let table = $(el).closest('table')[0];
+    let tableRows = $($(table).children());
+    // Get total Height for all small (no .largeValue class) text boxes
+    let smallHeightTotal = 0;
+    $($(tableRows).not(':has(.largeValue)')).each(function() {
+      smallHeightTotal += $(this).height();
+    });
+    // Get total Height for all large (has .largeValue class) text boxes
+    let largeHeightTotal = 0;
+    $($(tableRows).has('.largeValue')).each(function() {
+      largeHeightTotal += $(this).height();
+    });
+    // Get total height of all text boxes (small and large)
+    let totalHeightTotal = smallHeightTotal + largeHeightTotal;
+
+    // If the total height of all text boxes is greater than the container height
+    //        we need to introduce scroll bars
+    if (totalHeightTotal > containerHeight) {
+      // Count up amount of Large containers
+      let largeContainers = $(tableRows).has('.largeValue');
+      let amountOfLarge = $(largeContainers).length;
+      let totalHeightLeft = (containerHeight - smallHeightTotal);
+      let height = (totalHeightLeft / amountOfLarge);
+      $(largeContainers).each(function() {
+        let currentHeight = $(this).height();
+        // If currentHeight is higher than the allowed amount, reduce it
+        // Only sets table data not table row
+        if (currentHeight > height) {
+          $(this).children('td').eq(1).height(height);
+        }
+      });
+    }
+    return;
   }
 
   function resizeTable() {
     let divCanvasWidth = $(divName).width() - 8; // -8 for margins and borders
     if (tableIsFullScreen) {
       tableHeight = $(divName).height() - 100;
+      // If parent is a graph-container (Used to vertically group graphs) make position absolute
+      if ($(divName).parent().hasClass('graph-container')) {
+        $(divName).parent().attr('style', 'position: absolute');
+      }
     } else {
       tableHeight = 250;
+      if ($(divName).parent().hasClass('graph-container')) {
+        $(divName).parent().attr('style', 'position: relative');
+      }
     }
-    resizeImage
-    .attr('x', divCanvasWidth - 30)
-    .attr('y', 4);
-    svg
-    .attr('width', divCanvasWidth)
-    .attr('height', tableHeight);
-    titleBox
-    .attr('width', divCanvasWidth);
-    innerHTML
-    .attr('width', divCanvasWidth)
-    .attr('height', tableHeight - titleBoxHeight);
+    resizeImage.attr('x', divCanvasWidth - 30).attr('y', 4);
+    svg.attr('width', divCanvasWidth).attr('height', tableHeight);
+    titleBox.attr('width', divCanvasWidth);
+    innerHTML.attr('width', divCanvasWidth)
+      .attr('height', tableHeight - titleBoxHeight);
+    checkTextOverflow();
   }
 
   let exports = {};

@@ -364,20 +364,37 @@
     foreignObject>body>div table>tr>td {
       padding: 1px 0px;
       display: inline-block;
+      height: inherit;
+    }
+
+    foreignObject>body>div table>tr>td>p {
+      color: black;
     }
 
     /* Control how a Value looks if it is bigger than one line */
     foreignObject>body>div table>tr>td.largeValue {
-      padding: 5px;
-      overflow-x: scroll;
+      padding-left: 2px;
+      overflow-y: auto;
     }
 
-    foreignObject>body>div table>tr>td.largeValue>div {
-      padding: 0;
+    foreignObject>body>div table>tr>td.largeValue>p {
+      border: 0;
+      background-color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
       margin: 0;
+      padding: 0;
+      word-break: break-all;
+      word-wrap: break-word;
+      white-space: normal;
+      display: block;
+      line-height: 16px;
+    }
+
+    .envData>g>foreignObject>body>div table>tr>td {
       white-space: nowrap;
     }
-
     /* Only set the width of the td when it is a text table. */
     .envData>g>foreignObject>body>div table>tr>td:first-child {
       width: 40%;
@@ -389,9 +406,6 @@
 
 
     /* HTTP SUMMARY STYLES */
-
-
-
     .httpSummaryContent table>tr {
       display: list-item;
       list-style-type: none;
@@ -447,13 +461,6 @@
     }
 
     .arrow {
-      /*display: inline-block;
-      vertical-align: super;
-      width: 0;
-      height: 0;
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      margin-left: 5px;*/
       border: solid black;
       border-width: 0 2px 2px 0;
       display: inline-block;
