@@ -22,6 +22,8 @@ function HttpSummary(divName, parentName, title) {
   let httpSummaryData = [];
   let httpSummaryOptions = {};
   var sort = {key: 'url', reverse: false};
+  let height = 250;
+  let minHeight = height;
 
   // unicode for arrows
   let arrowUp = '&#9650;';
@@ -30,23 +32,19 @@ function HttpSummary(divName, parentName, title) {
   function calculateTableHeight() {
     // TODO - This should probably be a parameter to the constructor
     // or an argument to resizeTable().
-    let height = 250;
+    height = 250;
     // If the div has class of 'height-2' (Double height div) change tableHeight
     if ($(divName).hasClass('height-2')) {
       // TODO - This should be dynamic, at the moment it isn't
       // as other heights are not dynamic either
       height = 510;
     } else if ($(divName).hasClass('height-fill')) {
-      // Set height to the rest of the page
-      let body = document.getElementsByTagName('BODY')[0].offsetHeight;
-      let nav = document.getElementsByClassName('nav')[0].offsetHeight;
-      let header = document.getElementsByClassName('headerDiv')[0].offsetHeight;
-      // 20 to make it not hit the bottom
-      height = body - (nav + header) - 20;
+      minHeight = 510; // Height of two divs - needs to be dynamic when above is
+      height = fillScreenHeight(minHeight);
     }
     return height;
-
   }
+
 
   const normalTableHeight = calculateTableHeight();
   let tableHeight = normalTableHeight;
@@ -230,7 +228,9 @@ function HttpSummary(divName, parentName, title) {
           $(divName).parent().attr('style', 'position: absolute');
         }
       }
-
+    }
+    if ($(divName).hasClass('height-fill')) {
+      tableHeight = fillScreenHeight(minHeight);
     }
     canvasWidth = Math.max($(divName).width() - 8, 100);
     graphWidth = canvasWidth - margin.left - margin.right;
@@ -336,4 +336,17 @@ function HttpSummary(divName, parentName, title) {
   exports.setHttpSummaryOptions = setHttpSummaryOptions;
 
   return exports;
+}
+
+// Functions that don't need to be in the httpSummary object
+function fillScreenHeight(minHeight) {
+  // Set height to the rest of the page
+  let body = document.getElementsByTagName('BODY')[0].offsetHeight;
+  let nav = document.getElementsByClassName('nav')[0].offsetHeight;
+  let header = document.getElementsByClassName('headerDiv')[0].offsetHeight;
+  let height = body - (nav + header) - 20;
+  if (height < minHeight) {
+    return minHeight;
+  }
+  return height;
 }
