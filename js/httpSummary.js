@@ -22,7 +22,8 @@ function HttpSummary(divName, parentName, title) {
   let httpSummaryData = [];
   let httpSummaryOptions = {};
   var sort = {key: 'url', reverse: false};
-  let height = minHeight = 250;
+  let height = 250;
+  let minHeight = height;
 
   // unicode for arrows
   let arrowUp = '&#9650;';
