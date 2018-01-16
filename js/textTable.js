@@ -197,10 +197,9 @@ function TextTable(divName, parentName, title) {
   }
 
   function resizeTable() {
-    if(!$(divName).hasClass('invisible')) {
+    if (!$(divName).hasClass('invisible')) {
       let divCanvasWidth = $(divName).width() - 8; // -8 for margins and borders
       if (tableIsFullScreen) {
-        console.log("fullscreen: " + title)
         tableHeight = $(divName).height() - 100;
         // If parent is a graph-container (Used to vertically group graphs) make position absolute
         if ($(divName).parent().hasClass('graph-container')) {
