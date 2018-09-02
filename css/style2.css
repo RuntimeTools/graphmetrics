@@ -477,3 +477,50 @@
       transform: rotate(45deg);
       -webkit-transform: rotate(45deg);
     }
+
+/* HTTP SUMMARY STYLES */
+.mysqlSummaryContent table>tr {
+    display: list-item;
+    list-style-type: none;
+    border-bottom: 1px solid #dde4ee;
+}
+
+.mysqlSummaryContent table>tr>td {
+    /*font-size: 14px;*/
+    text-align: center;
+    vertical-align:top;
+    white-space: normal;
+    overflow: hidden;
+    font-size:80%;
+}
+
+.mysqlSummaryContent table>tr>td:first-child {
+    text-align: left;
+    width: 83%;
+}
+
+.mysqlSummaryContent table>tr>td:nth-child(2) {
+    width: 17%;
+}
+
+.mysqlSummaryTableHeader {
+    cursor: pointer;
+    border-radius: 3px;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.mysqlSummaryTableHeader {
+    background-color: #dde4ee;
+    font-weight: bold;
+}
+
+.mysqlSummaryContentDiv {
+    overflow-y: scroll;
+    padding: 7px 0px 0px 1px;
+}
