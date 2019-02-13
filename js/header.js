@@ -25,6 +25,7 @@ function updateHeader(data) {
     d3.select('.rightHeader').append('a')
       .attr('class', 'docLink')
       .attr('href', titleAndDocs.docs)
+      .attr('target', '_blank')
       .text('Go To Documentation');
   }
 }
