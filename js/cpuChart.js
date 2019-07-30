@@ -106,7 +106,7 @@ cpuChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
+    .style('font-size', '')
     .text(localizedStrings.cpuTitle);
 
 // Add the placeholder text
@@ -114,13 +114,13 @@ var cpuChartPlaceholder = cpuChart.append('text')
     .attr('x', graphWidth / 2)
     .attr('y', graphHeight / 2 - 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
+    .style('font-size', '1rem')
     .text(localizedStrings.NoDataMsg);
 
 // Add the system colour box
 cpuChart.append('rect')
     .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('class', 'colourbox1')
     .attr('width', 10)
     .attr('height', 10);
@@ -128,7 +128,7 @@ cpuChart.append('rect')
 // Add the SYSTEM label
 var cpuSystemLabel = cpuChart.append('text')
     .attr('x', 15)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
     .text(localizedStrings.SystemMsg);
@@ -136,7 +136,7 @@ var cpuSystemLabel = cpuChart.append('text')
 // Add the process colour box
 cpuChart.append('rect')
     .attr('x', cpuSystemLabel.node().getBBox().width + 25)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox2');
@@ -144,7 +144,7 @@ cpuChart.append('rect')
 // Add the PROCESS label
 cpuChart.append('text')
     .attr('x', cpuSystemLabel.node().getBBox().width + 40)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel2')
     .text(localizedStrings.ApplicationProcessMsg);
 
@@ -251,13 +251,13 @@ function resizeCPUChart() {
   chart.select('.yAxis')
     .call(cpu_yAxis);
   chart.select('.colourbox1')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.lineLabel')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
   chart.select('.colourbox2')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.lineLabel2')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
 }
 
 function updateCPUData(cpuRequest) {

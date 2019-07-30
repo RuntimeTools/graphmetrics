@@ -26,7 +26,7 @@ var probesData = [];
 var probeNames = [];
 // data split by probe name
 var probeDataSeparated = [[]];
-var colourPalette = ['#00b4a0', '#734098', '#5aaafa', '#ff7832', '#8cd211', '#efc100', '#ff5050', '#6eedd8'];
+var colourPalette = ['#a36df5', '#734098', '#5aaafa', '#ff7832', '#8cd211', '#efc100', '#ff5050', '#6eedd8'];
 var lineLabels = [];
 
 // Single line function
@@ -86,7 +86,7 @@ probesChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.probeEventsTitle);
 
 // Add the placeholder text
@@ -94,12 +94,12 @@ var probesChartPlaceholder = probesChart.append('text')
     .attr('x', httpGraphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.NoDataMsg);
 
 var probesChartIsFullScreen = false;
 
-// Add the maximise/minimise button
+// Add the se/minimise button
 var probesResize = probesSVG.append('image')
     .attr('x', httpCanvasWidth - 30)
     .attr('y', 4)
@@ -203,7 +203,7 @@ function resizeProbesChart() {
       .enter().append('circle')
       .attr('r', 4)
       .style('fill', colourPalette[i])
-      .style('stroke', 'white')
+      // .style('stroke', 'white')
       .attr('transform',
         'translate(' + margin.left + ',' + margin.top + ')')
       .attr('cx', function(d) { return probes_xScale(d.time); })
@@ -218,9 +218,9 @@ function resizeProbesChart() {
     .call(probes_yAxis);
   // move the labels
   chart.selectAll('.colourbox1')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.selectAll('.lineLabel1')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
 }
 
 function updateProbesData(probeEvents) {
@@ -259,7 +259,7 @@ function updateProbesData(probeEvents) {
       // Add the colour box
       probesChart.append('rect')
         .attr('x', (probeNames.length - 1) * 100)
-        .attr('y', graphHeight + margin.bottom - 15)
+        .attr('y', graphHeight + margin.bottom - 20)
         .attr('width', 10)
         .attr('height', 10)
         .attr('class', 'colourbox1')
@@ -267,7 +267,7 @@ function updateProbesData(probeEvents) {
       // Add the labels
       lineLabels[probeNames.length - 1] = probesChart.append('text')
         .attr('x', 15 + (probeNames.length - 1) * 100)
-        .attr('y', graphHeight + margin.bottom - 5)
+        .attr('y', graphHeight + margin.bottom - 10)
         .attr('text-anchor', 'start')
         .attr('class', 'lineLabel1')
         .text(d.name);
@@ -315,7 +315,7 @@ function updateProbesData(probeEvents) {
       .enter().append('circle')
       .attr('r', 4)
       .style('fill', colourPalette[i])
-      .style('stroke', 'white')
+      // .style('stroke', 'white')
       .attr('transform',
         'translate(' + margin.left + ',' + margin.top + ')')
       .attr('cx', function(d) { return probes_xScale(d.time); })

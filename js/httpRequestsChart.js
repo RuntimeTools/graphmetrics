@@ -85,7 +85,7 @@ httpChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.httpRequestsTitle);
 
 // Add the placeholder text
@@ -93,7 +93,7 @@ var httpChartPlaceholder = httpChart.append('text')
     .attr('x', httpGraphWidth / 2)
     .attr('y', tallerGraphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.NoDataMsg);
 
 function updateHttpData(httpRequest) {
@@ -165,7 +165,6 @@ function updateHttpData(httpRequest) {
       .attr('class', 'point')
       .attr('r', 4)
       .style('fill', '#5aaafa')
-      .style('stroke', 'white')
       .attr('transform',
         'translate(' + margin.left + ',' + margin.top + ')')
       .attr('cx', function(d) { return http_xScale(d.time); })
@@ -293,7 +292,6 @@ function resizeHttpChart() {
     .attr('class', 'point')
     .attr('r', 4)
     .style('fill', '#5aaafa')
-    .style('stroke', 'white')
     .attr('transform',
       'translate(' + margin.left + ',' + margin.top + ')')
     .attr('cx', function(d) { return http_xScale(d.time); })

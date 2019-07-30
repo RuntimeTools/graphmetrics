@@ -138,7 +138,7 @@ mempoolsChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text('Heap');
 
 // Add the placeholder text
@@ -146,13 +146,13 @@ var mempoolsChartPlaceholder = mempoolsChart.append('text')
     .attr('x', memPoolsGraphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text('No Data Available');
 
 // Add the used colour box
 mempoolsChart.append('rect')
     .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('class', 'colourbox1')
     .attr('width', 10)
     .attr('height', 10);
@@ -160,7 +160,7 @@ mempoolsChart.append('rect')
 // Add the Used Heap label
 var mempoolsUsedLabel = mempoolsChart.append('text')
     .attr('x', 15)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
     .text('Used Heap Memory');
@@ -168,7 +168,7 @@ var mempoolsUsedLabel = mempoolsChart.append('text')
 // Add the total used colour box
 mempoolsChart.append('rect')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 25)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox2');
@@ -176,14 +176,14 @@ mempoolsChart.append('rect')
 // Add the native label
 mempoolsChart.append('text')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 40)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel')
     .text('Used Native Memory');
 
 // Add the native used colour box
 mempoolsChart.append('rect')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 175)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox3');
@@ -191,14 +191,14 @@ mempoolsChart.append('rect')
 // Add the total label
 mempoolsChart.append('text')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 190)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel')
     .text('Total Used Memory');
 
 // Add the used after gc colour box
 mempoolsChart.append('rect')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 325)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox4');
@@ -206,7 +206,7 @@ mempoolsChart.append('rect')
 // Add the used after gc label
 mempoolsChart.append('text')
     .attr('x', mempoolsUsedLabel.node().getBBox().width + 340)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel')
     .text('Used Heap After GC');
 
@@ -316,15 +316,15 @@ function resizeMemPoolsChart() {
     .call(mempools_yAxis);
   // Move labels
   chart.select('.colourbox1')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.selectAll('.lineLabel')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
   chart.select('.colourbox2')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.colourbox3')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.colourbox4')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
 }
 
 function updateMemPoolsData(mempoolsRequest) {

@@ -38,7 +38,7 @@ function TextTable(divName, parentName, title) {
   .attr('x', 7)
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '18px')
+  .style('font-size', '1.1rem')
   .text(title);
 
   let tableIsFullScreen = false;
@@ -85,7 +85,9 @@ function TextTable(divName, parentName, title) {
   .attr('height', (tableHeight - titleBoxHeight))
   .attr('x', '0')
   .attr('y', titleBoxHeight);
-  let innerDiv = innerHTML.append('xhtml:body').append('xhtml:div');
+  let innerDiv = innerHTML.append('xhtml:body')
+  .append('xhtml:div')
+  .attr('class', 'textTable');
   let table = innerDiv.append('xhtml:table');
 
   function populateTableJSON(requestData) {

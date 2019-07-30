@@ -125,7 +125,7 @@ lChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.loopTitle);
 
 // Add the placeholder text
@@ -133,13 +133,13 @@ var lChartPlaceholder = lChart.append('text')
     .attr('x', loopGraphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.NoDataMsg);
 
 // Add the MAXIMUM colour box
 lChart.append('rect')
     .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('class', 'colourbox1')
     .attr('width', 10)
     .attr('height', 10);
@@ -147,7 +147,7 @@ lChart.append('rect')
 // Add the MAXIMUM line label
 var lMaxLabel = lChart.append('text')
     .attr('x', 15)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
     .text(localizedStrings.loopMaximumMsg);
@@ -155,7 +155,7 @@ var lMaxLabel = lChart.append('text')
 // Add the MINIMUM colour box
 lChart.append('rect')
     .attr('x', lMaxLabel.node().getBBox().width + 25)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox2');
@@ -163,14 +163,14 @@ lChart.append('rect')
 // Add the MINIMUM line label
 var lMinLabel = lChart.append('text')
     .attr('x', lMaxLabel.node().getBBox().width + 40)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel')
     .text(localizedStrings.loopMinimumMsg);
 
 // Add the AVERAGE colour box
 lChart.append('rect')
     .attr('x', lMaxLabel.node().getBBox().width + lMinLabel.node().getBBox().width + 50)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox3');
@@ -178,7 +178,7 @@ lChart.append('rect')
 // Add the AVERAGE line label
 lChart.append('text')
     .attr('x', lMaxLabel.node().getBBox().width + lMinLabel.node().getBBox().width + 65)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel')
     .text(localizedStrings.loopAverageMsg);
 
@@ -311,13 +311,13 @@ function resizeLoopChart() {
 
   // Move labels
   chart.selectAll('.lineLabel')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
   chart.select('.colourbox1')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.colourbox2')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.colourbox3')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
 }
 
 // eventloop: { time: , latency: { min: , max: , avg: }}

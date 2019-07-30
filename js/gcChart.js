@@ -102,7 +102,7 @@ gcChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.gcTitle);
 
 // Add the placeholder text
@@ -110,13 +110,13 @@ var gcChartPlaceholder = gcChart.append('text')
     .attr('x', graphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
+    .style('font-size', '1.1rem')
     .text(localizedStrings.NoDataMsg);
 
 // Add the heap size colour box
 gcChart.append('rect')
     .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('class', 'colourbox1')
     .attr('width', 10)
     .attr('height', 10);
@@ -124,7 +124,7 @@ gcChart.append('rect')
 // Add the heap size label
 var gcHeapSizeLabel = gcChart.append('text')
     .attr('x', 15)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
     .text(localizedStrings.gcHeapSizeMsg);
@@ -132,7 +132,7 @@ var gcHeapSizeLabel = gcChart.append('text')
 // Add the used heap colour box
 gcChart.append('rect')
     .attr('x', gcHeapSizeLabel.node().getBBox().width + 25)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox2');
@@ -140,7 +140,7 @@ gcChart.append('rect')
 // Add the used heap label
 gcChart.append('text')
     .attr('x', gcHeapSizeLabel.node().getBBox().width + 40)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel2')
     .text(localizedStrings.gcUsedHeapMsg);
 
@@ -265,13 +265,13 @@ function resizeGCChart() {
     .call(gc_yAxis);
   // Move labels
   chart.select('.colourbox1')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.lineLabel')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
   chart.select('.colourbox2')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.lineLabel2')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
 }
 
 function updateGCData(gcRequest) {
