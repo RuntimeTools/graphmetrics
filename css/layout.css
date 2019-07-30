@@ -14,49 +14,49 @@
  * the License.
  ******************************************************************************/
 
-    @viewport {
-        width: 320;
-    }
+@viewport {
+  width: 320;
+}
 
-    .col-md-2,
-    .col-md-3,
-    .col-md-4,
-    .col-md-5,
-    .col-md-6 {
-        padding-right: 1px;
-        padding-left: 1px;
-        padding-top: 0px;
-        padding-bottom: 0px
-    }
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6 {
+  padding-right: 1px;
+  padding-left: 1px;
+  padding-top: 0px;
+  padding-bottom: 0px
+}
 
-    g.xAxis path,
-    g.xAxis line,
-    g.yAxis path,
-    g.yAxis line {
-        fill: none;
-        stroke: white;
-        stroke-width: 1;
-        shape-rendering: crispEdges;
-    }
+g.xAxis path,
+g.xAxis line,
+g.yAxis path,
+g.yAxis line {
+  fill: none;
+  stroke: white;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
 
-    g.tick line {
-        stroke: white;
-    }
+g.tick line {
+  stroke: white;
+}
 
-    .axis2 path,
-    .axis2 line {
-    fill: none;
-    stroke: white;
-    stroke-width: 1;
-    shape-rendering: crispEdges;
-    }
+.axis2 path,
+.axis2 line {
+  fill: none;
+  stroke: white;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
 
-    .container {
-        width: 100%;
-    }
+.container {
+  width: 100%;
+}
 
-    .chart {
-        margin: 0 auto;
-        display: block;
-        text-align: center;
-    }
+.chart {
+  margin: 0 auto;
+  display: block;
+  text-align: center;
+}
