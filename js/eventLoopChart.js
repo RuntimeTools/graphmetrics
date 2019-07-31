@@ -125,7 +125,6 @@ elChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
     .text(localizedStrings.eventLoopTitle);
 
 // Add the placeholder text
@@ -133,13 +132,12 @@ var elChartPlaceholder = elChart.append('text')
     .attr('x', eventLoopGraphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
     .text(localizedStrings.NoDataMessage);
 
 // Add the MAXIMUM colour box
 elChart.append('rect')
     .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('class', 'colourbox1')
     .attr('width', 10)
     .attr('height', 10);
@@ -147,7 +145,7 @@ elChart.append('rect')
 // Add the MAXIMUM line label
 var elMaxLabel = elChart.append('text')
     .attr('x', 15)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('text-anchor', 'start')
     .attr('class', 'lineLabel')
     .text(localizedStrings.eventLoopMaximumMsg);
@@ -155,7 +153,7 @@ var elMaxLabel = elChart.append('text')
 // Add the MINIMUM colour box
 elChart.append('rect')
     .attr('x', elMaxLabel.node().getBBox().width + 25)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox2');
@@ -163,14 +161,14 @@ elChart.append('rect')
 // Add the MINIMUM line label
 var elMinLabel = elChart.append('text')
     .attr('x', elMaxLabel.node().getBBox().width + 40)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel')
     .text(localizedStrings.eventLoopMinimumMsg);
 
 // Add the AVERAGE colour box
 elChart.append('rect')
     .attr('x', elMaxLabel.node().getBBox().width + elMinLabel.node().getBBox().width + 50)
-    .attr('y', graphHeight + margin.bottom - 15)
+    .attr('y', graphHeight + margin.bottom - 20)
     .attr('width', 10)
     .attr('height', 10)
     .attr('class', 'colourbox3');
@@ -178,7 +176,7 @@ elChart.append('rect')
 // Add the AVERAGE line label
 elChart.append('text')
     .attr('x', elMaxLabel.node().getBBox().width + elMinLabel.node().getBBox().width + 65)
-    .attr('y', graphHeight + margin.bottom - 5)
+    .attr('y', graphHeight + margin.bottom - 10)
     .attr('class', 'lineLabel')
     .text(localizedStrings.eventLoopAverageMsg);
 
@@ -311,13 +309,13 @@ function resizeEventLoopChart() {
 
   // Move labels
   chart.selectAll('.lineLabel')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
   chart.select('.colourbox1')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.colourbox2')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.colourbox3')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
 }
 
 function updateEventLoopData(elRequest) {

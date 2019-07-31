@@ -101,7 +101,6 @@ httpOBChart.append('text')
   .attr('x', 7 - margin.left)
   .attr('y', 15 - margin.top)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '18px')
   .text(localizedStrings.httpOutboundTitle);
 
 // Add the placeholder text
@@ -109,13 +108,12 @@ var httpOBChartPlaceholder = httpOBChart.append('text')
   .attr('x', httpGraphWidth / 2)
   .attr('y', graphHeight / 2)
   .attr('text-anchor', 'middle')
-  .style('font-size', '18px')
   .text(localizedStrings.NoDataMsg);
 
   // Add the http colour box
 httpOBChart.append('rect')
   .attr('x', 0)
-  .attr('y', graphHeight + margin.bottom - 15)
+  .attr('y', graphHeight + margin.bottom - 20)
   .attr('class', 'colourbox3')
   .attr('width', 10)
   .attr('height', 10);
@@ -141,7 +139,7 @@ httpOBChart.append('foreignObject')
 // Add the HTTP label
 var httpOBLabel = httpOBChart.append('text')
   .attr('x', 35)
-  .attr('y', graphHeight + margin.bottom - 5)
+  .attr('y', graphHeight + margin.bottom - 10)
   .attr('text-anchor', 'start')
   .attr('class', 'lineLabel')
   .text('HTTP');
@@ -149,7 +147,7 @@ var httpOBLabel = httpOBChart.append('text')
 // Add the https colour box
 httpOBChart.append('rect')
   .attr('x', httpOBLabel.node().getBBox().width + 45)
-  .attr('y', graphHeight + margin.bottom - 15)
+  .attr('y', graphHeight + margin.bottom - 20)
   .attr('width', 10)
   .attr('height', 10)
   .attr('class', 'colourbox4');
@@ -173,7 +171,7 @@ httpOBChart.append('foreignObject')
 // Add the HTTPS label
 httpOBChart.append('text')
   .attr('x', httpOBLabel.node().getBBox().width + 80)
-  .attr('y', graphHeight + margin.bottom - 5)
+  .attr('y', graphHeight + margin.bottom - 10)
   .attr('class', 'lineLabel2')
   .text('HTTPS');
 
@@ -438,15 +436,15 @@ function resizeHttpOBChart() {
   httpOBTitleBox.attr('width', httpCanvasWidth);
   // Move labels
   chart.select('.colourbox3')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.lineLabel')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
   chart.selectAll('.checkboxHolder')
     .attr('y', graphHeight + margin.bottom - 25);
   chart.select('.colourbox4')
-    .attr('y', graphHeight + margin.bottom - 15);
+    .attr('y', graphHeight + margin.bottom - 20);
   chart.select('.lineLabel2')
-    .attr('y', graphHeight + margin.bottom - 5);
+    .attr('y', graphHeight + margin.bottom - 10);
 
   // redraw
   redrawHttpOBChart();

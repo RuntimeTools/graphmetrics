@@ -8,3 +8,4 @@ Authors ordered by first contribution
  - Howard Hellyer (https://github.com/hhellyer)
  - Richard Chamberlain (https://github.com/rmchamberlain)
  - James Wallis (https://github.com/jamesemwallis)
+ - James Cockbain (https://github.com/jcockbain96)

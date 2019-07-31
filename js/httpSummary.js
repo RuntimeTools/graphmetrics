@@ -73,13 +73,11 @@ function HttpSummary(divName, parentName, title) {
   .attr('x', 7 - margin.left)
   .attr('y', 15 - margin.top)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '18px')
   .text(title);
 
   // Add the placeholder text
   let httpSummaryChartPlaceholder = httpSummaryChart.append('text')
   .attr('text-anchor', 'middle')
-  .style('font-size', '18px')
   .text(localizedStrings.NoDataMsg);
 
   let httpSummaryIsFullScreen = false;
@@ -268,7 +266,7 @@ function HttpSummary(divName, parentName, title) {
       $('.httpSummaryTableHeaderDiv').css('padding-right', padding + 'px');
     } else {
       // If no scroll bar add 10px to the padding right
-      $('.httpSummaryDiv').css('padding-right', '10px');
+      $('.httpSummaryDiv');
     }
   }
 

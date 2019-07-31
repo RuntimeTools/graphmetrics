@@ -52,13 +52,11 @@ function Top5(divName, parentName, title) {
   .attr('x', 7 - margin.left)
   .attr('y', 15 - margin.top)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '18px')
   .text(title);
 
   // Add the placeholder text
   let top5ChartPlaceholder = top5Chart.append('text')
   .attr('text-anchor', 'middle')
-  .style('font-size', '18px')
   .text(localizedStrings.NoDataMsg);
 
   function convertURL(url, graphWidth) {

@@ -291,11 +291,11 @@ function resizeFlameGraph() {
   detailsTable.style('height', `${$('#detailsDiv').height() - ($('#detailsTitleSvg').height() + 4)}px`);
 
   resizeGraphIcon
-    .attr('x', $('#flameGraphTitle').width() - (24 + 4))
+    .attr('x', $('#flameGraph').width() - (24 + 4))
     .attr('y', 4);
 
   resizeDetailsIcon
-    .attr('x', $('#detailsTitle').width() - (24 + 4))
+    .attr('x', $('#detailsDiv').width() - (24 + 4))
     .attr('y', 4);
 
 }
@@ -342,9 +342,6 @@ let svgDiv = rowDiv.append('div');
 
 let detailsDiv = rowDiv
   .append('div')
-  .style('color', 'black')
-  .style('background', 'white')
-  .style('border', '1px solid #aabbd4')
   .style('margin-top', '3px')
   .style('padding', '0px')
   .attr('id', 'detailsDiv');
@@ -372,7 +369,6 @@ graphTitleGroup.append('text')
   .attr('x', 7)
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '18px')
   .text(localizedStrings.flamegraphGraphTitle);
 
 let resizeGraphIcon = graphTitleGroup.append('image')
@@ -414,7 +410,6 @@ detailsTitleSvg.append('text')
   .attr('x', 7)
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '18px')
   .text(localizedStrings.flamegraphDetailsTitle);
 
 let resizeDetailsIcon = detailsTitleSvg.append('image')

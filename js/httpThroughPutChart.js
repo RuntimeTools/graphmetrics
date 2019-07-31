@@ -97,7 +97,6 @@ httpThroughPutChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '18px')
     .text(localizedStrings.httpThroughPutTitle);
 
 // Add the placeholder text
@@ -105,7 +104,6 @@ var httpTPChartPlaceholder = httpThroughPutChart.append('text')
     .attr('x', httpDiv2GraphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '18px')
     .text(localizedStrings.NoDataMsg);
 
 var runningTotal = 0;
@@ -210,11 +208,11 @@ function resizeHttpThroughputChart() {
     canvasHeight = $('#httpDiv2').height() - 100;
     tallerGraphHeight = canvasHeight - margin.top - margin.shortBottom;
   }
-  httpDiv2CanvasWidth = $('#httpDiv2').width() - 8;
+  httpDiv2CanvasWidth = $('#httpDiv2').width();
   httpDiv2GraphWidth = httpDiv2CanvasWidth - margin.left - margin.right;
   // Redraw placeholder
   httpTPChartPlaceholder
-    .attr('x', httpDiv2CanvasWidth / 2)
+    .attr('x', httpDiv2GraphWidth / 2)
     .attr('y', tallerGraphHeight / 2);
   httpTPResize
     .attr('x', httpDiv2CanvasWidth - 30)
