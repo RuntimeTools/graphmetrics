@@ -22,10 +22,6 @@
   fill: white;
 }
 
-.darkmode h1 {
-  color: white;
-}
-
 .darkmode svg {
   border: 1px solid #3d3d3d;
   background-color: black;
@@ -35,15 +31,14 @@
   background-color: black;
 }
 
+.darkmode .leftHeader {
+  color: #FFFFFF;
+}
+
 .darkmode #detailsDiv {
   color: white;
   background-color: black;
   border: 1px solid #3d3d3d;
-
-}
-
-.darkmode .leftHeader {
-  color: #FFFFFF;
 }
 
 .darkmode .container-fluid {
@@ -57,6 +52,13 @@
 .darkmode .httpThroughPutChart path,
 .darkmode .httpChart path {
   stroke: #95d13c;
+}
+
+.darkmode g.xAxis path,
+.darkmode g.xAxis line,
+.darkmode g.yAxis path,
+.darkmode g.yAxis line {
+  stroke: #343434;
 }
 
 .darkmode path.line1,
@@ -73,19 +75,12 @@
 
 .darkmode path.line3,
 .darkmode path.httpline,
-.darkmode path.totalUsedLine  {
+.darkmode path.totalUsedLine {
   stroke: #0094E5;
 }
 
 .darkmode path.httpsline {
   stroke: #a36df5;
-}
-
-.darkmode g.xAxis path,
-.darkmode g.xAxis line,
-.darkmode g.yAxis path,
-.darkmode g.yAxis line {
-  stroke: #343434;
 }
 
 .darkmode .lineLabel,
@@ -118,10 +113,6 @@
   background-color: #3f3f3f;
 }
 
-.darkmode .sidenavEntry {
-  font-size: 14px;
-}
-
 .darkmode .modal .close {
   color: white;
   opacity: 1;
@@ -146,11 +137,6 @@
   color: #bebebe;
 }
 
-.darkmode .titlebox svg  {
-  stroke: white;
-  fill: white;
-}
-
 .darkmode .titlebox {
   fill: #565656;
   stroke: #565656;
@@ -162,7 +148,6 @@
 
 .darkmode .nav-tabs {
   border: none;
-  font-size: 1rem;
 }
 
 .darkmode .nav-tabs>li.active>a,

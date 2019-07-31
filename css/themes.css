@@ -27,12 +27,6 @@ body, html {
   font-size: 14px;
 }
 
-h1 {
-  font-weight: bold;
-  text-align: center;
-  color: #3b4b54;
-}
-
 h4 {
   font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
   font-size: 20px;
@@ -46,6 +40,7 @@ p {
   color: #3b4b54;
 }
 
+
 svg {
   margin: 3px;
   border: 1px solid #aabbd4;
@@ -56,10 +51,7 @@ svg {
   position: absolute;
   width: 100%;
   height: 50px;
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 15px;
-  margin: 0px;
+  padding: 15px 20px 20px 20px;
   font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
   font-size: 16px;
   z-index: 100;
@@ -78,9 +70,7 @@ a {
 
 li a {
   font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
-  font-size: 14px;
   color: #BBC3C8;
-  text-decoration: none;
 }
 
 li a:hover {
@@ -88,18 +78,14 @@ li a:hover {
   text-decoration: underline;
 }
 
-a:hover {
-  color: #BBC3C8;
-  text-decoration: underline;
+.container {
+  padding-top: 60px;
+  width: 100%;
 }
 
 .leftHeader {
   color: #BBC3C8;
   float: left;
-}
-
-.container {
-  padding-top: 60px;
 }
 
 .container-fluid {
@@ -203,7 +189,6 @@ g.tick line {
 .lineLabel2,
 .avglatestlabel,
 .minlatestlabel {
-  /* font: 14px Arial; */
   text-anchor: left;
 }
 
@@ -229,16 +214,6 @@ g.tick line {
   fill: #dc267f;
   stroke: #dbe6e9;
   stroke-width: 1px;
-}
-
-.container {
-  width: 100%;
-}
-
-.chart {
-  margin: 0 auto;
-  display: block;
-  text-align: center;
 }
 
 g.arc {
@@ -334,32 +309,20 @@ g.label text {
 }
 
 .sidenavEntry {
-  font-family: 'IBM Helvetica', Helvetica Neue, HelveticaNeue, Helvetica, sans-serif;
-  font-size: 12px;
-  color: #3b4b54;
   cursor: pointer;
 }
 
 .sidenav a {
   padding: 8px 16px;
   text-decoration: none;
-  font-size: 14px;
   color: #FFFFFF;
   display: block;
-  transition: 0.3s;
+  transition: 0.5s;
 }
 
 .sidenav a:hover,
 .offcanvas a:focus {
   background-color: #0062ff;
-}
-
-.sidenav .closebutton {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
 }
 
 @media screen and (max-height: 450px) {
@@ -484,6 +447,7 @@ foreignObject>body>div table>tr>td.largeValue>p {
 .httpSummaryTableHeaderDiv table>tr>td {
   height: 50px;
   overflow: hidden;
+  margin: 10px 0px 0px 0px;
   vertical-align: center;
 }
 
