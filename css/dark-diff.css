@@ -46,7 +46,7 @@
 }
 
 .darkmode .cpuChart path,
-/* .memChart path, */
+.memChart path,
 .darkmode .gcChart path,
 .darkmode .elChart path,
 .darkmode .httpThroughPutChart path,
