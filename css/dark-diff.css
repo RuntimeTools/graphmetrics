@@ -45,8 +45,10 @@
   background-color: #282828;
 }
 
+.darkmode path.line1,
+.darkmode path.usedHeapLine,
+.darkmode .memChart path,
 .darkmode .cpuChart path,
-.memChart path,
 .darkmode .gcChart path,
 .darkmode .elChart path,
 .darkmode .httpThroughPutChart path,
@@ -60,12 +62,6 @@
 .darkmode g.yAxis line {
   stroke: #343434;
 }
-
-.darkmode path.line1,
-.darkmode path.usedHeapLine {
-  stroke: #95d13c;
-}
-
 
 .darkmode path.line2,
 .darkmode path.processLine,
