@@ -38,7 +38,6 @@ function TextTable(divName, parentName, title) {
   .attr('x', 7)
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '1.1rem')
   .text(title);
 
   let tableIsFullScreen = false;

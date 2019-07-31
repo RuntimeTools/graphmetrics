@@ -138,7 +138,6 @@ mempoolsChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '1.1rem')
     .text('Heap');
 
 // Add the placeholder text
@@ -146,7 +145,6 @@ var mempoolsChartPlaceholder = mempoolsChart.append('text')
     .attr('x', memPoolsGraphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '1.1rem')
     .text('No Data Available');
 
 // Add the used colour box

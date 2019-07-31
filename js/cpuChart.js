@@ -106,7 +106,6 @@ cpuChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '')
     .text(localizedStrings.cpuTitle);
 
 // Add the placeholder text
@@ -114,7 +113,6 @@ var cpuChartPlaceholder = cpuChart.append('text')
     .attr('x', graphWidth / 2)
     .attr('y', graphHeight / 2 - 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '1rem')
     .text(localizedStrings.NoDataMsg);
 
 // Add the system colour box

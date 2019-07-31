@@ -85,7 +85,6 @@ httpChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '1.1rem')
     .text(localizedStrings.httpRequestsTitle);
 
 // Add the placeholder text
@@ -93,7 +92,6 @@ var httpChartPlaceholder = httpChart.append('text')
     .attr('x', httpGraphWidth / 2)
     .attr('y', tallerGraphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '1.1rem')
     .text(localizedStrings.NoDataMsg);
 
 function updateHttpData(httpRequest) {

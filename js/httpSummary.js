@@ -73,13 +73,11 @@ function HttpSummary(divName, parentName, title) {
   .attr('x', 7 - margin.left)
   .attr('y', 15 - margin.top)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '1.1rem')
   .text(title);
 
   // Add the placeholder text
   let httpSummaryChartPlaceholder = httpSummaryChart.append('text')
   .attr('text-anchor', 'middle')
-  .style('font-size', '1.1rem')
   .text(localizedStrings.NoDataMsg);
 
   let httpSummaryIsFullScreen = false;

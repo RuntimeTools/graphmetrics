@@ -369,7 +369,6 @@ graphTitleGroup.append('text')
   .attr('x', 7)
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '1.1rem')
   .text(localizedStrings.flamegraphGraphTitle);
 
 let resizeGraphIcon = graphTitleGroup.append('image')
@@ -411,7 +410,6 @@ detailsTitleSvg.append('text')
   .attr('x', 7)
   .attr('y', 15)
   .attr('dominant-baseline', 'central')
-  .style('font-size', '1.1rem')
   .text(localizedStrings.flamegraphDetailsTitle);
 
 let resizeDetailsIcon = detailsTitleSvg.append('image')

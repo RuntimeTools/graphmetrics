@@ -125,7 +125,6 @@ elChart.append('text')
     .attr('x', 7 - margin.left)
     .attr('y', 15 - margin.top)
     .attr('dominant-baseline', 'central')
-    .style('font-size', '16px')
     .text(localizedStrings.eventLoopTitle);
 
 // Add the placeholder text
@@ -133,7 +132,6 @@ var elChartPlaceholder = elChart.append('text')
     .attr('x', eventLoopGraphWidth / 2)
     .attr('y', graphHeight / 2)
     .attr('text-anchor', 'middle')
-    .style('font-size', '1.1rem')
     .text(localizedStrings.NoDataMessage);
 
 // Add the MAXIMUM colour box
