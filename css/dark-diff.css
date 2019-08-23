@@ -75,7 +75,8 @@
   stroke: #0094E5;
 }
 
-.darkmode path.httpsline {
+.darkmode path.httpsline,
+.darkmode path.usedHeapAfterGCLine {
   stroke: #a36df5;
 }
 
