@@ -26,67 +26,67 @@ function TextTable(divName, parentName, title) {
 
   // Define the text chart space
   let svg = d3.select(divName)
-  .append('svg')
-  .attr('class', 'envData');
+    .append('svg')
+    .attr('class', 'envData');
 
   let titleBoxHeight = 30;
   let titleBox = svg.append('rect')
-  .attr('height', titleBoxHeight)
-  .attr('class', 'titlebox');
+    .attr('height', titleBoxHeight)
+    .attr('class', 'titlebox');
 
   svg.append('text')
-  .attr('x', 7)
-  .attr('y', 15)
-  .attr('dominant-baseline', 'central')
-  .text(title);
+    .attr('x', 7)
+    .attr('y', 15)
+    .attr('dominant-baseline', 'central')
+    .text(title);
 
   let tableIsFullScreen = false;
 
   // Add the maximise button
   let resizeImage = svg.append('image')
-  .attr('width', 24)
-  .attr('height', 24)
-  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-  .attr('class', 'maximize')
-  .on('click', function(){
-    tableIsFullScreen = !tableIsFullScreen;
-    d3.select(parentName).selectAll('.hideable').classed('invisible', tableIsFullScreen);
-    d3.select(divName)
-    .classed('fullscreen', tableIsFullScreen)
-    .classed('invisible', false); // remove invisible from this chart
-    if (tableIsFullScreen) {
-      resizeImage.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      // Redraw this chart only
-      resizeTable();
-    } else {
-      resizeImage.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      // Redraw all
-      resize();
-    }
-  })
-  .on('mouseover', function() {
-    if (tableIsFullScreen) {
-      resizeImage.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-    } else {
-      resizeImage.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-    }
-  })
-  .on('mouseout', function() {
-    if (tableIsFullScreen) {
-      resizeImage.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-    } else {
-      resizeImage.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-    }
-  });
+    .attr('width', 24)
+    .attr('height', 24)
+    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+    .attr('class', 'maximize')
+    .on('click', function(){
+      tableIsFullScreen = !tableIsFullScreen;
+      d3.select(parentName).selectAll('.hideable').classed('invisible', tableIsFullScreen);
+      d3.select(divName)
+        .classed('fullscreen', tableIsFullScreen)
+        .classed('invisible', false); // remove invisible from this chart
+      if (tableIsFullScreen) {
+        resizeImage.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+        // Redraw this chart only
+        resizeTable();
+      } else {
+        resizeImage.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+        // Redraw all
+        resize();
+      }
+    })
+    .on('mouseover', function() {
+      if (tableIsFullScreen) {
+        resizeImage.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+      } else {
+        resizeImage.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+      }
+    })
+    .on('mouseout', function() {
+      if (tableIsFullScreen) {
+        resizeImage.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      } else {
+        resizeImage.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      }
+    });
 
   let innerHTML = svg.append('g')
-  .append('foreignObject')
-  .attr('height', (tableHeight - titleBoxHeight))
-  .attr('x', '0')
-  .attr('y', titleBoxHeight);
+    .append('foreignObject')
+    .attr('height', (tableHeight - titleBoxHeight))
+    .attr('x', '0')
+    .attr('y', titleBoxHeight);
   let innerDiv = innerHTML.append('xhtml:body')
-  .append('xhtml:div')
-  .attr('class', 'textTable');
+    .append('xhtml:div')
+    .attr('class', 'textTable');
   let table = innerDiv.append('xhtml:table');
 
   function populateTableJSON(requestData) {

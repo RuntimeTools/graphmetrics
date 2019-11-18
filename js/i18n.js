@@ -27,7 +27,7 @@ function populateLocalizedStrings() {
   var file = new XMLHttpRequest();
   var pathToFile = '';
 
-// hardcode this file for now until we have translated files
+  // hardcode this file for now until we have translated files
   pathToFile = 'graphmetrics/locales/en.properties';
 
   // if (userLocale === 'en') {
@@ -46,8 +46,8 @@ function populateLocalizedStrings() {
     for (let i = 0; i < lines.length; i++) {
       if (lines[i].charAt(0) !== '#') {
         let keyVal = lines[i]
-                        .replace('\r', '')
-                        .split('=');
+          .replace('\r', '')
+          .split('=');
         // Define the object field (key = [0] val = [1])
         localizedStrings[keyVal[0]] = keyVal[1];
       }

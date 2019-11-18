@@ -36,28 +36,28 @@ function Top5(divName, parentName, title) {
   let top5_xScale = d3.scale.linear().range([0, graphWidth]);
 
   let top5SVG = d3.select(divName)
-  .append('svg')
-  .attr('class', 'httpTop5Chart');
+    .append('svg')
+    .attr('class', 'httpTop5Chart');
 
   let top5TitleBox = top5SVG.append('rect')
-  .attr('height', 30)
-  .attr('class', 'titlebox');
+    .attr('height', 30)
+    .attr('class', 'titlebox');
 
   let top5Chart = top5SVG.append('g')
-  .attr('transform',
-  'translate(' + margin.left + ',' + margin.top + ')');
+    .attr('transform',
+      'translate(' + margin.left + ',' + margin.top + ')');
 
   // Add the title
   top5Chart.append('text')
-  .attr('x', 7 - margin.left)
-  .attr('y', 15 - margin.top)
-  .attr('dominant-baseline', 'central')
-  .text(title);
+    .attr('x', 7 - margin.left)
+    .attr('y', 15 - margin.top)
+    .attr('dominant-baseline', 'central')
+    .text(title);
 
   // Add the placeholder text
   let top5ChartPlaceholder = top5Chart.append('text')
-  .attr('text-anchor', 'middle')
-  .text(localizedStrings.NoDataMsg);
+    .attr('text-anchor', 'middle')
+    .text(localizedStrings.NoDataMsg);
 
   function convertURL(url, graphWidth) {
     let stringToDisplay = url.toString();
@@ -77,88 +77,88 @@ function Top5(divName, parentName, title) {
 
   // Add the maximise button
   let top5Resize = top5SVG.append('image')
-  .attr('width', 24)
-  .attr('height', 24)
-  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-  .attr('class', 'maximize')
-  .on('click', function(){
-    top5ChartIsFullScreen = !top5ChartIsFullScreen;
-    d3.select(parentName).selectAll('.hideable').classed('invisible', top5ChartIsFullScreen);
-    d3.select(divName)
-    .classed('fullscreen', top5ChartIsFullScreen)
-    .classed('invisible', false); // remove invisible from this chart
-    if (top5ChartIsFullScreen) {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      // Redraw this chart only
-      resizeTop5Chart();
-    } else {
-      canvasWidth = $(divName).width() - 8; // -8 for margins and borders
-      graphWidth = canvasWidth - margin.left - margin.right;
-      top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      tableHeight = 250;
-      graphHeight = tableHeight - margin.top - margin.bottom;
-      // Redraw all
-      resize();
-    }
-  })
-  .on('mouseover', function() {
-    if (top5ChartIsFullScreen) {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-    } else {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-    }
-  })
-  .on('mouseout', function() {
-    if (top5ChartIsFullScreen) {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-    } else {
-      top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-    }
-  });
+    .attr('width', 24)
+    .attr('height', 24)
+    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+    .attr('class', 'maximize')
+    .on('click', function(){
+      top5ChartIsFullScreen = !top5ChartIsFullScreen;
+      d3.select(parentName).selectAll('.hideable').classed('invisible', top5ChartIsFullScreen);
+      d3.select(divName)
+        .classed('fullscreen', top5ChartIsFullScreen)
+        .classed('invisible', false); // remove invisible from this chart
+      if (top5ChartIsFullScreen) {
+        top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+        // Redraw this chart only
+        resizeTop5Chart();
+      } else {
+        canvasWidth = $(divName).width() - 8; // -8 for margins and borders
+        graphWidth = canvasWidth - margin.left - margin.right;
+        top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+        tableHeight = 250;
+        graphHeight = tableHeight - margin.top - margin.bottom;
+        // Redraw all
+        resize();
+      }
+    })
+    .on('mouseover', function() {
+      if (top5ChartIsFullScreen) {
+        top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+      } else {
+        top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+      }
+    })
+    .on('mouseout', function() {
+      if (top5ChartIsFullScreen) {
+        top5Resize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      } else {
+        top5Resize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      }
+    });
 
   function updateChart() {
     top5_xScale.domain([0, d3.max(top5Data, function(d) {
       return d.averageResponseTime;
     })]);
     d3.select('.httpTop5Chart').selectAll('.bar')
-    .remove();
+      .remove();
     let bar = d3.select('.httpTop5Chart').selectAll('.bar')
-    .data(top5Data)
-    .enter().append('g')
-    .attr('class', 'bar')
-    .attr('transform', function(d, i) {
-      return 'translate(50,' + (margin.top + i * top5_barHeight) + ')';
-    });
+      .data(top5Data)
+      .enter().append('g')
+      .attr('class', 'bar')
+      .attr('transform', function(d, i) {
+        return 'translate(50,' + (margin.top + i * top5_barHeight) + ')';
+      });
     // Background
     bar.append('rect')
-    .attr('width', graphWidth)
-    .attr('height', top5_barHeight - 4)
-    .style('fill', '#9fa7a7');
+      .attr('width', graphWidth)
+      .attr('height', top5_barHeight - 4)
+      .style('fill', '#9fa7a7');
     bar.append('rect')
-    .attr('width', function(d) {
-      return top5_xScale(d.averageResponseTime);
-    })
-    .attr('height', top5_barHeight - 4);
+      .attr('width', function(d) {
+        return top5_xScale(d.averageResponseTime);
+      })
+      .attr('height', top5_barHeight - 4);
     bar.append('text')
-    .attr('x', 2)
-    .attr('y', top5_barHeight / 2)
-    .attr('dy', '.35em')
-    .attr('fill', 'white')
-    .text(function(d) {
-      return convertURL(d.url, graphWidth);
-    });
+      .attr('x', 2)
+      .attr('y', top5_barHeight / 2)
+      .attr('dy', '.35em')
+      .attr('fill', 'white')
+      .text(function(d) {
+        return convertURL(d.url, graphWidth);
+      });
     bar.append('text')
-    .attr('x', graphWidth - 2)
-    .attr('y', top5_barHeight / 2)
-    .attr('text-anchor', 'end')
-    .attr('fill', 'white')
-    .attr('dy', '.35em')
-    .text(function(d) {
-      return d3.format(',.2f')(d.averageResponseTime) + 'ms';
-    });
+      .attr('x', graphWidth - 2)
+      .attr('y', top5_barHeight / 2)
+      .attr('text-anchor', 'end')
+      .attr('fill', 'white')
+      .attr('dy', '.35em')
+      .text(function(d) {
+        return d3.format(',.2f')(d.averageResponseTime) + 'ms';
+      });
     // Tooltip
     bar.append('svg:title')
-    .text(function(d) { return d.url; });
+      .text(function(d) { return d.url; });
   }
 
   function updateHttpAverages(workingData) {
@@ -196,7 +196,7 @@ function Top5(divName, parentName, title) {
       // first data - remove "No Data Available" label
       top5ChartPlaceholder.attr('visibility', 'hidden');
     }
-    let top5RequestData = JSON.parse(data);  // parses the data into a JSON array
+    let top5RequestData = JSON.parse(data); // parses the data into a JSON array
     updateHttpAverages(top5RequestData);
   }
 

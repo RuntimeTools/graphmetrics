@@ -25,178 +25,178 @@ var cpu_yScale = d3.scale.linear().range([graphHeight, 0]);
 var cpu_yTicks = [0, 25, 50, 75, 100];
 
 var cpu_xAxis = d3.svg.axis()
-    .scale(cpu_xScale)
-    .orient('bottom')
-    .ticks(3)
-    .tickFormat(getTimeFormat());
+  .scale(cpu_xScale)
+  .orient('bottom')
+  .ticks(3)
+  .tickFormat(getTimeFormat());
 
 var cpu_yAxis = d3.svg.axis()
-    .scale(cpu_yScale)
-    .orient('left')
-    .tickValues(cpu_yTicks)
-    .tickSize(-graphWidth, 0, 0)
-    .tickFormat(function(d) {
-      return d + '%';
-    });
+  .scale(cpu_yScale)
+  .orient('left')
+  .tickValues(cpu_yTicks)
+  .tickSize(-graphWidth, 0, 0)
+  .tickFormat(function(d) {
+    return d + '%';
+  });
 
 // CPU Data storage
 var cpuData = [];
 
 // Define the system CPU usage line
 var systemline = d3.svg.line().interpolate('basis')
-    .x(function(d) {
-      return cpu_xScale(d.date);
-    })
-    .y(function(d) {
-      return cpu_yScale(d.system);
-    });
+  .x(function(d) {
+    return cpu_xScale(d.date);
+  })
+  .y(function(d) {
+    return cpu_yScale(d.system);
+  });
 
 // Define the process CPU usage line
 var processline = d3.svg.line().interpolate('basis')
-    .x(function(d) {
-      return cpu_xScale(d.date);
-    })
-    .y(function(d) {
-      return cpu_yScale(d.process);
-    });
+  .x(function(d) {
+    return cpu_xScale(d.date);
+  })
+  .y(function(d) {
+    return cpu_yScale(d.process);
+  });
 
 // Define the cpuChart
 var cpuSVG = d3.select('#cpuDiv1')
-    .append('svg')
-    .attr('width', canvasWidth)
-    .attr('height', canvasHeight)
-    .attr('class', 'cpuChart');
+  .append('svg')
+  .attr('width', canvasWidth)
+  .attr('height', canvasHeight)
+  .attr('class', 'cpuChart');
 
 var cpuTitleBox = cpuSVG.append('rect')
-    .attr('width', canvasWidth)
-    .attr('height', 30)
-    .attr('class', 'titlebox');
+  .attr('width', canvasWidth)
+  .attr('height', 30)
+  .attr('class', 'titlebox');
 
 var cpuChart = cpuSVG.append('g')
-    .attr('class', 'cpuGroup')
-    .attr('transform',
-      'translate(' + margin.left + ',' + margin.top + ')');
+  .attr('class', 'cpuGroup')
+  .attr('transform',
+    'translate(' + margin.left + ',' + margin.top + ')');
 
 // Set the input domain for the y axis (fixed)
 cpu_yScale.domain([0, 100]);
 
 // Add the systemline path.
 cpuChart.append('path')
-    .attr('class', 'systemLine')
-    .attr('d', systemline(cpuData));
+  .attr('class', 'systemLine')
+  .attr('d', systemline(cpuData));
 
 // Add the processline path.
 cpuChart.append('path')
-    .attr('class', 'processLine')
-    .attr('d', processline(cpuData));
+  .attr('class', 'processLine')
+  .attr('d', processline(cpuData));
 
 // Add the X Axis
 cpuChart.append('g')
-    .attr('class', 'xAxis')
-    .attr('transform', 'translate(0,' + graphHeight + ')')
-    .call(cpu_xAxis);
+  .attr('class', 'xAxis')
+  .attr('transform', 'translate(0,' + graphHeight + ')')
+  .call(cpu_xAxis);
 
 // Add the Y Axis
 cpuChart.append('g')
-    .attr('class', 'yAxis')
-    .call(cpu_yAxis);
+  .attr('class', 'yAxis')
+  .call(cpu_yAxis);
 
 // Add the title
 cpuChart.append('text')
-    .attr('x', 7 - margin.left)
-    .attr('y', 15 - margin.top)
-    .attr('dominant-baseline', 'central')
-    .text(localizedStrings.cpuTitle);
+  .attr('x', 7 - margin.left)
+  .attr('y', 15 - margin.top)
+  .attr('dominant-baseline', 'central')
+  .text(localizedStrings.cpuTitle);
 
 // Add the placeholder text
 var cpuChartPlaceholder = cpuChart.append('text')
-    .attr('x', graphWidth / 2)
-    .attr('y', graphHeight / 2 - 2)
-    .attr('text-anchor', 'middle')
-    .text(localizedStrings.NoDataMsg);
+  .attr('x', graphWidth / 2)
+  .attr('y', graphHeight / 2 - 2)
+  .attr('text-anchor', 'middle')
+  .text(localizedStrings.NoDataMsg);
 
 // Add the system colour box
 cpuChart.append('rect')
-    .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 20)
-    .attr('class', 'colourbox1')
-    .attr('width', 10)
-    .attr('height', 10);
+  .attr('x', 0)
+  .attr('y', graphHeight + margin.bottom - 20)
+  .attr('class', 'colourbox1')
+  .attr('width', 10)
+  .attr('height', 10);
 
 // Add the SYSTEM label
 var cpuSystemLabel = cpuChart.append('text')
-    .attr('x', 15)
-    .attr('y', graphHeight + margin.bottom - 10)
-    .attr('text-anchor', 'start')
-    .attr('class', 'lineLabel')
-    .text(localizedStrings.SystemMsg);
+  .attr('x', 15)
+  .attr('y', graphHeight + margin.bottom - 10)
+  .attr('text-anchor', 'start')
+  .attr('class', 'lineLabel')
+  .text(localizedStrings.SystemMsg);
 
 // Add the process colour box
 cpuChart.append('rect')
-    .attr('x', cpuSystemLabel.node().getBBox().width + 25)
-    .attr('y', graphHeight + margin.bottom - 20)
-    .attr('width', 10)
-    .attr('height', 10)
-    .attr('class', 'colourbox2');
+  .attr('x', cpuSystemLabel.node().getBBox().width + 25)
+  .attr('y', graphHeight + margin.bottom - 20)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('class', 'colourbox2');
 
 // Add the PROCESS label
 cpuChart.append('text')
-    .attr('x', cpuSystemLabel.node().getBBox().width + 40)
-    .attr('y', graphHeight + margin.bottom - 10)
-    .attr('class', 'lineLabel2')
-    .text(localizedStrings.ApplicationProcessMsg);
+  .attr('x', cpuSystemLabel.node().getBBox().width + 40)
+  .attr('y', graphHeight + margin.bottom - 10)
+  .attr('class', 'lineLabel2')
+  .text(localizedStrings.ApplicationProcessMsg);
 
 var cpuChartIsFullScreen = false;
 
 // Add the maximise button
 var cpuResize = cpuSVG.append('image')
-    .attr('x', canvasWidth - 30)
-    .attr('y', 4)
-    .attr('width', 24)
-    .attr('height', 24)
-    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-    .attr('class', 'maximize')
-    .on('click', function(){
-      cpuChartIsFullScreen = !cpuChartIsFullScreen;
-      d3.select('#dashboard').selectAll('.hideable')
-        .classed('invisible', cpuChartIsFullScreen);
-      d3.select('#cpuDiv1')
-        .classed('fullscreen', cpuChartIsFullScreen)
-        .classed('invisible', false); // remove invisible from this chart
-      if (cpuChartIsFullScreen) {
-        d3.select('.cpuChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-        // Redraw this chart only
-        resizeCPUChart();
-      } else {
-        canvasWidth = $('#cpuDiv1').width() - 8; // -8 for margins and borders
-        graphWidth = canvasWidth - margin.left - margin.right;
-        d3.select('.cpuChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-        canvasHeight = 250;
-        graphHeight = canvasHeight - margin.top - margin.bottom;
-        // Redraw all
-        resize();
-      }
-    })
-    .on('mouseover', function() {
-      if (cpuChartIsFullScreen) {
-        d3.select('.cpuChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-      } else {
-        d3.select('.cpuChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-      }
-    })
-    .on('mouseout', function() {
-      if (cpuChartIsFullScreen) {
-        d3.select('.cpuChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      } else {
-        d3.select('.cpuChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      }
-    });
+  .attr('x', canvasWidth - 30)
+  .attr('y', 4)
+  .attr('width', 24)
+  .attr('height', 24)
+  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+  .attr('class', 'maximize')
+  .on('click', function(){
+    cpuChartIsFullScreen = !cpuChartIsFullScreen;
+    d3.select('#dashboard').selectAll('.hideable')
+      .classed('invisible', cpuChartIsFullScreen);
+    d3.select('#cpuDiv1')
+      .classed('fullscreen', cpuChartIsFullScreen)
+      .classed('invisible', false); // remove invisible from this chart
+    if (cpuChartIsFullScreen) {
+      d3.select('.cpuChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      // Redraw this chart only
+      resizeCPUChart();
+    } else {
+      canvasWidth = $('#cpuDiv1').width() - 8; // -8 for margins and borders
+      graphWidth = canvasWidth - margin.left - margin.right;
+      d3.select('.cpuChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      canvasHeight = 250;
+      graphHeight = canvasHeight - margin.top - margin.bottom;
+      // Redraw all
+      resize();
+    }
+  })
+  .on('mouseover', function() {
+    if (cpuChartIsFullScreen) {
+      d3.select('.cpuChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+    } else {
+      d3.select('.cpuChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+    }
+  })
+  .on('mouseout', function() {
+    if (cpuChartIsFullScreen) {
+      d3.select('.cpuChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+    } else {
+      d3.select('.cpuChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+    }
+  });
 
 function resizeCPUChart() {
   if (cpuChartIsFullScreen) {
@@ -259,7 +259,7 @@ function resizeCPUChart() {
 }
 
 function updateCPUData(cpuRequest) {
-  var cpuRequestData = JSON.parse(cpuRequest);  // parses the data into a JSON array
+  var cpuRequestData = JSON.parse(cpuRequest); // parses the data into a JSON array
   if (!cpuRequestData) return;
   var d = cpuRequestData;
   if (d != null && d.hasOwnProperty('time')) {

@@ -32,57 +32,57 @@ var lData = [];
 
 // set up X axis for time in HH:MM:SS
 var l_xAxis = d3.svg.axis().scale(l_xScale)
-    .orient('bottom').ticks(3).tickFormat(getTimeFormat());
+  .orient('bottom').ticks(3).tickFormat(getTimeFormat());
 
 // set up Y axis for time in ms
 var l_yAxis = d3.svg.axis().scale(l_yScale)
-    .orient('left').ticks(8).tickFormat(function(d) {
-      return d + 'ms';
-    });
+  .orient('left').ticks(8).tickFormat(function(d) {
+    return d + 'ms';
+  });
 
 // line function for maximum latency
 var l_max_line = d3.svg.line()
-    .x(function(d) {
-      return l_xScale(d.time);
-    })
-    .y(function(d) {
-      return l_yScale(d.latency.max);
-    });
+  .x(function(d) {
+    return l_xScale(d.time);
+  })
+  .y(function(d) {
+    return l_yScale(d.latency.max);
+  });
 
 // line function for minimum latency
 var l_min_line = d3.svg.line()
-    .x(function(d) {
-      return l_xScale(d.time);
-    })
-    .y(function(d) {
-      return l_yScale(d.latency.min);
-    });
+  .x(function(d) {
+    return l_xScale(d.time);
+  })
+  .y(function(d) {
+    return l_yScale(d.latency.min);
+  });
 
 // line function for average latency
 var l_avg_line = d3.svg.line()
-    .x(function(d) {
-      return l_xScale(d.time);
-    })
-    .y(function(d) {
-      return l_yScale(d.latency.avg);
-    });
+  .x(function(d) {
+    return l_xScale(d.time);
+  })
+  .y(function(d) {
+    return l_yScale(d.latency.avg);
+  });
 
 var lSVG = d3.select('#loopDiv')
-    .append('svg')
-    .attr('width', loopCanvasWidth)
-    .attr('height', canvasHeight)
-    .attr('class', 'lChart');
+  .append('svg')
+  .attr('width', loopCanvasWidth)
+  .attr('height', canvasHeight)
+  .attr('class', 'lChart');
 
 var lTitleBox = lSVG.append('rect')
-    .attr('width', loopCanvasWidth)
-    .attr('height', 30)
-    .attr('class', 'titlebox');
+  .attr('width', loopCanvasWidth)
+  .attr('height', 30)
+  .attr('class', 'titlebox');
 
 // define the chart canvas
 var lChart = lSVG
-    .append('g')
-    .attr('transform',
-      'translate(' + margin.left + ',' + margin.top + ')');
+  .append('g')
+  .attr('transform',
+    'translate(' + margin.left + ',' + margin.top + ')');
 
 // Scale the X range to the data's time interval
 l_xScale.domain(d3.extent(lData, function(d) {
@@ -96,160 +96,160 @@ l_yScale.domain([0, Math.ceil(d3.extent(lData, function(d) {
 
 // Draw the max line path.
 lChart.append('path')
-    .attr('class', 'line1')
-    .attr('d', l_max_line(lData));
+  .attr('class', 'line1')
+  .attr('d', l_max_line(lData));
 
 // Draw the min line path.
 lChart.append('path')
-    .attr('class', 'line2')
-    .attr('d', l_min_line(lData));
+  .attr('class', 'line2')
+  .attr('d', l_min_line(lData));
 
 // Draw the avg line path.
 lChart.append('path')
-    .attr('class', 'line3')
-    .attr('d', l_avg_line(lData));
+  .attr('class', 'line3')
+  .attr('d', l_avg_line(lData));
 
 // Draw the X Axis
 lChart.append('g')
-    .attr('class', 'xAxis')
-    .attr('transform', 'translate(0,' + graphHeight + ')')
-    .call(l_xAxis);
+  .attr('class', 'xAxis')
+  .attr('transform', 'translate(0,' + graphHeight + ')')
+  .call(l_xAxis);
 
 // Draw the Y Axis
 lChart.append('g')
-    .attr('class', 'yAxis')
-    .call(l_yAxis);
+  .attr('class', 'yAxis')
+  .call(l_yAxis);
 
 // Draw the title
 lChart.append('text')
-    .attr('x', 7 - margin.left)
-    .attr('y', 15 - margin.top)
-    .attr('dominant-baseline', 'central')
-    .text(localizedStrings.loopTitle);
+  .attr('x', 7 - margin.left)
+  .attr('y', 15 - margin.top)
+  .attr('dominant-baseline', 'central')
+  .text(localizedStrings.loopTitle);
 
 // Add the placeholder text
 var lChartPlaceholder = lChart.append('text')
-    .attr('x', loopGraphWidth / 2)
-    .attr('y', graphHeight / 2)
-    .attr('text-anchor', 'middle')
-    .text(localizedStrings.NoDataMsg);
+  .attr('x', loopGraphWidth / 2)
+  .attr('y', graphHeight / 2)
+  .attr('text-anchor', 'middle')
+  .text(localizedStrings.NoDataMsg);
 
 // Add the MAXIMUM colour box
 lChart.append('rect')
-    .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 20)
-    .attr('class', 'colourbox1')
-    .attr('width', 10)
-    .attr('height', 10);
+  .attr('x', 0)
+  .attr('y', graphHeight + margin.bottom - 20)
+  .attr('class', 'colourbox1')
+  .attr('width', 10)
+  .attr('height', 10);
 
 // Add the MAXIMUM line label
 var lMaxLabel = lChart.append('text')
-    .attr('x', 15)
-    .attr('y', graphHeight + margin.bottom - 10)
-    .attr('text-anchor', 'start')
-    .attr('class', 'lineLabel')
-    .text(localizedStrings.loopMaximumMsg);
+  .attr('x', 15)
+  .attr('y', graphHeight + margin.bottom - 10)
+  .attr('text-anchor', 'start')
+  .attr('class', 'lineLabel')
+  .text(localizedStrings.loopMaximumMsg);
 
 // Add the MINIMUM colour box
 lChart.append('rect')
-    .attr('x', lMaxLabel.node().getBBox().width + 25)
-    .attr('y', graphHeight + margin.bottom - 20)
-    .attr('width', 10)
-    .attr('height', 10)
-    .attr('class', 'colourbox2');
+  .attr('x', lMaxLabel.node().getBBox().width + 25)
+  .attr('y', graphHeight + margin.bottom - 20)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('class', 'colourbox2');
 
 // Add the MINIMUM line label
 var lMinLabel = lChart.append('text')
-    .attr('x', lMaxLabel.node().getBBox().width + 40)
-    .attr('y', graphHeight + margin.bottom - 10)
-    .attr('class', 'lineLabel')
-    .text(localizedStrings.loopMinimumMsg);
+  .attr('x', lMaxLabel.node().getBBox().width + 40)
+  .attr('y', graphHeight + margin.bottom - 10)
+  .attr('class', 'lineLabel')
+  .text(localizedStrings.loopMinimumMsg);
 
 // Add the AVERAGE colour box
 lChart.append('rect')
-    .attr('x', lMaxLabel.node().getBBox().width + lMinLabel.node().getBBox().width + 50)
-    .attr('y', graphHeight + margin.bottom - 20)
-    .attr('width', 10)
-    .attr('height', 10)
-    .attr('class', 'colourbox3');
+  .attr('x', lMaxLabel.node().getBBox().width + lMinLabel.node().getBBox().width + 50)
+  .attr('y', graphHeight + margin.bottom - 20)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('class', 'colourbox3');
 
 // Add the AVERAGE line label
 lChart.append('text')
-    .attr('x', lMaxLabel.node().getBBox().width + lMinLabel.node().getBBox().width + 65)
-    .attr('y', graphHeight + margin.bottom - 10)
-    .attr('class', 'lineLabel')
-    .text(localizedStrings.loopAverageMsg);
+  .attr('x', lMaxLabel.node().getBBox().width + lMinLabel.node().getBBox().width + 65)
+  .attr('y', graphHeight + margin.bottom - 10)
+  .attr('class', 'lineLabel')
+  .text(localizedStrings.loopAverageMsg);
 
 // Draw the Latest MAX Data
 lChart.append('text')
-    .attr('x', 0)
-    .attr('y', 0 - (margin.top * 3 / 8))
-    .attr('class', 'maxlatest')
-    .style('font-size', '32px');
+  .attr('x', 0)
+  .attr('y', 0 - (margin.top * 3 / 8))
+  .attr('class', 'maxlatest')
+  .style('font-size', '32px');
 
 // Draw the Latest MIN Data
 lChart.append('text')
-    .attr('x', loopGraphWidth / 3) // 1/3 across
-    .attr('y', 0 - (margin.top * 3 / 8))
-    .attr('class', 'minlatest')
-    .style('font-size', '32px');
+  .attr('x', loopGraphWidth / 3) // 1/3 across
+  .attr('y', 0 - (margin.top * 3 / 8))
+  .attr('class', 'minlatest')
+  .style('font-size', '32px');
 
 // Draw the Latest AVG Data
 lChart.append('text')
-    .attr('x', (loopGraphWidth / 3) * 2) // 2/3 across
-    .attr('y', 0 - (margin.top * 3 / 8))
-    .attr('class', 'avglatest')
-    .style('font-size', '32px');
+  .attr('x', (loopGraphWidth / 3) * 2) // 2/3 across
+  .attr('y', 0 - (margin.top * 3 / 8))
+  .attr('class', 'avglatest')
+  .style('font-size', '32px');
 
 var lChartIsFullScreen = false;
 
 // Add the maximise button
 var lResize = lSVG.append('image')
-    .attr('x', loopCanvasWidth - 30)
-    .attr('y', 4)
-    .attr('width', 24)
-    .attr('height', 24)
-    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-    .attr('class', 'maximize')
-    .on('click', function(){
-      lChartIsFullScreen = !lChartIsFullScreen;
-      d3.select('#dashboard').selectAll('.hideable')
-        .classed('invisible', lChartIsFullScreen);
-      d3.select('#loopDiv')
-        .classed('fullscreen', lChartIsFullScreen)
-        .classed('invisible', false); // remove invisible from this chart
-      if (lChartIsFullScreen) {
-        d3.select('.lChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-        // Redraw this chart only
-        resizeLoopChart();
-      } else {
-        d3.select('.lChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-        canvasHeight = 250;
-        graphHeight = canvasHeight - margin.top - margin.bottom;
-        // Redraw all
-        resize();
-      }
-    })
-    .on('mouseover', function() {
-      if (lChartIsFullScreen) {
-        d3.select('.lChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-      } else {
-        d3.select('.lChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-      }
-    })
-    .on('mouseout', function() {
-      if (lChartIsFullScreen) {
-        d3.select('.lChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      } else {
-        d3.select('.lChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      }
-    });
+  .attr('x', loopCanvasWidth - 30)
+  .attr('y', 4)
+  .attr('width', 24)
+  .attr('height', 24)
+  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+  .attr('class', 'maximize')
+  .on('click', function(){
+    lChartIsFullScreen = !lChartIsFullScreen;
+    d3.select('#dashboard').selectAll('.hideable')
+      .classed('invisible', lChartIsFullScreen);
+    d3.select('#loopDiv')
+      .classed('fullscreen', lChartIsFullScreen)
+      .classed('invisible', false); // remove invisible from this chart
+    if (lChartIsFullScreen) {
+      d3.select('.lChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      // Redraw this chart only
+      resizeLoopChart();
+    } else {
+      d3.select('.lChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      canvasHeight = 250;
+      graphHeight = canvasHeight - margin.top - margin.bottom;
+      // Redraw all
+      resize();
+    }
+  })
+  .on('mouseover', function() {
+    if (lChartIsFullScreen) {
+      d3.select('.lChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+    } else {
+      d3.select('.lChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+    }
+  })
+  .on('mouseout', function() {
+    if (lChartIsFullScreen) {
+      d3.select('.lChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+    } else {
+      d3.select('.lChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+    }
+  });
 
 function resizeLoopChart() {
   if (lChartIsFullScreen) {
@@ -321,7 +321,7 @@ function resizeLoopChart() {
 // eventloop: { time: , latency: { min: , max: , avg: }}
 // loop: { count: ,  minimum: , maximum: , average: }
 function updateLoopData(lRequest) {
-  var lRequestData = JSON.parse(lRequest);  // parses the data into a JSON array
+  var lRequestData = JSON.parse(lRequest); // parses the data into a JSON array
   if (!lRequestData) return;
   var d = lRequestData;
   // XXX loop data should be timestamped at source, aproximate it here for now.

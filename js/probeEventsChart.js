@@ -31,121 +31,121 @@ var lineLabels = [];
 
 // Single line function
 var lineFunction = d3.svg.line()
-    .x(function(d) {
-      return probes_xScale(d.time);
-    })
-    .y(function(d) {
-      return probes_yScale(d.duration);
-    });
+  .x(function(d) {
+    return probes_xScale(d.time);
+  })
+  .y(function(d) {
+    return probes_yScale(d.duration);
+  });
 
 // set up X axis for time in HH:MM:SS
 var probes_xAxis = d3.svg.axis()
-    .scale(probes_xScale)
-    .orient('bottom')
-    .ticks(3)
-    .tickFormat(d3.time.format('%H:%M:%S'));
+  .scale(probes_xScale)
+  .orient('bottom')
+  .ticks(3)
+  .tickFormat(d3.time.format('%H:%M:%S'));
 
 // set up Y axis for time in ms
 var probes_yAxis = d3.svg.axis()
-    .scale(probes_yScale)
-    .orient('left')
-    .ticks(8)
-    .tickFormat(function(d) {
-      return d + 'ms';
-    });
+  .scale(probes_yScale)
+  .orient('left')
+  .ticks(8)
+  .tickFormat(function(d) {
+    return d + 'ms';
+  });
 
 var probesSVG = d3.select('#probeEventsDiv')
-    .append('svg')
-    .attr('width', httpCanvasWidth)
-    .attr('height', canvasHeight)
-    .attr('class', 'probesChart');
+  .append('svg')
+  .attr('width', httpCanvasWidth)
+  .attr('height', canvasHeight)
+  .attr('class', 'probesChart');
 
 var probesTitleBox = probesSVG.append('rect')
-    .attr('width', httpCanvasWidth)
-    .attr('height', 30)
-    .attr('class', 'titlebox');
+  .attr('width', httpCanvasWidth)
+  .attr('height', 30)
+  .attr('class', 'titlebox');
 
 // define the chart canvas
 var probesChart = probesSVG.append('g')
-    .attr('transform',
-      'translate(' + margin.left + ',' + margin.top + ')');
+  .attr('transform',
+    'translate(' + margin.left + ',' + margin.top + ')');
 
 // Draw the X Axis
 probesChart.append('g')
-    .attr('class', 'xAxis')
-    .attr('transform', 'translate(0,' + graphHeight + ')')
-    .call(probes_xAxis);
+  .attr('class', 'xAxis')
+  .attr('transform', 'translate(0,' + graphHeight + ')')
+  .call(probes_xAxis);
 
 // Draw the Y Axis
 probesChart.append('g')
-    .attr('class', 'yAxis')
-    .call(probes_yAxis);
+  .attr('class', 'yAxis')
+  .call(probes_yAxis);
 
 // Draw the title
 probesChart.append('text')
-    .attr('x', 7 - margin.left)
-    .attr('y', 15 - margin.top)
-    .attr('dominant-baseline', 'central')
-    .text(localizedStrings.probeEventsTitle);
+  .attr('x', 7 - margin.left)
+  .attr('y', 15 - margin.top)
+  .attr('dominant-baseline', 'central')
+  .text(localizedStrings.probeEventsTitle);
 
 // Add the placeholder text
 var probesChartPlaceholder = probesChart.append('text')
-    .attr('x', httpGraphWidth / 2)
-    .attr('y', graphHeight / 2)
-    .attr('text-anchor', 'middle')
-    .text(localizedStrings.NoDataMsg);
+  .attr('x', httpGraphWidth / 2)
+  .attr('y', graphHeight / 2)
+  .attr('text-anchor', 'middle')
+  .text(localizedStrings.NoDataMsg);
 
 var probesChartIsFullScreen = false;
 
 // Add the se/minimise button
 var probesResize = probesSVG.append('image')
-    .attr('x', httpCanvasWidth - 30)
-    .attr('y', 4)
-    .attr('width', 24)
-    .attr('height', 24)
-    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-    .attr('class', 'maximize')
-    .on('click', function(){
-      probesChartIsFullScreen = !probesChartIsFullScreen;
-      d3.select('#dashboard').selectAll('.hideable')
-        .classed('invisible', probesChartIsFullScreen);
-      d3.select('#probeEventsDiv')
-        .classed('fullscreen', probesChartIsFullScreen)
-        .classed('invisible', false); // remove invisible from this chart
-      if (probesChartIsFullScreen) {
-        d3.select('.probesChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-        // Redraw this chart only
-        resizeProbesChart();
-      } else {
-        httpCanvasWidth = $('#probeEventsDiv').width() - 8; // -8 for margins and borders
-        httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
-        d3.select('.probesChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-        canvasHeight = 250;
-        graphHeight = canvasHeight - margin.top - margin.bottom;
-        // Redraw all
-        resize();
-      }
-    })
-    .on('mouseover', function() {
-      if (probesChartIsFullScreen) {
-        d3.select('.probesChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-      } else {
-        d3.select('.probesChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-      }
-    })
-    .on('mouseout', function() {
-      if (probesChartIsFullScreen) {
-        d3.select('.probesChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      } else {
-        d3.select('.probesChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      }
-    });
+  .attr('x', httpCanvasWidth - 30)
+  .attr('y', 4)
+  .attr('width', 24)
+  .attr('height', 24)
+  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+  .attr('class', 'maximize')
+  .on('click', function(){
+    probesChartIsFullScreen = !probesChartIsFullScreen;
+    d3.select('#dashboard').selectAll('.hideable')
+      .classed('invisible', probesChartIsFullScreen);
+    d3.select('#probeEventsDiv')
+      .classed('fullscreen', probesChartIsFullScreen)
+      .classed('invisible', false); // remove invisible from this chart
+    if (probesChartIsFullScreen) {
+      d3.select('.probesChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      // Redraw this chart only
+      resizeProbesChart();
+    } else {
+      httpCanvasWidth = $('#probeEventsDiv').width() - 8; // -8 for margins and borders
+      httpGraphWidth = httpCanvasWidth - margin.left - margin.right;
+      d3.select('.probesChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      canvasHeight = 250;
+      graphHeight = canvasHeight - margin.top - margin.bottom;
+      // Redraw all
+      resize();
+    }
+  })
+  .on('mouseover', function() {
+    if (probesChartIsFullScreen) {
+      d3.select('.probesChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+    } else {
+      d3.select('.probesChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+    }
+  })
+  .on('mouseout', function() {
+    if (probesChartIsFullScreen) {
+      d3.select('.probesChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+    } else {
+      d3.select('.probesChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+    }
+  });
 
 function resizeProbesChart() {
   if (probesChartIsFullScreen) {
@@ -206,7 +206,7 @@ function resizeProbesChart() {
         'translate(' + margin.left + ',' + margin.top + ')')
       .attr('cx', function(d) { return probes_xScale(d.time); })
       .attr('cy', function(d) { return probes_yScale(d.duration); });
-      // .append('svg:title').text(function(d) { return d.url; }); // tooltip
+    //.append('svg:title').text(function(d) { return d.url; }); // tooltip
   }
   // update the axes
   chart.select('.xAxis')
@@ -222,18 +222,18 @@ function resizeProbesChart() {
 }
 
 function updateProbesData(probeEvents) {
-  var pData = JSON.parse(probeEvents);  // parses the data into a JSON array
+  var pData = JSON.parse(probeEvents); // parses the data into a JSON array
   if (!pData || pData.length === 0) return;
   if (probesData.length === 0) {
     // first data - remove "No Data Available" label
     probesChartPlaceholder.attr('visibility', 'hidden');
   }
   // if(data.length >= maxDataPoints) {
-     // empty arrays
-  //    probesData = [];
-  //    for (var i= 0; i< probeDataSeparated.length; i++) {
-  //        probeDataSeparated[i] = [];
-  //    }
+  //   empty arrays
+  //   probesData = [];
+  //   for (var i= 0; i< probeDataSeparated.length; i++) {
+  //     probeDataSeparated[i] = [];
+  //   }
   // }
   for (var i = 0; i < pData.length; i++) {
     var d = pData[i];
