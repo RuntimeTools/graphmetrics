@@ -206,7 +206,7 @@ function resizeProbesChart() {
         'translate(' + margin.left + ',' + margin.top + ')')
       .attr('cx', function(d) { return probes_xScale(d.time); })
       .attr('cy', function(d) { return probes_yScale(d.duration); });
-    //.append('svg:title').text(function(d) { return d.url; }); // tooltip
+    //  .append('svg:title').text(function(d) { return d.url; }); // tooltip
   }
   // update the axes
   chart.select('.xAxis')
