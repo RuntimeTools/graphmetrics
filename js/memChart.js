@@ -22,18 +22,18 @@ var mem_xScale = d3.time.scale().range([0, graphWidth]);
 var mem_yScale = d3.scale.linear().range([graphHeight, 0]);
 
 var mem_xAxis = d3.svg.axis()
-    .scale(mem_xScale)
-    .orient('bottom')
-    .ticks(3)
-    .tickFormat(getTimeFormat());
+  .scale(mem_xScale)
+  .orient('bottom')
+  .ticks(3)
+  .tickFormat(getTimeFormat());
 
 var mem_yAxis = d3.svg.axis()
-    .scale(mem_yScale)
-    .orient('left')
-    .ticks(8)
-    .tickFormat(function(d) {
-      return d3.format('.2s')(d * 1024 * 1024);
-    });
+  .scale(mem_yScale)
+  .orient('left')
+  .ticks(8)
+  .tickFormat(function(d) {
+    return d3.format('.2s')(d * 1024 * 1024);
+  });
 
 // Memory data storage
 var memData = [];
@@ -50,191 +50,191 @@ mem_yScale.domain([0, Math.ceil(d3.extent(memData, function(d) {
 
 // Define the process memory line
 var mem_processLine = d3.svg.line()
-    .x(function(d) {
-      return mem_xScale(d.date);
-    })
-    .y(function(d) {
-      return mem_yScale(d.process);
-    });
+  .x(function(d) {
+    return mem_xScale(d.date);
+  })
+  .y(function(d) {
+    return mem_yScale(d.process);
+  });
 
 // Define the system memory line
 var mem_systemLine = d3.svg.line()
-    .x(function(d) {
-      return mem_xScale(d.date);
-    })
-    .y(function(d) {
-      return mem_yScale(d.system);
-    });
+  .x(function(d) {
+    return mem_xScale(d.date);
+  })
+  .y(function(d) {
+    return mem_yScale(d.system);
+  });
 
 var memProcessLineVisible = true;
 var memSystemLineVisible = true;
 
 // Define the memory SVG
 var memSVG = d3.select('#memDiv1')
-    .append('svg')
-    .attr('width', canvasWidth)
-    .attr('height', canvasHeight)
-    .attr('class', 'memChart');
+  .append('svg')
+  .attr('width', canvasWidth)
+  .attr('height', canvasHeight)
+  .attr('class', 'memChart');
 
 var memTitleBox = memSVG.append('rect')
-    .attr('width', canvasWidth)
-    .attr('height', 30)
-    .attr('class', 'titlebox');
+  .attr('width', canvasWidth)
+  .attr('height', 30)
+  .attr('class', 'titlebox');
 
 // Define the memory Chart
 var memChart = memSVG.append('g')
-    .attr('class', 'memGroup')
-    .attr('transform',
-      'translate(' + margin.left + ',' + margin.top + ')');
+  .attr('class', 'memGroup')
+  .attr('transform',
+    'translate(' + margin.left + ',' + margin.top + ')');
 
 // Add the system line path.
 memChart.append('path')
-    .attr('class', 'systemLine')
-    .attr('d', mem_systemLine(memData));
+  .attr('class', 'systemLine')
+  .attr('d', mem_systemLine(memData));
 
 // Add the process line path.
 memChart.append('path')
-    .attr('class', 'processLine')
-    .attr('d', mem_processLine(memData));
+  .attr('class', 'processLine')
+  .attr('d', mem_processLine(memData));
 
 // Add the X Axis
 memChart.append('g')
-    .attr('class', 'xAxis')
-    .attr('transform', 'translate(0,' + graphHeight + ')')
-    .call(mem_xAxis);
+  .attr('class', 'xAxis')
+  .attr('transform', 'translate(0,' + graphHeight + ')')
+  .call(mem_xAxis);
 
 // Add the Y Axis
 memChart.append('g')
-    .attr('class', 'yAxis')
-    .call(mem_yAxis);
+  .attr('class', 'yAxis')
+  .call(mem_yAxis);
 
 // Add the title
 memChart.append('text')
-    .attr('x', 7 - margin.left)
-    .attr('y', 15 - margin.top)
-    .attr('dominant-baseline', 'central')
-    .text(localizedStrings.memoryTitle);
+  .attr('x', 7 - margin.left)
+  .attr('y', 15 - margin.top)
+  .attr('dominant-baseline', 'central')
+  .text(localizedStrings.memoryTitle);
 
 // Add the placeholder text
 var memChartPlaceholder = memChart.append('text')
-    .attr('x', graphWidth / 2)
-    .attr('y', graphHeight / 2)
-    .attr('text-anchor', 'middle')
-    .text(localizedStrings.NoDataMsg);
+  .attr('x', graphWidth / 2)
+  .attr('y', graphHeight / 2)
+  .attr('text-anchor', 'middle')
+  .text(localizedStrings.NoDataMsg);
 
 // Add the system colour box
 memChart.append('rect')
-    .attr('x', 0)
-    .attr('y', graphHeight + margin.bottom - 20)
-    .attr('class', 'colourbox1')
-    .attr('width', 10)
-    .attr('height', 10);
+  .attr('x', 0)
+  .attr('y', graphHeight + margin.bottom - 20)
+  .attr('class', 'colourbox1')
+  .attr('width', 10)
+  .attr('height', 10);
 
 // Add the system checkbox
 memChart.append('foreignObject')
-   .attr('class', 'checkboxHolder')
-   .attr('x', 15)
-   .attr('y', graphHeight + margin.bottom - 25)
-   .attr('width', 30)
-   .attr('height', 25)
-   .append('xhtml:tree')
-   .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartSystemCheckbox checked>' +
-     '<span class=\'lbl\'></span></label>')
-   .on('click', function(){
-     memSystemLineVisible = memSVG.select('#memChartSystemCheckbox').node().checked;
-     resizeMemChart();
-   });
+  .attr('class', 'checkboxHolder')
+  .attr('x', 15)
+  .attr('y', graphHeight + margin.bottom - 25)
+  .attr('width', 30)
+  .attr('height', 25)
+  .append('xhtml:tree')
+  .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartSystemCheckbox checked>' +
+    '<span class=\'lbl\'></span></label>')
+  .on('click', function(){
+    memSystemLineVisible = memSVG.select('#memChartSystemCheckbox').node().checked;
+    resizeMemChart();
+  });
 
 // Add the SYSTEM label
 var memSystemLabel = memChart.append('text')
-    .attr('x', 35)
-    .attr('y', graphHeight + margin.bottom - 10)
-    .attr('text-anchor', 'start')
-    .attr('class', 'lineLabel')
-    .text(localizedStrings.SystemMsg);
+  .attr('x', 35)
+  .attr('y', graphHeight + margin.bottom - 10)
+  .attr('text-anchor', 'start')
+  .attr('class', 'lineLabel')
+  .text(localizedStrings.SystemMsg);
 
 // Add the process colour box
 memChart.append('rect')
-    .attr('x', memSystemLabel.node().getBBox().width + 45)
-    .attr('y', graphHeight + margin.bottom - 20)
-    .attr('width', 10)
-    .attr('height', 10)
-    .attr('class', 'colourbox2');
+  .attr('x', memSystemLabel.node().getBBox().width + 45)
+  .attr('y', graphHeight + margin.bottom - 20)
+  .attr('width', 10)
+  .attr('height', 10)
+  .attr('class', 'colourbox2');
 
 
 // Add the process checkbox
 memChart.append('foreignObject')
-   .attr('class', 'checkboxHolder')
-   .attr('x', memSystemLabel.node().getBBox().width + 60)
-   .attr('y', graphHeight + margin.bottom - 25)
-   .attr('width', 30)
-   .attr('height', 25)
-   .append('xhtml:tree')
-   .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartProcessCheckbox checked>' +
-     '<span class=\'lbl\'></span></label>')
-   .on('click', function(){
-     memProcessLineVisible = memSVG.select('#memChartProcessCheckbox').node().checked;
-     resizeMemChart();
-   });
+  .attr('class', 'checkboxHolder')
+  .attr('x', memSystemLabel.node().getBBox().width + 60)
+  .attr('y', graphHeight + margin.bottom - 25)
+  .attr('width', 30)
+  .attr('height', 25)
+  .append('xhtml:tree')
+  .html('<label class=\'inline\'><input type=\'checkbox\' id=memChartProcessCheckbox checked>' +
+    '<span class=\'lbl\'></span></label>')
+  .on('click', function(){
+    memProcessLineVisible = memSVG.select('#memChartProcessCheckbox').node().checked;
+    resizeMemChart();
+  });
 
 // Add the PROCESS label
 memChart.append('text')
-    .attr('x', memSystemLabel.node().getBBox().width + 80)
-    .attr('y', graphHeight + margin.bottom - 10)
-    .attr('class', 'lineLabel2')
-    .text(localizedStrings.ApplicationProcessMsg);
+  .attr('x', memSystemLabel.node().getBBox().width + 80)
+  .attr('y', graphHeight + margin.bottom - 10)
+  .attr('class', 'lineLabel2')
+  .text(localizedStrings.ApplicationProcessMsg);
 
 var memChartIsFullScreen = false;
 
 // Add the maximise button
 var memResize = memSVG.append('image')
-    .attr('x', canvasWidth - 30)
-    .attr('y', 4)
-    .attr('width', 24)
-    .attr('height', 24)
-    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-    .attr('class', 'maximize')
-    .on('click', function(){
-      memChartIsFullScreen = !memChartIsFullScreen;
-      d3.select('#dashboard').selectAll('.hideable')
-        .classed('invisible', memChartIsFullScreen);
-      d3.select('#memDiv1')
-        .classed('fullscreen', memChartIsFullScreen)
-        .classed('invisible', false); // remove invisible from this chart
-      if (memChartIsFullScreen) {
-        d3.select('.memChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-        // Redraw this chart only
-        resizeMemChart();
-      } else {
-        canvasWidth = $('#memDiv1').width() - 8; // -8 for margins and borders
-        graphWidth = canvasWidth - margin.left - margin.right;
-        d3.select('.memChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-        canvasHeight = 250;
-        graphHeight = canvasHeight - margin.top - margin.bottom;
-        // Redraw all
-        resize();
-      }
-    })
-    .on('mouseover', function() {
-      if (memChartIsFullScreen) {
-        d3.select('.memChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-      } else {
-        d3.select('.memChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-      }
-    })
-    .on('mouseout', function() {
-      if (memChartIsFullScreen) {
-        d3.select('.memChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      } else {
-        d3.select('.memChart .maximize')
-          .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      }
-    });
+  .attr('x', canvasWidth - 30)
+  .attr('y', 4)
+  .attr('width', 24)
+  .attr('height', 24)
+  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+  .attr('class', 'maximize')
+  .on('click', function(){
+    memChartIsFullScreen = !memChartIsFullScreen;
+    d3.select('#dashboard').selectAll('.hideable')
+      .classed('invisible', memChartIsFullScreen);
+    d3.select('#memDiv1')
+      .classed('fullscreen', memChartIsFullScreen)
+      .classed('invisible', false); // remove invisible from this chart
+    if (memChartIsFullScreen) {
+      d3.select('.memChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      // Redraw this chart only
+      resizeMemChart();
+    } else {
+      canvasWidth = $('#memDiv1').width() - 8; // -8 for margins and borders
+      graphWidth = canvasWidth - margin.left - margin.right;
+      d3.select('.memChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      canvasHeight = 250;
+      graphHeight = canvasHeight - margin.top - margin.bottom;
+      // Redraw all
+      resize();
+    }
+  })
+  .on('mouseover', function() {
+    if (memChartIsFullScreen) {
+      d3.select('.memChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+    } else {
+      d3.select('.memChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+    }
+  })
+  .on('mouseout', function() {
+    if (memChartIsFullScreen) {
+      d3.select('.memChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+    } else {
+      d3.select('.memChart .maximize')
+        .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+    }
+  });
 
 function resizeMemChart() {
   if (memChartIsFullScreen) {
@@ -306,8 +306,8 @@ function resizeMemChart() {
 }
 
 function updateMemData(memRequest) {
-	// Get the data again
-  var data = JSON.parse(memRequest);  // parses the data into a JSON array
+  // Get the data again
+  var data = JSON.parse(memRequest); // parses the data into a JSON array
   if (!data) return;
   var d = data;
   d.date = new Date(+d.time);

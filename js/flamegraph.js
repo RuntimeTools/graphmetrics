@@ -69,7 +69,7 @@ function updateNodeAndChildren(current_node, width, x_pos = 0) {
   let child_x_pos = x_pos + alignment;
 
   for (let child_node of current_node.children) {
-   // Width of the child is the fraction of the current width they should occupy.
+    // Width of the child is the fraction of the current width they should occupy.
     let child_width = 0;
     if (cumulative_count > 0) {
       child_width = width * ((child_node.count + child_node.child_count) / cumulative_count);
@@ -133,7 +133,7 @@ function drawFlameGraph(function_calls) {
   svg.selectAll('rect').remove();
 
   let rectSelection = svg.selectAll('rect')
-      .data(function_calls);
+    .data(function_calls);
 
   // Set the colour, height and y position for new entries.
   rectSelection
@@ -180,12 +180,12 @@ function highlightSelectedNode() {
   // Set the highlighting and make the selected element the last to be
   // drawn to stop the border being covered on some edges by other rectangles.
   svg.selectAll('rect')
-  .style('stroke-width', (d, _i) => d == currentSelection ? 3 : 1)
-  .each(function(d, _i) {
-    if (d == currentSelection) {
-      this.parentElement.appendChild(this);
-    }
-  });
+    .style('stroke-width', (d, _i) => d == currentSelection ? 3 : 1)
+    .each(function(d, _i) {
+      if (d == currentSelection) {
+        this.parentElement.appendChild(this);
+      }
+    });
 }
 
 function showNodeDetails(node) {
@@ -431,9 +431,9 @@ let resizeDetailsIcon = detailsTitleSvg.append('image')
 
 // Empty div for the selected function details text.
 let detailsTable = detailsDiv
-    .append('div')
-    .style('font-family', 'monospace')
-    .style('overflow-y', 'auto');
+  .append('div')
+  .style('font-family', 'monospace')
+  .style('overflow-y', 'auto');
 
 
 clearNodeDetails();

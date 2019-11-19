@@ -55,92 +55,92 @@ function HttpSummary(divName, parentName, title) {
   let graphHeight = tableHeight - margin.top - margin.bottom;
 
   let httpSummarySVG = d3.select(divName)
-  .append('svg')
-  .attr('class', 'httpSummaryChart');
+    .append('svg')
+    .attr('class', 'httpSummaryChart');
 
   // Set titleBoxHeight here as we use it for the graph div below
   let titleBoxHeight = 30;
   let httpSummaryTitleBox = httpSummarySVG.append('rect')
-  .attr('height', titleBoxHeight)
-  .attr('class', 'titlebox');
+    .attr('height', titleBoxHeight)
+    .attr('class', 'titlebox');
 
   let httpSummaryChart = httpSummarySVG.append('g')
-  .attr('transform',
-  'translate(' + margin.left + ',' + margin.top + ')');
+    .attr('transform',
+      'translate(' + margin.left + ',' + margin.top + ')');
 
   // Add the title
   httpSummaryChart.append('text')
-  .attr('x', 7 - margin.left)
-  .attr('y', 15 - margin.top)
-  .attr('dominant-baseline', 'central')
-  .text(title);
+    .attr('x', 7 - margin.left)
+    .attr('y', 15 - margin.top)
+    .attr('dominant-baseline', 'central')
+    .text(title);
 
   // Add the placeholder text
   let httpSummaryChartPlaceholder = httpSummaryChart.append('text')
-  .attr('text-anchor', 'middle')
-  .text(localizedStrings.NoDataMsg);
+    .attr('text-anchor', 'middle')
+    .text(localizedStrings.NoDataMsg);
 
   let httpSummaryIsFullScreen = false;
 
   // Add the maximise button
   let summaryResize = httpSummarySVG.append('image')
-  .attr('width', 24)
-  .attr('height', 24)
-  .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
-  .attr('class', 'maximize')
-  .on('click', function(){
-    httpSummaryIsFullScreen = !httpSummaryIsFullScreen;
-    d3.select(parentName).selectAll('.hideable').classed('invisible', httpSummaryIsFullScreen);
-    d3.select(divName)
-    .classed('fullscreen', httpSummaryIsFullScreen)
-    .classed('invisible', false); // remove invisible from this chart
-    if (httpSummaryIsFullScreen) {
-      summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-      // Redraw this chart only
-      resizeTable();
-    } else {
-      canvasWidth = $(divName).width() - 8; // -8 for margins and borders
-      graphWidth = canvasWidth - margin.left - margin.right;
-      summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-      tableHeight = normalTableHeight;
-      $(divName).parent().attr('style', 'position: relative');
-      graphHeight = tableHeight - margin.top - margin.bottom;
-      // Redraw all
-      resize();
-    }
-  })
-  .on('mouseover', function() {
-    if (httpSummaryIsFullScreen) {
-      summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
-    } else {
-      summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
-    }
-  })
-  .on('mouseout', function() {
-    if (httpSummaryIsFullScreen) {
-      summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
-    } else {
-      summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
-    }
-  });
+    .attr('width', 24)
+    .attr('height', 24)
+    .attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png')
+    .attr('class', 'maximize')
+    .on('click', function(){
+      httpSummaryIsFullScreen = !httpSummaryIsFullScreen;
+      d3.select(parentName).selectAll('.hideable').classed('invisible', httpSummaryIsFullScreen);
+      d3.select(divName)
+        .classed('fullscreen', httpSummaryIsFullScreen)
+        .classed('invisible', false); // remove invisible from this chart
+      if (httpSummaryIsFullScreen) {
+        summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+        // Redraw this chart only
+        resizeTable();
+      } else {
+        canvasWidth = $(divName).width() - 8; // -8 for margins and borders
+        graphWidth = canvasWidth - margin.left - margin.right;
+        summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+        tableHeight = normalTableHeight;
+        $(divName).parent().attr('style', 'position: relative');
+        graphHeight = tableHeight - margin.top - margin.bottom;
+        // Redraw all
+        resize();
+      }
+    })
+    .on('mouseover', function() {
+      if (httpSummaryIsFullScreen) {
+        summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24.png');
+      } else {
+        summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24.png');
+      }
+    })
+    .on('mouseout', function() {
+      if (httpSummaryIsFullScreen) {
+        summaryResize.attr('xlink:href', 'graphmetrics/images/minimize_24_grey.png');
+      } else {
+        summaryResize.attr('xlink:href', 'graphmetrics/images/maximize_24_grey.png');
+      }
+    });
 
   // Attempt to add foreign object to http summary for list
   // summarydiv
   let httpSummaryContent = httpSummarySVG.append('foreignObject')
-  .attr('width', graphWidth)
-  .attr('height', (tableHeight - titleBoxHeight))
-  .attr('x', '0')
-  .attr('y', titleBoxHeight)
-  .attr('class', 'httpSummaryContent');
+    .attr('width', graphWidth)
+    .attr('height', (tableHeight - titleBoxHeight))
+    .attr('x', '0')
+    .attr('y', titleBoxHeight)
+    .attr('class', 'httpSummaryContent');
 
   let httpSummaryDiv = httpSummaryContent
-  .append('xhtml:body')
-  .append('xhtml:div')
-  .attr('class', 'httpSummaryDiv');
+    .append('xhtml:body')
+    .append('xhtml:div')
+    .attr('class', 'httpSummaryDiv');
 
   let httpSummaryTableTitles = httpSummaryDiv.append('xhtml:div')
-  .attr('class', 'httpSummaryTableHeaderDiv')
-  .append('xhtml:table');
+    .attr('class', 'httpSummaryTableHeaderDiv')
+    .append('xhtml:table');
 
   // Set titles for table
   let httpSummaryTableTitlesRow = httpSummaryTableTitles.append('xhtml:tr');
@@ -155,10 +155,10 @@ function HttpSummary(divName, parentName, title) {
 
   let httpSummaryContentDivHeight = tableHeight - (40 + titleBoxHeight + $('.httpSummaryTableHeaderDiv').height());
   let httpSummaryContentDiv = httpSummaryDiv.append('xhtml:div')
-  .attr('class', 'httpSummaryContentDiv')
-  .attr('cellspacing', '0')
-  .attr('cellpadding', '0')
-  .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px');
+    .attr('class', 'httpSummaryContentDiv')
+    .attr('cellspacing', '0')
+    .attr('cellpadding', '0')
+    .attr('style', 'height: ' + httpSummaryContentDivHeight + 'px');
 
   let httpSummaryContentTable = httpSummaryContentDiv.append('xhtml:table');
 
@@ -213,7 +213,7 @@ function HttpSummary(divName, parentName, title) {
       // first data - remove "No Data Available" label
       httpSummaryChartPlaceholder.attr('visibility', 'hidden');
     }
-    let httpSummaryRequestData = JSON.parse(data);  // parses the data into a JSON array
+    let httpSummaryRequestData = JSON.parse(data); // parses the data into a JSON array
     updateHttpAverages(httpSummaryRequestData);
   }
 
