@@ -77,7 +77,7 @@
 
 .darkmode path.httpsline,
 .darkmode path.usedHeapAfterGCLine {
-  stroke: #a36df5;
+  stroke: #ff7832;
 }
 
 .darkmode .lineLabel,
